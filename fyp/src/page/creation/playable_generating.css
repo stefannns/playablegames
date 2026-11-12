@@ -1,0 +1,100 @@
+/* Generating state — Figma 18824:62546. Overlays .playable-page (position: relative). */
+.playable-generating {
+  position: absolute; inset: 0; z-index: 5; overflow: hidden; display: flex; flex-direction: column;
+  box-sizing: border-box; background: var(--tux-v2-color-ui-page-flat-1, #000); color: var(--tux-v2-color-ui-text-1, #f6f6f6);
+}
+/* BG: 390×200 frame whose art bleeds -58% / -32.05% / -30% / -15.38%. BG_LUI: 390×560 at the bottom. */
+.playable-generating-glow-top { position: absolute; left: -60px; top: -116px; width: 575px; height: 376px; pointer-events: none; }
+.playable-generating-glow-bottom { position: absolute; left: 0; bottom: 0; width: 100%; height: 560px; pointer-events: none; }
+.playable-generating-nav { position: relative; flex-shrink: 0; }
+
+.playable-generating-chat {
+  position: relative; flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none;
+  display: flex; flex-direction: column; padding: 12px 0 24px;
+}
+.playable-generating-bubble-row { display: flex; justify-content: flex-end; padding-right: 16px; }
+/* Prompt Bubble: 16px Regular rows of 24px + 4px gap, chips shrunk to 24px. */
+.playable-generating-bubble {
+  max-width: 270px; box-sizing: border-box; padding: 10px 16px; border-radius: 24px; pointer-events: none;
+  background: linear-gradient(-78.44deg, rgba(143, 180, 255, 0.1) 0.96%, rgba(143, 180, 255, 0.08) 95.21%);
+  font-size: 16px; font-weight: 400; line-height: 28px; white-space: pre-wrap; overflow-wrap: anywhere;
+}
+.playable-generating-bubble .playable-prompt-text { line-height: 1.5; }
+.playable-generating-bubble .playable-camera-token {
+  height: 24px; top: 2px; gap: 1px; padding: 0 14px 0 8px; font-size: 16px; font-weight: 600; line-height: 1.25;
+}
+.playable-generating-bubble .playable-camera-main { gap: 1px; }
+.playable-generating-bubble .playable-camera-main img { width: 19px; height: 19px; }
+.playable-generating-bubble .playable-trick-cycle,
+.playable-generating-bubble .playable-photo-badge { display: none; }
+.playable-generating-bubble .playable-duck-token { top: 2px; width: 24px; height: 24px; }
+.playable-generating-bubble .playable-duck-token img { width: 24px; height: 24px; border-radius: 7.2px; }
+.playable-generating-bubble .playable-photo-token { top: 2px; width: 24px; height: 24px; }
+.playable-generating-bubble .playable-photo-image {
+  left: 0; top: 0; width: 24px; height: 24px; border-radius: 7.2px; box-sizing: border-box; border: 0.333px solid rgba(255, 255, 255, 0.2);
+}
+.playable-generating-bubble .playable-count-token { top: 2px; height: 24px; gap: 6px; padding: 2px 4px; font-size: 16px; }
+.playable-generating-bubble .playable-count-step { width: 18px; height: 18px; border-radius: 9px; }
+.playable-generating-bubble .playable-count-step img { width: 11px; height: 11px; }
+
+/* Follow-up turn: 24px under the previous turn; plain-text bubble at 16/1.5 with 12×16 insets. */
+.playable-followup { margin-top: 24px; }
+.playable-generating-bubble-text {
+  padding: 12px 16px; line-height: 1.5;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+}
+.playable-generating-message { margin: 24px 16px 0; font-size: 16px; font-weight: 400; line-height: 1.3; }
+.playable-generating-card-row { padding: 10px 16px 0; }
+
+/* Card: 187×265, r24; content group −6px, stars 50×38 nudged +3px, 2px gap, 16px white progress. */
+.playable-generating-card { position: relative; width: 187px; height: 265px; border-radius: 24px; overflow: hidden; isolation: isolate; }
+.playable-generating-shader { position: absolute; inset: 0; width: 100%; height: 100%; }
+.playable-generating-content {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; transform: translateY(-6px); pointer-events: none;
+}
+.playable-generating-stars { width: 50px; height: 38px; transform: translateY(3px); }
+.playable-generating-progress {
+  color: #fff; font-size: 16px; font-weight: 600; line-height: 1.3; text-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Bottom dock: notice 11px above the 96px input box, 12px above the home indicator. */
+.playable-generating-dock { position: relative; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 11px; padding: 0 12px 12px; }
+.playable-generating-notice {
+  /* Text insets match the input's placeholder below (0.5px border + 14px): 1px border + 13.5px. */
+  box-sizing: border-box; width: 100%; padding: 10px 13.5px; border-radius: 16px; border: 1px solid rgba(69, 157, 255, 0.09);
+  background: linear-gradient(-2.56deg, rgba(201, 192, 255, 0.1) 3.85%, rgba(49, 152, 255, 0.1) 95.22%);
+  font-size: 13px; font-weight: 600; line-height: 1.3; color: var(--tux-v2-color-ui-text-1-display, #f0f0f0);
+}
+.playable-generating-input {
+  box-sizing: border-box; width: 100%; height: 96px; display: flex; flex-direction: column; justify-content: space-between;
+  border-radius: 24px; border: 0.5px solid var(--tux-v2-color-ui-shape-neutral-4, rgba(255, 255, 255, 0.13));
+  background: rgba(51, 51, 51, 0.6); backdrop-filter: blur(50px); -webkit-backdrop-filter: blur(50px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+.playable-generating-placeholder { padding: 14px 14px 0; font-size: 16px; line-height: 1.3; color: rgba(255, 255, 255, 0.2); }
+.playable-generating-actions { display: flex; align-items: center; gap: 4px; padding: 0 10px 10px; }
+.playable-generating-actions button { width: 40px; height: 40px; display: grid; place-items: center; padding: 0; color: var(--tux-v2-color-ui-text-1, #f6f6f6); }
+.playable-generating-actions button:disabled { cursor: default; }
+.playable-generating-stop { margin-left: auto; }
+.playable-generating-stop span {
+  width: 36px; height: 36px; border-radius: 999px; display: grid; place-items: center;
+  background: var(--tux-v2-color-ui-shape-neutral, #fafafa); color: #000;
+}
+
+/* Ready state — Figma 18186:275819: 187×265 result card (r26), 12px gap, 187×36 white View pill. */
+.playable-result-ready { display: flex; flex-direction: column; gap: 12px; width: 187px; }
+.playable-result-ready-card { position: relative; width: 187px; height: 265px; padding: 0; border-radius: 26px; overflow: hidden; }
+.playable-result-ready-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.playable-result-view {
+  height: 36px; border-radius: 99px; display: flex; align-items: center; justify-content: center; gap: 2px;
+  background: var(--tux-v2-color-ui-shape-neutral, #fafafa); color: #000; font-size: 15px; font-weight: 600; line-height: 1.3;
+}
+/* Send replaces Stop once ready: AI soft-gradient pill, 40% while the input is empty. */
+.playable-generating-send {
+  margin-left: auto; width: 64px !important; height: 40px; border-radius: 999px; color: #000 !important; opacity: 0.4;
+  background: linear-gradient(58deg, #74d5ff, #c6e4ff 33%, #ced8ff 66%, #c9c0ff);
+}
+/* Failed generation: the message line becomes a retry button. */
+.playable-generating-retry { display: block; padding: 0; text-align: left; font: inherit; color: var(--tux-v2-color-ui-text-1, #f6f6f6); }

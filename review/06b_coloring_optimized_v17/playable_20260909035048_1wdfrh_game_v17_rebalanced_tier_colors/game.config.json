@@ -1,0 +1,102 @@
+{
+  "tweaks": [],
+  "texts": [
+    {
+      "id": "GAME_TITLE",
+      "label": "标题",
+      "value": "FROM GOATED TO COOKED",
+      "default": "FROM GOATED TO COOKED",
+      "max_length": 30
+    },
+    {
+      "id": "TIER_0",
+      "label": "评级 1",
+      "value": "GOATED",
+      "default": "GOATED",
+      "max_length": 20
+    },
+    {
+      "id": "TIER_1",
+      "label": "评级 2",
+      "value": "TOP TIER",
+      "default": "TOP TIER",
+      "max_length": 20
+    },
+    {
+      "id": "TIER_2",
+      "label": "评级 3",
+      "value": "MAIN CHARACTER",
+      "default": "MAIN CHARACTER",
+      "max_length": 20
+    },
+    {
+      "id": "TIER_3",
+      "label": "评级 4",
+      "value": "NPC",
+      "default": "NPC",
+      "max_length": 20
+    },
+    {
+      "id": "TIER_4",
+      "label": "评级 5",
+      "value": "COOKED",
+      "default": "COOKED",
+      "max_length": 20
+    }
+  ],
+  "images": [
+    {
+      "id": "IMG_SKINNY",
+      "label": "体型: Very Skinny",
+      "path": "./assets/body_skinny_v2.webp",
+      "replaceable": true
+    },
+    {
+      "id": "IMG_SLIM",
+      "label": "体型: Slim",
+      "path": "./assets/body_slim_v2.webp",
+      "replaceable": true
+    },
+    {
+      "id": "IMG_AVERAGE",
+      "label": "体型: Average",
+      "path": "./assets/body_average_v2.webp",
+      "replaceable": true
+    },
+    {
+      "id": "IMG_TONED",
+      "label": "体型: Toned",
+      "path": "./assets/body_toned_v2.webp",
+      "replaceable": true
+    },
+    {
+      "id": "IMG_ATHLETIC",
+      "label": "体型: Athletic",
+      "path": "./assets/body_athletic_v2.webp",
+      "replaceable": true
+    },
+    {
+      "id": "IMG_MUSCULAR",
+      "label": "体型: Muscular",
+      "path": "./assets/body_muscular_v2.webp",
+      "replaceable": true
+    },
+    {
+      "id": "IMG_OBESE",
+      "label": "体型: Obese",
+      "path": "./assets/body_obese_v2.webp",
+      "replaceable": true
+    },
+    {
+      "id": "IMG_EXTREME",
+      "label": "体型: Extremely Obese",
+      "path": "./assets/body_extreme_v2.webp",
+      "replaceable": true
+    }
+  ],
+  "config_version": "2.0",
+  "playable": {
+    "runtime_target": "h5",
+    "h5_playstyle_type": "general_game"
+  }
+}

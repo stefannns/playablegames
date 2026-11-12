@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    { "source": "/app/:path*", "destination": "/fyp-build/index.html" },
+    { "source": "/assets/:path*", "destination": "/fyp-build/assets/:path*" },
+    { "source": "/resource/:path*", "destination": "/fyp/public/resource/:path*" },
+    { "source": "/favicon.svg", "destination": "/fyp-build/favicon.svg" },
+    { "source": "/apple-touch-icon.png", "destination": "/fyp-build/apple-touch-icon.png" },
+    { "source": "/pwa-512x512.png", "destination": "/fyp-build/pwa-512x512.png" },
+    { "source": "/manifest.webmanifest", "destination": "/fyp-build/manifest.webmanifest" }
+  ]
+}

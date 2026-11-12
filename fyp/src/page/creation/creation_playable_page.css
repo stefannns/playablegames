@@ -1,0 +1,226 @@
+.playable-page {
+  position: relative;
+  height: 100%; min-height: 0; display: flex; flex-direction: column;
+  background: var(--tux-v2-color-ui-page-flat-1, #000);
+  color: var(--tux-v2-color-ui-text-1, #f6f6f6);
+}
+/* Figma 25502:116901 — 373px artwork behind status bar, nav and the top of the composer. */
+.playable-backdrop { position: absolute; top: 0; left: 0; width: 100%; height: 373px; object-fit: cover; pointer-events: none; user-select: none; }
+.playable-workspace { position: relative; flex: 1; min-height: 0; display: flex; flex-direction: column; padding-top: 8px; }
+.playable-card {
+  position: relative;
+  flex: 1; min-height: 160px; margin: 0 10px; border-radius: 36px;
+  /* Figma 25205:313214: translucent so the backdrop artwork shows through the top of the card. */
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.3), color-mix(in srgb, var(--tux-v2-color-ui-page-flat-3, #2c2c2c) 60%, transparent));
+  --playable-stroke: linear-gradient(160deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.playable-editor {
+  color-scheme: dark;
+  flex: 1; min-height: 0; overflow-y: auto; padding: 16px 22px 8px;
+  /* 40px content rows + 4px spacing; inline text uses its own 30px line box. */
+  --playable-row-height: 40px;
+  --playable-row-gap: 4px;
+  font-size: 24px; font-weight: 600;
+  line-height: calc(var(--playable-row-height) + var(--playable-row-gap)); white-space: pre-wrap;
+  overflow-wrap: anywhere; outline: none; caret-color: transparent;
+}
+.playable-caret {
+  position: absolute; pointer-events: none; width: 3px; height: 28px;
+  border-radius: 14px; background: #4b80ff;
+  animation: playable-caret-blink 1s step-end infinite;
+}
+.playable-caret[hidden] { display: none; }
+@keyframes playable-caret-blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .playable-caret { animation: none; } }
+.playable-token-space { display: inline-block; width: 12px; font-size: 0; }
+
+.playable-camera-token {
+  display: inline-flex; align-items: center; justify-content: center; vertical-align: top;
+  height: 36px; position: relative; top: 4px; gap: 2px; padding: 0 10px 0 13px; border-radius: 999px;
+  background: var(--tux-v2-color-ui-shape-neutral-4, #393939);
+  white-space: nowrap; transform-origin: center; user-select: all;
+}
+.playable-camera-token > img { width: 27px; height: 27px; object-fit: contain; }
+.playable-camera-token > img.playable-token-chevron { width: 16px; height: 16px; filter: brightness(0) invert(1); }
+/* Memes and inserted photos share one 36px tile, tilted 5°, centered in the 44px row. */
+.playable-duck-token { position: relative; top: 4px; display: inline-flex; width: 36px; height: 36px; vertical-align: top; margin-left: 0; margin-right: 0; user-select: all; }
+.playable-duck-token img { width: 36px; height: 36px; border: 0; border-radius: 10px; transform: rotate(5deg); object-fit: cover; }
+.playable-actions { display: flex; align-items: center; justify-content: space-between; flex: 0 0 64px; margin: 0 18px 8px; }
+.playable-bulb { width: 44px; height: 44px; padding: 0; display: grid; place-items: center; transform-origin: center; flex-shrink: 0; }
+/* Figma 25915:155046: the bulb art fills the 44px frame, so the visible bulb reads 26.7 × 38. */
+.playable-bulb img { width: 44px; height: 44px; object-fit: contain; }
+/* Figma 25550:93517 — 36px photo (with its own hairline) plus a 22px edit badge at the bottom-right. */
+.playable-photo-token { position: relative; display: inline-block; width: 47px; height: 40px; vertical-align: top; top: 2px; user-select: none; }
+.playable-photo-image { position: absolute; left: 2px; top: 2px; width: 36px; height: 36px; border-radius: 10.8px; }
+/* Figma 25550:93519 — 22px edit badge at the photo's bottom-right, no ring; 13px pen nudged up 0.5px. */
+.playable-photo-badge {
+  position: absolute; left: 25px; top: 18px; width: 22px; height: 22px;
+  display: grid; place-items: center; border-radius: 999px;
+  background: linear-gradient(var(--tux-v2-color-ui-shape-neutral-4, rgba(255, 255, 255, 0.13)), var(--tux-v2-color-ui-shape-neutral-4, rgba(255, 255, 255, 0.13))),
+    var(--tux-v2-color-ui-sheet-flat-1, #1e1e1e);
+}
+.playable-photo-badge img { width: 13px; height: 13px; transform: translateY(-0.5px); }
+/* Figma 24980:274087 — replies stepper capsule. */
+.playable-count-token {
+  display: inline-flex; align-items: center; gap: 8px; vertical-align: top; position: relative; top: 7px;
+  height: 30px; box-sizing: border-box; padding: 3px 6px; border-radius: 999px;
+  background: var(--tux-v2-color-ui-shape-neutral-4, #393939); user-select: none;
+}
+.playable-count-step {
+  width: 24px; height: 24px; padding: 0; border-radius: 12px; display: grid; place-items: center;
+  background: var(--tux-v2-color-ui-shape-neutral-3, rgba(255, 255, 255, 0.19));
+}
+.playable-count-step img { width: 14px; height: 14px; }
+.playable-count-value { display: inline-block; min-width: 14px; text-align: center; color: #fff; }
+.playable-prompt-text, .playable-camera-token, .playable-duck-token, .playable-count-token { line-height: 1.25; }
+/* Use the editor's full row rhythm for every wrapped placeholder line. */
+.playable-editor[data-empty="true"]::before {
+  display: block; content: attr(data-placeholder);
+  font: inherit; letter-spacing: inherit; line-height: inherit;
+  color: rgba(255, 255, 255, 0.2); pointer-events: none;
+}
+/* Chips-only prompt with the keyboard up: the hint (playable_chip_hint.ts) trails the caret on the same line. */
+.playable-editor[data-chip-hint]::after {
+  content: attr(data-chip-hint); color: rgba(255, 255, 255, 0.2); pointer-events: none;
+  /* Caret lands first; 0.8s later the hint wipes in left → right (a soft mask edge sweeps across). */
+  -webkit-mask-image: linear-gradient(90deg, #000 33%, transparent 66%); mask-image: linear-gradient(90deg, #000 33%, transparent 66%);
+  -webkit-mask-size: 300% 100%; mask-size: 300% 100%;
+  animation: playable-hint-wipe 500ms ease-out 0.8s both;
+}
+@keyframes playable-hint-wipe {
+  from { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+  to { -webkit-mask-position: 0 0; mask-position: 0 0; }
+}
+@media (prefers-reduced-motion: reduce) { .playable-editor[data-chip-hint]::after { animation: none; } }
+.playable-actions-right { display: flex; gap: 24px; align-items: center; }
+.playable-mention { width: 28px; height: 44px; display: grid; place-items: center; }
+.playable-mention img { width: 28px; height: 28px; filter: brightness(0) invert(1); }
+.playable-generate {
+  width: 64px; height: 40px; border-radius: 999px; display: grid; place-items: center;
+  background: linear-gradient(58deg, #74d5ff, #c6e4ff 33%, #ced8ff 66%, #c9c0ff);
+}
+.playable-generate img { width: 22px; height: 22px; }
+.playable-tools { display: flex; justify-content: center; padding: 0; flex: 0 0 54px; align-items: center; gap: 16px; }
+.playable-tools button { width: 112px; flex: 0 0 112px; height: 48px; display: flex; align-items: center; justify-content: center; gap: 5px; opacity: .55; font-size: var(--tux-v2-typography-h4-size, 15px); font-weight: 600; }
+.playable-tools img { width: 20px; height: 20px; }
+
+/* The 368px strip is centered as one unit; label lengths never move the tab boxes. */
+.playable-tools { width: 368px; align-self: center; justify-content: flex-start; }
+.playable-tools button { padding: 0; box-sizing: border-box; white-space: nowrap; }
+.playable-tools button.is-active { opacity: 1; }
+.playable-tools button.is-active img { filter: brightness(0) invert(1); }
+.playable-camera-main { display: inline-flex; align-items: center; gap: 6px; padding: 0; white-space: nowrap; font: inherit; color: inherit; }
+.playable-camera-main img { width: 27px; height: 27px; object-fit: contain; }
+.playable-trick-cycle { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 40px; padding: 0; }
+.playable-trick-cycle img { width: 16px; height: 16px; filter: brightness(0) invert(1); }
+.playable-camera-token, .playable-duck-token, .playable-count-step { cursor: pointer; user-select: none; }
+.playable-tricks-panel {
+  position: absolute; bottom: 0; left: 0; width: 100%; box-sizing: content-box;
+  height: 320px; border-radius: 36px 36px 0 0; overflow: hidden;
+  /* Figma 25205:313240: 50% black over sheet-flat-1; stroke fades out toward the bottom. */
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), var(--tux-v2-color-ui-sheet-flat-1, #1e1e1e);
+  --playable-stroke: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+}
+/* Keep each stroke's z-index local, so an expanded panel covers the card's stroke instead of under-lapping it. */
+.playable-card, .playable-tricks-panel { isolation: isolate; }
+/* Gradient hairline: CSS borders can't take gradients, so mask a 0.5px ring out of a full-bleed gradient.
+   Pseudo-elements can't carry data-electron-smooth-corner, so the ring opts into the same squircle here. */
+.playable-card::after, .playable-tricks-panel::after {
+  content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  border-radius: inherit; padding: 0.5px; background: var(--playable-stroke);
+  -electron-corner-smoothing: system-ui;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+}
+.playable-tricks-grabber { height: 28px; width: 100%; display: grid; place-items: center; }
+.playable-tricks-grabber span { display: block; width: 36px; height: 4px; border-radius: 2px; background: #484848; }
+.playable-tricks-panel h2 { margin: 0 0 10px; padding-left: 20px; font-size: 14px; font-weight: 600; line-height: 18px; }
+.playable-tricks-row { display: flex; gap: 12px; padding: 0 16px; overflow-x: auto; scrollbar-width: none; }
+.playable-tricks-row::-webkit-scrollbar { display: none; }
+.playable-tricks-row + h2 { margin-top: 20px; }
+.playable-meme-tile, .playable-addon-tile { width: 96px; height: 96px; flex: 0 0 96px; overflow: hidden; border-radius: 24px; position: relative; }
+.playable-addon-tile { border-radius: 26px; }
+.playable-meme-tile img { width: 100%; height: 100%; object-fit: cover; }
+/* Figma 25915:155046: 56px art frame 12px from the top, 4px gap, label at top 72px. */
+.playable-addon-tile { background: var(--tux-v2-color-ui-sheet-flat-1, #1e1e1e); display: flex; flex-direction: column; align-items: center; padding-top: 12px; gap: 4px; }
+.playable-addon-art { position: relative; width: 56px; height: 56px; flex-shrink: 0; overflow: hidden; }
+.playable-addon-art img { width: 56px; height: 56px; display: block; }
+.playable-addon-tile span { font-size: 11px; font-weight: 600; line-height: 16px; }
+
+.playable-media-panel { box-sizing: border-box; height: 320px; display: flex; flex-direction: column; }
+.playable-media-panel .playable-tricks-grabber { flex: 0 0 28px; }
+.playable-template-grid, .playable-album-grid { flex: 1; overflow-y: auto; min-height: 0; grid-auto-rows: max-content; align-items: start; align-content: start; scrollbar-width: none; }
+/* Scrolled content dissolves under the grabber rather than meeting a hard cut; 0px (at rest) = no fade. */
+.playable-template-grid, .playable-album-grid {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--grid-fade, 0px));
+  mask-image: linear-gradient(to bottom, transparent 0, #000 var(--grid-fade, 0px));
+}
+.playable-template-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px 16px; padding: 4px 20px 20px; }
+.playable-template-card { position: relative; display: block; width: 100%; padding: 0; aspect-ratio: 3 / 4; border-radius: 28px; overflow: hidden; }
+.playable-template-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.playable-album-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; padding: 4px 8px 8px; }
+.playable-album-grid button { position: relative; width: 100%; padding: 0; aspect-ratio: 1; overflow: hidden; border-radius: 12px; }
+.playable-album-camera { background: #393939; display: grid; place-items: center; }
+.playable-album-camera img { width: 32px; height: 32px; }
+.playable-album-thumbnail { width: 100%; height: 100%; object-fit: cover; }
+.playable-album-checkbox, .playable-album-order { position: absolute; top: 5px; right: 5px; width: 24px; height: 24px; z-index: 2; }
+.playable-album-order { border-radius: 50%; background: var(--tux-v2-color-primary, #ff2c55); color: white; display: grid; place-items: center; font-size: 14px; font-weight: 600; }
+/* Figma 24281:309041: selected → 50% black under the order badge; unavailable → 40% white over everything, ring included. */
+.playable-album-photo[aria-pressed="true"]::before,
+.playable-album-photo[data-dimmed="true"]::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.playable-album-photo[aria-pressed="true"]::before { z-index: 1; background: rgba(0, 0, 0, 0.5); }
+.playable-album-photo[data-dimmed="true"]::after { z-index: 3; background: var(--tux-v2-color-ui-image-overlay-white-a40, rgba(255, 255, 255, 0.4)); }
+.playable-album-photo[data-dimmed="true"] { cursor: default; }
+
+.playable-image-panel { z-index: 1; }
+.playable-media-panel .playable-tricks-grabber { touch-action: none; cursor: ns-resize; outline: none; }
+.playable-media-panel .playable-tricks-grabber:focus-visible { outline: 2px solid #4b80ff; outline-offset: -4px; }
+.playable-image-panel .playable-album-grid { padding-bottom: 0; }
+.playable-album-filter { flex: 0 0 auto; overflow: hidden; display: flex; justify-content: center; align-items: flex-start; }
+.playable-album-filter-pill { position: relative; height: 36px; border-radius: 999px; background: #393939; display: flex; align-items: center; }
+.playable-album-filter-pill select { appearance: none; background: transparent; color: inherit; border: 0; outline: none; padding: 8px 34px 8px 16px; font-size: 15px; font-weight: 700; }
+.playable-album-filter-pill svg { position: absolute; right: 12px; pointer-events: none; }
+.playable-album-add { position: absolute; left: 32px; right: 32px; }
+/* Height comes from sizePreset="large": overriding it in CSS leaves TUX's smooth-radius fill at 44px. */
+.playable-album-add button { width: 100%; }
+/* Opaque backing: TUX's disabled fill is translucent and would show the photos through it. */
+.playable-album-add::before { content: ""; position: absolute; inset: 0; border-radius: 999px; background: var(--tux-v2-color-ui-sheet-flat-1, #1e1e1e); }
+
+
+.playable-media-panel .playable-tricks-grabber { position: relative; z-index: 2; flex-shrink: 0; }
+@media (prefers-reduced-motion: reduce) { .playable-album-filter-pill { transition: none; } }
+
+.playable-title-bar { flex-shrink:0; position:relative; }
+
+/* "Tap for ideas" — Figma 25668:94938: white 12px-radius tooltip above the bulb, 8px arrow pointing at it.
+   White per the design (the TUX tooltip token resolves to #3a3a3a in dark mode). */
+.playable-bulb-anchor { position: relative; display: inline-flex; }
+.playable-idea-tooltip {
+  position: absolute; left: -9px; bottom: calc(100% + 14px); z-index: 4; box-sizing: border-box;
+  min-height: 48px; padding: 12px; border-radius: 12px; display: flex; align-items: center; white-space: nowrap;
+  background: #fff; color: #000; font-size: 14px; font-weight: 600; line-height: 1.3; pointer-events: none;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.21)); transform-origin: 33px 100%;
+  animation: playable-tooltip-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+/* Arrow centered 33px from the tooltip's left edge — the bulb's center. */
+/* Arrow tip centered on the 44px bulb: -9 + 20.5 + 21/2 = 22. */
+.playable-idea-tooltip-arrow { position: absolute; left: 20.5px; top: 100%; display: block; fill: #fff; }
+@keyframes playable-tooltip-in { from { opacity: 0; transform: translateY(4px) scale(0.92); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .playable-idea-tooltip { animation: none; } }
+
+
+/* Remix cover (Figma 25696:253215): 60×80 tile tilted -4°, r14, white-40 hairline and a soft black
+   glow, a paperclip over its top edge and a 22px close button at its top-right. It sits in the bulb's
+   48px slot and rises 46px above it. */
+.playable-remix-chip { position: relative; width: 48px; height: 48px; flex-shrink: 0; }
+.playable-remix-chip-tile {
+  /* max-width: the global img/box reset would squeeze the 60px tile into the 48px slot. */
+  position: absolute; left: 4px; top: -36px; width: 60px; max-width: none; height: 80px; box-sizing: border-box; overflow: hidden; isolation: isolate;
+  border-radius: 14px; border: 0.5px solid rgba(255, 255, 255, 0.4); box-shadow: 0 0 24px rgba(0, 0, 0, 0.8); transform: rotate(-4deg);
+}
+.playable-remix-chip-clip { position: absolute; left: 23.5px; top: -44.5px; width: 18px; max-width: none; height: 33px; pointer-events: none; z-index: 1; }
+.playable-remix-chip-close {
+  position: absolute; left: 50.5px; top: -44px; width: 22px; height: 22px; padding: 0; border-radius: 999px; display: grid; place-items: center;
+  background: linear-gradient(rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), #1e1e1e; color: var(--tux-v2-color-ui-text-1, #f6f6f6);
+}

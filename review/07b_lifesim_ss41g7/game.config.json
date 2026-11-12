@@ -1,0 +1,50 @@
+{
+  "tweaks": [],
+  "texts": [
+    {
+      "id": "GAME_TITLE",
+      "label": "游戏标题",
+      "value": "FIND VOXEL ITEMS",
+      "default": "FIND VOXEL ITEMS",
+      "max_length": 20
+    },
+    {
+      "id": "WIN_TEXT",
+      "label": "胜利提示",
+      "value": "收集完成！",
+      "default": "收集完成！",
+      "max_length": 15
+    }
+  ],
+  "images": [
+    {
+      "id": "BG_MAIN",
+      "label": "主背景图",
+      "path": "./assets/bg_main.webp",
+      "replaceable": true
+    },
+    {
+      "id": "ITEM_SHELL",
+      "label": "收集品1(贝壳)",
+      "path": "./assets/item_shell.webp",
+      "replaceable": true
+    },
+    {
+      "id": "ITEM_STARFISH",
+      "label": "收集品2(海星)",
+      "path": "./assets/item_starfish.webp",
+      "replaceable": true
+    },
+    {
+      "id": "ITEM_COCONUT",
+      "label": "收集品3(椰子)",
+      "path": "./assets/item_coconut.webp",
+      "replaceable": true
+    }
+  ],
+  "config_version": "2.0",
+  "playable": {
+    "runtime_target": "h5",
+    "h5_playstyle_type": "image_expression"
+  }
+}

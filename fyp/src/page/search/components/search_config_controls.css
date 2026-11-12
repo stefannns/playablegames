@@ -1,0 +1,4 @@
+html[data-search-result-config-active="true"]
+  .app-frame-config-panel-chrome:not(.search-config-controls-chrome) {
+  display: none !important;
+}

@@ -1,0 +1,907 @@
+@keyframes yeah-or-nah-stamp {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.82) rotate(var(--yon-rest-rotate, 0deg));
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.04) rotate(var(--yon-rest-rotate, 0deg));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(var(--yon-rest-rotate, 0deg));
+  }
+}
+
+[data-yeah-or-nah-look="a"] {
+  --yon-bubble-stroke: var(--tux-v2-color-ui-shape-neutral-3);
+  --yon-bubble-stroke-width: 2.5px;
+  --yon-bubble-radius: 14px;
+  --yon-yeah: var(--tux-v2-color-brand-tiktok-splash);
+  --yon-nah: var(--tux-v2-color-brand-tiktok-razzmatazz);
+  --yon-paper: var(--tux-v2-color-ui-sheet-flat-1);
+  --yon-ink: var(--tux-v2-color-ui-text-1);
+  --yon-ink-soft: var(--tux-v2-color-ui-text-2);
+  --yon-yeah-ink: var(--tux-v2-color-ui-shape-text-1-on-secondary);
+  --yon-nah-ink: var(--tux-v2-color-ui-shape-text-1-on-primary);
+}
+
+.yon-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 8px 32px 24px;
+  /* 让纯 CSS 子元素（.yon-bubble / .yon-chip 等）继承 TikTok font */
+  font-family: var(--tux-v2-font-text);
+}
+
+.yon-bubble {
+  --yon-rest-rotate: 0deg;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--yon-bubble-stroke-width) solid var(--yon-bubble-stroke);
+  border-radius: var(--yon-bubble-radius);
+  padding: 14px 22px;
+  background: var(--yon-paper);
+  color: var(--yon-ink-soft, var(--yon-ink));
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  animation: yeah-or-nah-stamp 320ms cubic-bezier(0.2, 0.9, 0.3, 1.4) backwards;
+  transform-origin: 50% 100%;
+  transition:
+    transform 220ms cubic-bezier(0.2, 0.9, 0.3, 1.4),
+    opacity 220ms ease,
+    filter 220ms ease;
+  transform: rotate(var(--yon-rest-rotate, 0deg));
+}
+
+.yon-bubble:active {
+  transform: rotate(var(--yon-rest-rotate, 0deg)) scale(0.98);
+}
+
+.yon-bubble--question {
+  --yon-rest-rotate: -3deg;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  padding: 16px 22px;
+  animation-delay: 0ms;
+}
+
+.yon-bubble__tail {
+  position: absolute;
+  left: 22px;
+  bottom: -16px;
+  width: 20px;
+  height: 18px;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.yon-answers {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 18px;
+  width: 100%;
+}
+
+.yon-bubble--answer {
+  flex: 0 0 auto;
+  min-width: 116px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  padding: 16px 28px;
+}
+
+.yon-bubble--yeah {
+  --yon-rest-rotate: -6deg;
+  background: var(--yon-yeah);
+  color: var(--yon-yeah-ink);
+  animation-delay: 120ms;
+}
+
+.yon-bubble--nah {
+  --yon-rest-rotate: 6deg;
+  background: var(--yon-nah);
+  color: var(--yon-nah-ink);
+  animation-delay: 220ms;
+}
+
+[data-yon-selected="yeah"] .yon-bubble--yeah,
+[data-yon-selected="nah"] .yon-bubble--nah {
+  transform: rotate(var(--yon-rest-rotate, 0deg)) scale(1.06);
+}
+
+[data-yon-selected="yeah"] .yon-bubble--nah,
+[data-yon-selected="nah"] .yon-bubble--yeah {
+  transform: rotate(var(--yon-rest-rotate, 0deg)) scale(0.94);
+  opacity: 0.45;
+  filter: saturate(0.6);
+}
+
+.yon-footer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.yon-prompt {
+  /* 字体样式由 TUXText typographyPreset="Headline-Semibold" + color="UIText2" 提供，
+     与 default 空态的 "Enjoy this post" 完全一致。 */
+  letter-spacing: -0.005em;
+}
+
+.yon-chips-slot {
+  display: grid;
+  grid-template-rows: 0fr;
+  width: 100%;
+  transition: grid-template-rows 280ms cubic-bezier(0.2, 0.9, 0.3, 1.4);
+}
+
+.yon-chips-slot[data-active="true"] {
+  grid-template-rows: 1fr;
+}
+
+.yon-chips-slot__inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.yon-chips {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 240ms ease 60ms, transform 280ms cubic-bezier(0.2, 0.9, 0.3, 1.4) 60ms;
+}
+
+.yon-chips-slot[data-active="true"] .yon-chips {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.yon-chips-slot[data-active="true"] .yon-chips > :nth-child(1) { animation-delay: 0ms; }
+.yon-chips-slot[data-active="true"] .yon-chips > :nth-child(2) { animation-delay: 80ms; }
+.yon-chips-slot[data-active="true"] .yon-chips > :nth-child(3) { animation-delay: 160ms; }
+.yon-chips-slot[data-active="true"] .yon-chips > :nth-child(4) { animation-delay: 240ms; }
+
+.yon-chips-slot[data-active="true"] .yon-chips > * {
+  animation: yeah-or-nah-stamp 320ms cubic-bezier(0.2, 0.9, 0.3, 1.4) backwards;
+}
+
+.yon-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--tux-v2-color-ui-shape-neutral-4);
+  color: var(--tux-v2-color-ui-text-1);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 160ms ease, opacity 160ms ease, background-color 160ms ease;
+}
+
+.yon-chip:hover {
+  background: var(--tux-v2-color-ui-shape-neutral-3);
+}
+
+.yon-chip:active {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+/* ============================================================================
+   Look B · Split Arena（柔和渐变版）
+   底色不是实色品牌色，而是从中央 judge bar 向外淡淡扩散的渐变。
+   选中后未选中半折叠到 0，reply chips 直接出现在被选中那半的扩展区域内
+   （替换大字），整体不再那么 bold。
+   ============================================================================ */
+
+[data-yeah-or-nah-look="b"] {
+  --yon-yeah: var(--tux-v2-color-brand-tiktok-splash);
+  --yon-nah: var(--tux-v2-color-brand-tiktok-razzmatazz);
+  --yon-yeah-soft: color-mix(in srgb, var(--tux-v2-color-brand-tiktok-splash) 28%, var(--tux-v2-color-ui-sheet-flat-1));
+  --yon-nah-soft: color-mix(in srgb, var(--tux-v2-color-brand-tiktok-razzmatazz) 28%, var(--tux-v2-color-ui-sheet-flat-1));
+  --yon-paper: var(--tux-v2-color-ui-sheet-flat-1);
+  --yon-ink: var(--tux-v2-color-ui-text-1);
+  --yon-ink-soft: var(--tux-v2-color-ui-text-2);
+  /* judge bar：与系统主文字同色（暗模式自动反转），白字。 */
+  --yon-judge-bg: var(--tux-v2-color-ui-text-1);
+  --yon-judge-ink: var(--tux-v2-color-ui-shape-text-1-on-primary);
+}
+
+@keyframes yeah-or-nah-arena-in {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.yon-arena {
+  position: relative;
+  display: grid;
+  /* 3 行：上半 / judge / 下半。chips 出现在 half 内部，不占新行。 */
+  grid-template-rows: 1fr auto 1fr;
+  width: 100%;
+  height: 100%;
+  font-family: var(--tux-v2-font-text);
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--yon-paper);
+  transition: grid-template-rows 420ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* 选中后另一半折叠为 0fr，被选中半接管全部空间用于展示 chips。 */
+.yon-arena[data-yon-selected="yeah"] {
+  grid-template-rows: 1fr auto 0fr;
+}
+.yon-arena[data-yon-selected="nah"] {
+  grid-template-rows: 0fr auto 1fr;
+}
+
+.yon-arena__half {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  font-family: inherit;
+  overflow: hidden;
+  outline: none;
+  animation: yeah-or-nah-arena-in 360ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  transition:
+    background 320ms ease,
+    opacity 220ms ease;
+}
+
+/* 渐变底色：从靠近 judge bar 的边缘（YEAH 在底边、NAH 在顶边）向外淡淡扩散。
+   颜色用 color-mix 兑入纸色，确保「淡淡」的观感而不是品牌实色。 */
+.yon-arena__half--yeah {
+  background:
+    radial-gradient(
+      ellipse 120% 100% at 50% 100%,
+      var(--yon-yeah-soft) 0%,
+      var(--yon-paper) 70%
+    );
+  color: var(--yon-ink);
+  animation-delay: 0ms;
+}
+
+.yon-arena__half--nah {
+  background:
+    radial-gradient(
+      ellipse 120% 100% at 50% 0%,
+      var(--yon-nah-soft) 0%,
+      var(--yon-paper) 70%
+    );
+  color: var(--yon-ink);
+  animation-delay: 80ms;
+}
+
+/* hover：让对应渐变稍稍加强，给一点反馈但不喧宾夺主。 */
+.yon-arena__half--yeah:hover {
+  background:
+    radial-gradient(
+      ellipse 130% 110% at 50% 100%,
+      color-mix(in srgb, var(--yon-yeah) 38%, var(--yon-paper)) 0%,
+      var(--yon-paper) 75%
+    );
+}
+.yon-arena__half--nah:hover {
+  background:
+    radial-gradient(
+      ellipse 130% 110% at 50% 0%,
+      color-mix(in srgb, var(--yon-nah) 38%, var(--yon-paper)) 0%,
+      var(--yon-paper) 75%
+    );
+}
+
+.yon-arena__half:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--yon-judge-bg);
+}
+
+.yon-arena__word {
+  position: relative;
+  font-size: clamp(48px, 16vw, 76px);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -0.02em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  /* 大字本身用品牌色，淡底 + 实色字 = 视觉重心放在字而非整片色。 */
+  transition: opacity 220ms ease, transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.yon-arena__half--yeah .yon-arena__word {
+  /* 用品牌色兑入纸色 → 弱化大字、把视觉重心交回中央问题。 */
+  color: color-mix(in srgb, var(--yon-yeah) 55%, var(--yon-paper));
+}
+.yon-arena__half--nah .yon-arena__word {
+  color: color-mix(in srgb, var(--yon-nah) 55%, var(--yon-paper));
+}
+
+.yon-arena__half:active .yon-arena__word {
+  transform: scale(0.98);
+}
+
+/* 选中态：被选半内大字隐去（让位 chips），未选中半字也淡出（容器折叠中）。 */
+.yon-arena[data-yon-selected="yeah"] .yon-arena__half--yeah .yon-arena__word,
+.yon-arena[data-yon-selected="nah"] .yon-arena__half--nah .yon-arena__word {
+  opacity: 0;
+  transform: scale(0.92);
+  pointer-events: none;
+}
+.yon-arena[data-yon-selected="yeah"] .yon-arena__half--nah .yon-arena__word,
+.yon-arena[data-yon-selected="nah"] .yon-arena__half--yeah .yon-arena__word {
+  opacity: 0;
+}
+
+/* judge bar：去掉黑色实底，改为透明 + 上下细分割线，问题字本身做主角。
+   字体样式由 TUXText typographyPreset="Headline-Semibold" + color="UIText2"
+   提供，与 default 空态的 "Enjoy this post" 完全一致。 */
+.yon-arena__judge {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: transparent;
+  padding: 14px 20px;
+  /* 上下细线在两个渐变半之间起到「中线」锚点作用，比黑块温和很多。 */
+  border-top: 1px solid var(--tux-v2-color-ui-shape-neutral-3);
+  border-bottom: 1px solid var(--tux-v2-color-ui-shape-neutral-3);
+  animation: yeah-or-nah-arena-in 360ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: 160ms;
+  z-index: 2;
+}
+
+/* chips：放在 half 内部，绝对定位居中；选中时淡入 + 上浮就位。 */
+.yon-arena__chips {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition:
+    opacity 240ms ease,
+    transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.yon-arena[data-yon-selected="yeah"] .yon-arena__half--yeah .yon-arena__chips,
+.yon-arena[data-yon-selected="nah"] .yon-arena__half--nah .yon-arena__chips {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition-delay: 160ms;
+}
+
+.yon-arena[data-yon-selected="yeah"] .yon-arena__half--yeah .yon-arena__chips > :nth-child(1),
+.yon-arena[data-yon-selected="nah"] .yon-arena__half--nah .yon-arena__chips > :nth-child(1) {
+  animation: yeah-or-nah-stamp 320ms cubic-bezier(0.2, 0.9, 0.3, 1.4) 200ms backwards;
+}
+.yon-arena[data-yon-selected="yeah"] .yon-arena__half--yeah .yon-arena__chips > :nth-child(2),
+.yon-arena[data-yon-selected="nah"] .yon-arena__half--nah .yon-arena__chips > :nth-child(2) {
+  animation: yeah-or-nah-stamp 320ms cubic-bezier(0.2, 0.9, 0.3, 1.4) 280ms backwards;
+}
+.yon-arena[data-yon-selected="yeah"] .yon-arena__half--yeah .yon-arena__chips > :nth-child(3),
+.yon-arena[data-yon-selected="nah"] .yon-arena__half--nah .yon-arena__chips > :nth-child(3) {
+  animation: yeah-or-nah-stamp 320ms cubic-bezier(0.2, 0.9, 0.3, 1.4) 360ms backwards;
+}
+
+/* ============================================================================
+   Look C · Chat Bubbles
+   像真实的聊天对话：左对齐灰色问题气泡 + 右对齐 Yeah/Nah 答案气泡。
+   每个气泡都有 iMessage 风的小尾巴。复用 .yon-chips-slot / .yon-chip。
+   ============================================================================ */
+
+[data-yeah-or-nah-look="c"] {
+  --yon-yeah: var(--tux-v2-color-brand-tiktok-splash);
+  --yon-nah: var(--tux-v2-color-brand-tiktok-razzmatazz);
+  --yon-yeah-soft: color-mix(in srgb, var(--tux-v2-color-brand-tiktok-splash) 28%, var(--tux-v2-color-ui-sheet-flat-1));
+  --yon-nah-soft: color-mix(in srgb, var(--tux-v2-color-brand-tiktok-razzmatazz) 28%, var(--tux-v2-color-ui-sheet-flat-1));
+  --yon-question-bg: var(--tux-v2-color-ui-shape-neutral-4);
+  --yon-question-ink: var(--tux-v2-color-ui-text-2);
+  --yon-paper: var(--tux-v2-color-ui-sheet-flat-1);
+  --yon-ink: var(--tux-v2-color-ui-text-2);
+}
+
+@keyframes yeah-or-nah-bubble-in {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96) rotate(var(--yon-rotate, 0deg));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(var(--yon-rotate, 0deg));
+  }
+}
+
+.yon-chat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 20px 24px;
+  font-family: var(--tux-v2-font-text);
+}
+
+/* stage：插画居中，气泡绝对定位散落在四周。
+   选中后整段折叠隐藏，把空间让给 chips。 */
+.yon-chat__stage {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: 50% 50%;
+  transition:
+    height 320ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 220ms ease,
+    transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+[data-yeah-or-nah-look="c"][data-yon-selected] .yon-chat__stage {
+  height: 0;
+  opacity: 0;
+  transform: scale(0.96);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* 选中态下整片背景可点击返回，footer 内部 chip 通过 stopPropagation 排除。 */
+[data-yeah-or-nah-look="c"][data-yon-selected] {
+  cursor: pointer;
+}
+
+.yon-chat__illustration {
+  width: 132px;
+  height: 132px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--tux-v2-color-ui-text-1);
+  animation: yeah-or-nah-bubble-in 360ms cubic-bezier(0.2, 0.9, 0.3, 1.4) backwards;
+}
+.yon-chat__illustration > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.yon-chat__row {
+  display: flex;
+  width: 100%;
+}
+
+.yon-chat__row--in {
+  justify-content: flex-start;
+}
+
+/* 答案气泡改为竖向排列：上 Yeah / 下 Nah，全部右对齐。 */
+.yon-chat__row--out {
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.yon-chat__bubble {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 22px;
+  border: 0;
+  border-radius: 24px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+  color: var(--yon-ink);
+  cursor: default;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 2;
+  /* 让透明气泡像磨砂玻璃，背后的插画/底色被柔化。 */
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+          backdrop-filter: blur(8px) saturate(140%);
+  animation: yeah-or-nah-bubble-in 320ms cubic-bezier(0.2, 0.9, 0.3, 1.4) backwards;
+  transition:
+    transform 220ms cubic-bezier(0.2, 0.9, 0.3, 1.4),
+    opacity 220ms ease,
+    background-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+/* 问题气泡：插画左上角，左下尖角指向插画。 */
+.yon-chat__bubble--question {
+  --yon-rotate: -4deg;
+  top: 8%;
+  left: 6%;
+  background-color: var(--yon-question-bg);
+  border-radius: 24px 24px 24px 5px;
+  animation-delay: 0ms;
+  transform: rotate(var(--yon-rotate));
+  transform-origin: 100% 100%;
+}
+
+/* Yeah / Nah 都聚拢在插画右下角，上下叠落。 */
+.yon-chat__bubble--answer {
+  cursor: pointer;
+  user-select: none;
+  min-width: 96px;
+  font-weight: 700;
+}
+
+/* Yeah：插画右侧偏上。气泡中心透明，仅靠边缘玻璃感成型。
+   右下角加尖角，与问题气泡保持一致的视觉语言。 */
+.yon-chat__bubble--yeah {
+  --yon-rotate: 4deg;
+  top: 50%;
+  right: 8%;
+  border-radius: 24px 24px 5px 24px;
+  background-color: transparent;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--yon-yeah) 38%, transparent),
+    inset 0 0 14px 0 color-mix(in srgb, var(--yon-yeah) 22%, transparent),
+    inset 0 -10px 16px -6px color-mix(in srgb, var(--yon-yeah) 38%, transparent);
+  animation-delay: 160ms;
+  transform: rotate(var(--yon-rotate));
+  transform-origin: 0% 100%;
+}
+
+/* Nah：在 Yeah 右下方错开。同样右下角尖角。 */
+.yon-chat__bubble--nah {
+  --yon-rotate: -3deg;
+  bottom: 8%;
+  right: 14%;
+  border-radius: 24px 24px 5px 24px;
+  background-color: transparent;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--yon-nah) 38%, transparent),
+    inset 0 0 14px 0 color-mix(in srgb, var(--yon-nah) 22%, transparent),
+    inset 0 -10px 16px -6px color-mix(in srgb, var(--yon-nah) 38%, transparent);
+  animation-delay: 280ms;
+  transform: rotate(var(--yon-rotate));
+  transform-origin: 0% 0%;
+}
+
+.yon-chat__bubble--answer:hover {
+  transform: rotate(var(--yon-rotate)) translateY(-1px);
+}
+.yon-chat__bubble--answer:active {
+  transform: rotate(var(--yon-rotate)) scale(0.97);
+}
+
+/* 选中：被选气泡上抬 + 加重玻璃边缘色；未选气泡淡出收缩。 */
+[data-yeah-or-nah-look="c"][data-yon-selected="yeah"] .yon-chat__bubble--yeah {
+  box-shadow:
+    inset 0 0 0 1.5px color-mix(in srgb, var(--yon-yeah) 65%, transparent),
+    inset 0 0 18px 0 color-mix(in srgb, var(--yon-yeah) 38%, transparent),
+    inset 0 -12px 18px -6px color-mix(in srgb, var(--yon-yeah) 55%, transparent);
+  transform: rotate(var(--yon-rotate)) translateY(-2px) scale(1.04);
+}
+[data-yeah-or-nah-look="c"][data-yon-selected="nah"] .yon-chat__bubble--nah {
+  box-shadow:
+    inset 0 0 0 1.5px color-mix(in srgb, var(--yon-nah) 65%, transparent),
+    inset 0 0 18px 0 color-mix(in srgb, var(--yon-nah) 38%, transparent),
+    inset 0 -12px 18px -6px color-mix(in srgb, var(--yon-nah) 55%, transparent);
+  transform: rotate(var(--yon-rotate)) translateY(-2px) scale(1.04);
+}
+
+[data-yeah-or-nah-look="c"][data-yon-selected="yeah"] .yon-chat__bubble--nah,
+[data-yeah-or-nah-look="c"][data-yon-selected="nah"] .yon-chat__bubble--yeah {
+  opacity: 0.45;
+  transform: rotate(var(--yon-rotate)) scale(0.92);
+}
+
+.yon-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 32px 24px;
+  text-align: center;
+}
+
+.yon-placeholder__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Default empty state illustration — uses TUX illustration so theme tokens apply
+   (gray-fill / gray-stroke), enabling proper light/dark adaptation. */
+.empty-default__illustration {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-default__illustration svg {
+  display: block;
+  width: 130px;
+  height: 96px;
+}
+
+/* ============================================================================
+   Curious About — empty state style
+   ============================================================================ */
+
+@keyframes curious-stamp {
+  0% {
+    opacity: 0;
+    transform:
+      translateY(8px)
+      scale(0.94)
+      rotate(var(--curious-rest-rotate, 0deg))
+      translateX(var(--curious-rest-tx, 0));
+  }
+  60% {
+    opacity: 1;
+    transform:
+      translateY(-1px)
+      scale(1.02)
+      rotate(var(--curious-rest-rotate, 0deg))
+      translateX(var(--curious-rest-tx, 0));
+  }
+  100% {
+    opacity: 1;
+    transform:
+      translateY(0)
+      scale(1)
+      rotate(var(--curious-rest-rotate, 0deg))
+      translateX(var(--curious-rest-tx, 0));
+  }
+}
+
+@keyframes curious-fade-up {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes curious-refresh-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.curious-stage {
+  --curious-paper: var(--tux-v2-color-ui-sheet-flat-1);
+  --curious-stroke: var(--tux-v2-color-ui-shape-neutral-3);
+  /* 对比度参考 default：标题用 UIText2（灰），卡片/pill 文字用 UIText1（与 default
+     的 "Comment" 按钮文字色一致）。 */
+  --curious-title-ink: var(--tux-v2-color-ui-text-2);
+  --curious-ink: var(--tux-v2-color-ui-text-1);
+  --curious-ink-soft: var(--tux-v2-color-ui-text-2);
+  --curious-pill-bg: var(--tux-v2-color-ui-shape-neutral-4);
+  --curious-pill-bg-hover: var(--tux-v2-color-ui-shape-neutral-3);
+
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px 20px 20px;
+  /* 让纯 CSS 子元素（.curious-title / .curious-pill / .curious-card）继承 TikTok font */
+  font-family: var(--tux-v2-font-text);
+  /* 创建独立 stacking context：避免 .curious-card 内部的 z-index
+     穿透到 panel 顶层、压在输入框上方。 */
+  isolation: isolate;
+}
+
+.curious-illustration {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--curious-title-ink);
+  animation: curious-fade-up 240ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+.curious-illustration svg {
+  display: block;
+  width: 130px;
+  height: 96px;
+}
+
+.curious-title {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+  color: var(--curious-title-ink);
+  text-align: center;
+  animation: curious-fade-up 220ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  animation-delay: 60ms;
+}
+
+/* Refresh — TUXIconButton wrapper. 仅承担 360° 旋转动画与定位，
+   按钮本身的 background / pressed 等状态全部交给 TUXIconButton。 */
+.curious-refresh {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+  animation: curious-refresh-spin 480ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ---------- Look A · Pill Mosaic ---------- */
+
+.curious-mosaic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+  width: 100%;
+}
+
+.curious-mosaic__row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.curious-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--curious-pill-bg);
+  color: var(--curious-ink);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  animation: curious-stamp 280ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  transition:
+    transform 160ms ease,
+    background-color 160ms ease,
+    opacity 160ms ease;
+}
+
+.curious-pill:hover {
+  background: var(--curious-pill-bg-hover);
+}
+
+.curious-pill:active {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+/* ---------- Look B · Scatter Stack ---------- */
+
+.curious-scatter__cards {
+  position: relative;
+  width: 100%;
+  max-width: 280px;
+  margin-top: 4px;
+  /* 卡片之间用负 margin 实现稍微重叠，但每张都能露出文字。 */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.curious-card {
+  --curious-rest-rotate: 0deg;
+  --curious-rest-tx: 0px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--curious-paper);
+  color: var(--curious-ink);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  /* TUX popover 风格的轻阴影：双层叠加，模拟卡片漂浮感。 */
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+  animation: curious-stamp 320ms cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+  transform-origin: 50% 50%;
+  transform: rotate(var(--curious-rest-rotate)) translateX(var(--curious-rest-tx));
+  transition:
+    transform 200ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 200ms ease;
+}
+
+/* 三张卡片错位 + 旋转 + 重叠：制造"散落"感。 */
+.curious-card[data-card-position="0"] {
+  --curious-rest-rotate: -2.5deg;
+  --curious-rest-tx: -10px;
+  z-index: 1;
+}
+.curious-card[data-card-position="1"] {
+  --curious-rest-rotate: 1.5deg;
+  --curious-rest-tx: 8px;
+  margin-top: -6px;
+  z-index: 3;
+}
+.curious-card[data-card-position="2"] {
+  --curious-rest-rotate: -1deg;
+  --curious-rest-tx: -4px;
+  margin-top: -6px;
+  z-index: 2;
+}
+
+.curious-card:active {
+  transform: rotate(var(--curious-rest-rotate)) translateX(var(--curious-rest-tx)) scale(0.98);
+}

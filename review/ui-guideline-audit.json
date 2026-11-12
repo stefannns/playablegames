@@ -1,0 +1,3374 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-06",
+  "phase": "audit_before_edits",
+  "baseline": {
+    "width": 390,
+    "height": 598,
+    "margins": {
+      "left": 30,
+      "right": 30,
+      "top": 30,
+      "bottom": 50
+    },
+    "heading": 24,
+    "numericHud": 28,
+    "instruction": 18,
+    "captionMax": 20
+  },
+  "scope": "61 current games in the review index; spreadsheet numbering preserved. No.23–40 inspected from the authoritative 2026-09-28-batch23-40-initial folder.",
+  "limitations": [
+    "Read-only inspection of active entry scripts, inline configuration and CSS. No game files changed.",
+    "Local browser rendering is restricted; no rendered overlap/clipping or complete interaction pass is claimed.",
+    "Unused config strings, old hidden bundles and unused styles are not treated as visible game UI.",
+    "Keep central gameplay timers, targets/questions, material/tool labels and outcome messages when they are essential."
+  ],
+  "counts": {
+    "T": 31,
+    "H": 36,
+    "L": 24,
+    "I": 22,
+    "M": 3,
+    "S": 60,
+    "F": 9,
+    "W": 1
+  },
+  "rows": [
+    {
+      "number": 1,
+      "name": "Dual Tap Duel",
+      "reviewHash": "playable2_20260924214501_peqvrc_game",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260924214501_peqvrc_game/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260924214501_peqvrc_game/duel-rematch.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "Both “TAP FAST” prompts stay visible during play."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "The active two-player interface uses 24 px edge placement and 12 px compact instructions, not the approved spacing and instruction size."
+        }
+      ],
+      "preserve": "Keep the opposing-player orientation; the old bundle is hidden by duel-rematch.js.",
+      "evidence": [
+        {
+          "offset": 5404,
+          "excerpt": ".tap-duel__sr-only {\n      position: absolute;\n      width: 1px;\n      height: 1px;\n      padding: 0;\n      margin: -1px;\n      overflow: hidden;\n      clip: rect(0, 0, 0, 0);\n      white-space: nowrap;\n      border: 0;\n    }"
+        },
+        {
+          "offset": 5765,
+          "excerpt": ".tap-duel__name { font-size: 20px; }"
+        },
+        {
+          "offset": 5808,
+          "excerpt": ".tap-duel__instruction { font-size: 12px; }"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "name": "Draw Face",
+      "reviewHash": "draw_face",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/draw_face/draw_face/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/draw_face/draw_face/face-game.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The progress reads “STEP n OF 7”; simplify it to n/7."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Step progress uses a 12–16 px caption instead of the numeric HUD role."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "The drawing prompt remains visible throughout each drawing step; hide it after the first valid stroke without shifting the canvas."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header/workspace use 25 px sides and 40 px top/bottom spacing."
+        }
+      ],
+      "preserve": "Keep the feature-specific drawing request (eyes/nose/mouth); it is not a redundant game title.",
+      "evidence": [
+        {
+          "offset": 6041,
+          "excerpt": ".face-game__actions { width: min(calc(100% - 50px), 700px); margin: 0 auto; padding: 10px 0 calc(40px + env(safe-area-inset-bottom)); }"
+        },
+        {
+          "offset": 6620,
+          "excerpt": ".face-game__again { display: block; margin: 13px auto 0; padding: 4px 12px; color: #817c70; background: transparent; text-decoration: underline; box-shadow: none; font-weight: 400; }"
+        },
+        {
+          "offset": 7093,
+          "excerpt": ".face-game__header { padding-bottom: 8px; }"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "name": "One Stroke",
+      "reviewHash": "playable2_20260927020828_5pmrhn",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_5pmrhn/playable2_20260927020828_5pmrhn/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_5pmrhn/playable2_20260927020828_5pmrhn/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Progress and instruction use responsive clamps rather than the approved 28/18 logical-pixel roles."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "Instruction hiding is attached to the entire root’s pointer-down capture, so unrelated/reset touches can hide it before a valid node action."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header and prompt still use the previous 40 px top / 25 px side spacing."
+        }
+      ],
+      "preserve": "The four-level n/n counter and removed title/hint icon already comply.",
+      "evidence": [
+        {
+          "offset": 517795,
+          "excerpt": "goSub:{fontSize:\"clamp(16px, 5cqi, 20px)\",color:\"var(--text-main)\",margin:\"0 0 40px 0\",textAlign:\"center\"}"
+        },
+        {
+          "offset": 517996,
+          "excerpt": "btnPrimary:{width:\"100%\",padding:\"16px\",borderRadius:\"32px\",border:\"none\",backgroundColor:\"var(--primary)\",color:\"#fff\",fontSize:\"18px\",fontWeight:700,cursor:\"pointer\"}"
+        },
+        {
+          "offset": 524156,
+          "excerpt": "#root { \n          width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; \n          background: var(--bg-main); font-family: var(--font-body); \n          touch-action: none; user-select: none; -webkit-user-select: none; \n        }"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "name": "Cash Bounce",
+      "reviewHash": "playable2_20260927020828_hix8pk",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_hix8pk/playable2_20260927020828_hix8pk/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_hix8pk/playable2_20260927020828_hix8pk/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The only score is in a left-side panel, not top center; its number is 24 px."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The CASH heading repeats the $ score’s meaning."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "“TAP TO PLACE BOUNCE PAD” is rendered throughout play."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "HUD left inset is 16 px; HUD/hint vertical spacing uses the older 40 px rules."
+        }
+      ],
+      "preserve": "The leaderboard is already absent from the active render; do not flag its unused styles.",
+      "evidence": [
+        {
+          "offset": 386827,
+          "excerpt": ".pad {\n      position: absolute; top: 0; left: 0;\n      transform: translate(-50%, -50%);\n      will-change: transform, opacity;\n      transition: opacity 0.2s;\n    }"
+        },
+        {
+          "offset": 387003,
+          "excerpt": ".bonus-ring {\n      position: absolute; top: 0; left: 0;\n      width: 48px; height: 48px;\n      border: 3px solid var(--color-yellow);\n      border-radius: 50%;\n      box-shadow: 0 0 15px var(--color-yellow), inset 0 0 10px var(--color-yellow);\n      transform: translate(-50%, -50%);\n      will-change: transf"
+        },
+        {
+          "offset": 387390,
+          "excerpt": ".tip-text {\n      position: absolute; bottom: calc(20px + env(safe-area-inset-bottom)); width: 100%;\n      text-align: center;\n      color: rgba(255,255,255,0.4);\n      font-family: var(--font-mono);\n      font-size: 12px;\n      letter-spacing: 3px;\n      pointer-events: none;\n      z-index: 2;\n    }"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "name": "Dumpling Hunter",
+      "reviewHash": "playable2_20260927020828_iuyca5",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_iuyca5/playable2_20260927020828_iuyca5/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_iuyca5/playable2_20260927020828_iuyca5/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The two-sided timer/score placement is already appropriate, but both numbers are 18 px rather than 28."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "HUD uses 25 px sides and a 40 px top inset."
+        }
+      ],
+      "preserve": "Preserve the timer, dumpling icon, and essential end result.",
+      "evidence": [
+        {
+          "offset": 519036,
+          "excerpt": "style:{margin:\"0 0 10px\",fontSize:\"32px\",lineHeight:1.15}"
+        },
+        {
+          "offset": 519145,
+          "excerpt": "style:{margin:\"0 0 22px\",fontSize:\"17px\",lineHeight:1.4}"
+        },
+        {
+          "offset": 519288,
+          "excerpt": "style:{minWidth:\"152px\",minHeight:\"52px\",padding:\"0 24px\",border:0,borderRadius:\"26px\",background:\"#f47b2e\",color:\"#fff\",fontSize:\"18px\",fontWeight:900,boxShadow:\"0 5px 0 #a94b1c\",cursor:\"pointer\"}"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "name": "String Drawing",
+      "reviewHash": "playable2_20260927020828_oumj12",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_oumj12/playable2_20260927020828_oumj12/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_oumj12/playable2_20260927020828_oumj12/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The top HUD still says “Level:” and “Score:”."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Top progress/score are approximately body-text sized rather than the 28 px numeric role."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header uses 40 px top and 25 px sides."
+        }
+      ],
+      "preserve": "The initial instruction already hides during drawing. Preserve the raw length percentage, including values above 100%.",
+      "evidence": [
+        {
+          "offset": 523320,
+          "excerpt": "style:{fontSize:\"48px\",lineHeight:1.1,fontWeight:700,color:\"#00D4FF\",fontFamily:\"var(--font-mono)\"}"
+        },
+        {
+          "offset": 523476,
+          "excerpt": "style:{fontSize:\"24px\",lineHeight:1.25,overflowWrap:\"anywhere\",fontWeight:600,color:\"#fff\",marginTop:\"4px\"}"
+        },
+        {
+          "offset": 523738,
+          "excerpt": "style:{position:\"absolute\",bottom:\"clamp(60px, 15cqi, 100px)\",left:0,right:0,textAlign:\"center\",color:\"rgba(255,255,255,0.7)\",fontSize:\"1.1rem\",pointerEvents:\"none\"}"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "name": "Sky Ladder Stretch",
+      "reviewHash": "playable2_20260927020828_9vxaxo",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_9vxaxo/playable2_20260927020828_9vxaxo/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_9vxaxo/playable2_20260927020828_9vxaxo/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Score and best are stacked at the center; with two values they should occupy the two sides of the top row."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "The HUD uses previous 40 px top/25 px side spacing, and score/best use very different numeric sizes."
+        }
+      ],
+      "preserve": "Keep pixel art, dense ladder rungs, harder geometry, and the return animation.",
+      "evidence": [
+        {
+          "offset": 392492,
+          "excerpt": "style:{fontSize:\"clamp(48px, 12cqi, 72px)\",lineHeight:1}"
+        },
+        {
+          "offset": 392623,
+          "excerpt": "style:{fontSize:\"clamp(14px, 4cqi, 18px)\",opacity:1,padding:\"6px 12px\",borderRadius:0,background:\"#17364b\",border:\"3px solid #fff5ce\"}"
+        },
+        {
+          "offset": 392824,
+          "excerpt": "style:{position:\"absolute\",top:\"40%\",left:\"50%\",transform:\"translate(-50%, -50%)\",zIndex:10,opacity:i?1:0,pointerEvents:\"none\",width:\"calc(100% - 50px)\",maxWidth:\"320px\"}"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "name": "Fridge Inspector",
+      "reviewHash": "playable2_20260927020828_bnkh36",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_bnkh36/playable2_20260927020828_bnkh36/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_bnkh36/playable2_20260927020828_bnkh36/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The opening screen still displays the game-name heading."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The score retains a SCORE caption."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The score uses the old numeric sizing instead of the agreed 28 px HUD role."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Screens and bottom answer controls still use 25 px sides / 40 px vertical margins."
+        }
+      ],
+      "preserve": "Keep food questions, answer controls, response countdown, and success/failure messages.",
+      "evidence": [
+        {
+          "offset": 525193,
+          "excerpt": "style:{flex:\"0 0 auto\",display:\"flex\",gap:\"12px\",padding:\"16px 25px\",paddingBottom:\"calc(40px + env(safe-area-inset-bottom, 0px))\"}"
+        },
+        {
+          "offset": 525406,
+          "excerpt": "style:{flex:1,padding:\"18px 0\",fontSize:\"24px\",backgroundColor:\"var(--col-pass)\",color:\"#FFF\",borderRadius:\"24px\",boxShadow:\"0 8px 0 #C62828\",opacity:r!==\"playing\"||h!==null?.7:1}"
+        },
+        {
+          "offset": 525679,
+          "excerpt": "style:{flex:1,padding:\"18px 0\",fontSize:\"24px\",backgroundColor:\"var(--col-eat)\",color:\"#FFF\",borderRadius:\"24px\",boxShadow:\"0 8px 0 #2E7D32\",opacity:r!==\"playing\"||h!==null?.7:1}"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "name": "Color Match",
+      "reviewHash": "playable2_20260927020828_86gl5z",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_86gl5z/playable2_20260927020828_86gl5z/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_86gl5z/playable2_20260927020828_86gl5z/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The HUD still shows LEVEL."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Progress and match percentage use small 14 px text, not the agreed numeric role."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Top and bottom UI use 40 px vertical / 25 px side offsets."
+        }
+      ],
+      "preserve": "Keep the target-color swatch and current mixing controls; source-color names have already been removed.",
+      "evidence": [
+        {
+          "offset": 522339,
+          "excerpt": "style:{margin:\"0 0 16px 0\",color:\"var(--color-text)\",fontSize:\"28px\"}"
+        },
+        {
+          "offset": 522687,
+          "excerpt": "style:{width:\"100%\",padding:\"16px\",borderRadius:\"16px\",border:\"none\",background:\"#15803d\",color:\"#fff\",fontSize:\"18px\",fontWeight:\"bold\",cursor:\"pointer\",boxShadow:\"0 4px 12px rgba(21,128,61,0.25)\"}"
+        },
+        {
+          "offset": 522967,
+          "excerpt": "style:{width:\"100%\",padding:\"16px\",borderRadius:\"16px\",border:\"none\",background:\"#1d4ed8\",color:\"#fff\",fontSize:\"18px\",fontWeight:\"bold\",cursor:\"pointer\",opacity:w?.6:1,boxShadow:\"0 4px 12px rgba(29,78,216,0.25)\"}"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "name": "Color Wheel",
+      "reviewHash": "playable2_20260927020828_y5a1vt",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_y5a1vt/playable2_20260927020828_y5a1vt/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_y5a1vt/playable2_20260927020828_y5a1vt/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The HUD still includes LEVEL and redundant status prefixes."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The count and target status are vertically stacked at the center; the count is oversized rather than a 28 px top-row value."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header still uses 40 px top / 25 px sides."
+        }
+      ],
+      "preserve": "Preserve the required target-color cue and random spin reversal.",
+      "evidence": [
+        {
+          "offset": 517472,
+          "excerpt": "style:{fontSize:\"3rem\",margin:\"0 0 10px 0\"}"
+        },
+        {
+          "offset": 517648,
+          "excerpt": "style:{color:\"var(--color-text-dim)\",fontSize:\"1.2rem\",marginBottom:\"40px\",textAlign:\"center\"}"
+        },
+        {
+          "offset": 517782,
+          "excerpt": "style:{color:\"#fff\",fontSize:\"1.5rem\"}"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "name": "Are You Dumb?",
+      "reviewHash": "playable2_20260927021659_jfkvov",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927021659_jfkvov/playable2_20260927021659_jfkvov/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927021659_jfkvov/playable2_20260927021659_jfkvov/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The opening game-name heading is still present."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "Question/score captions can be simplified to compact progress and score status."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "HUD typography does not use a consistent 28 px numeric role."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Screen containers are explicitly forced to the older 40 px / 25 px padding."
+        }
+      ],
+      "preserve": "Keep the actual quiz questions and answer choices; they are gameplay, not titles.",
+      "evidence": [
+        {
+          "offset": 517299,
+          "excerpt": "style:{fontSize:\"32px\",margin:\"0 0 16px 0\"}"
+        },
+        {
+          "offset": 517385,
+          "excerpt": "style:{fontSize:\"64px\",fontWeight:900,fontFamily:\"var(--font-display)\",marginBottom:\"16px\"}"
+        },
+        {
+          "offset": 517523,
+          "excerpt": "style:{fontSize:\"20px\",color:\"var(--color-gray-dark)\",margin:0}"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "name": "Pink ASMR Book",
+      "reviewHash": "playable2_20260927020825_z23fv4",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_z23fv4/playable2_20260927020825_z23fv4/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_z23fv4/playable2_20260927020825_z23fv4/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The cover still displays BOOK_TITLE as a separate heading."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Tool strip, pages, and lower controls use 10/20 px side spacing and 40 px vertical offsets."
+        }
+      ],
+      "preserve": "Keep the Tap to Open button and functional book/tool tabs.",
+      "evidence": [
+        {
+          "offset": 605916,
+          "excerpt": "style:{flex:\"0 0 auto\",padding:\"max(16px, env(safe-area-inset-bottom, 0px)) 20px 16px\",display:\"flex\",justifyContent:\"center\"}"
+        },
+        {
+          "offset": 606130,
+          "excerpt": "style:{padding:\"12px 36px\",borderRadius:\"24px\",border:\"2px solid var(--c-pink-mid)\",background:\"transparent\",color:\"var(--c-pink-accent)\",fontFamily:\"var(--font-body)\",fontWeight:\"bold\",cursor:\"pointer\"}"
+        },
+        {
+          "offset": 607436,
+          "excerpt": "#root {\n          width: 100%; height: 100%; margin: 0; padding: 0;\n          overflow: hidden;\n          background-color: var(--c-pink-bg);\n          font-family: var(--font-body);\n          -webkit-user-select: none;\n          user-select: none;\n          -webkit-touch-callout: none;\n        }"
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "name": "Sell Art",
+      "reviewHash": "playable2_20260927020825_iyfbfj",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_iyfbfj/playable2_20260927020825_iyfbfj/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_iyfbfj/playable2_20260927020825_iyfbfj/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Cash is a 24 px corner status rather than a 28 px top-centered score."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The balance/cash caption repeats the currency value."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header and footer use 20 px sides and old 40 px vertical overrides."
+        }
+      ],
+      "preserve": "Keep Sell and Shop functionality; shop section headings are not game-name headings.",
+      "evidence": [
+        {
+          "offset": 522887,
+          "excerpt": "style:{fontSize:\"14px\",fontWeight:\"bold\"}"
+        },
+        {
+          "offset": 522968,
+          "excerpt": "style:{fontSize:\"12px\",color:\"rgba(255,255,255,0.5)\",fontFamily:\"var(--font-mono)\"}"
+        },
+        {
+          "offset": 523123,
+          "excerpt": ".cost,N.lvl,N.setLvl),style:{padding:\"8px 16px\",borderRadius:\"12px\",border:\"none\",fontWeight:\"bold\",fontFamily:\"var(--font-mono)\",background:r>=N.cost?\"var(--gold-dark)\":\"rgba(255,255,255,0.1)\",color:r>=N.cost?\"#1e293b\":\"rgba(255,255,255,0.3)\",cursor:r>=N.cost?\"pointer\":\"default\",transition:\"background 0.2s\"}"
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "name": "Melody Canvas",
+      "reviewHash": "playable2_20260927020825_hjn7q5",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_hjn7q5/playable2_20260927020825_hjn7q5/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_hjn7q5/playable2_20260927020825_hjn7q5/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The opening screen still shows the Melody Canvas title."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "The note-guide overlay is placed at the previous 40 px top offset."
+        }
+      ],
+      "preserve": "Keep pitch labels because they explain the instrument zones; do not remove audio-unlock behavior.",
+      "evidence": [
+        {
+          "offset": 522972,
+          "excerpt": "#root {\n      width: 100%;\n      height: 100%;\n      margin: 0;\n      padding: 0;\n      overflow: hidden;\n      background-color: var(--color-bg);\n      touch-action: none; /* \\u963B\\u6B62\\u9ED8\\u8BA4\\u6ED1\\u52A8\\u548C\\u7F29\\u653E */\n      user-select: none;\n      -webkit-user-select: none;\n    }"
+        },
+        {
+          "offset": 523313,
+          "excerpt": ".start-btn {\n      font-family: var(--font-display);\n      font-weight: 700;\n      font-size: clamp(20px, 6cqi, 32px);\n      color: var(--color-bg);\n      background: var(--color-line);\n      border: none;\n      border-radius: 99px;\n      padding: 16px 48px;\n      cursor: pointer;\n      box-shadow: 0 0 24px r"
+        },
+        {
+          "offset": 529027,
+          "excerpt": "style:{fontFamily:\"var(--font-display)\",color:\"var(--color-line)\",fontSize:\"clamp(28px, 8cqi, 48px)\",marginBottom:\"48px\",textShadow:\"0 0 16px rgba(255,207,84,0.5)\",zIndex:2}"
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "name": "Orbital Circle",
+      "reviewHash": "playable2_20260927020825_n4r34c",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_n4r34c/playable2_20260927020825_n4r34c/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_n4r34c/playable2_20260927020825_n4r34c/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "An always-visible game-name heading remains above the circle workspace."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Layout uses a generic 16–32 px all-around clamp instead of the approved four distinct margins."
+        }
+      ],
+      "preserve": "Keep the circle-quality result and essential drawing feedback.",
+      "evidence": [
+        {
+          "offset": 521586,
+          "excerpt": "style:{fontSize:\"clamp(20px, 5cqi, 28px)\",color:\"var(--primary)\",marginTop:\"8px\",fontWeight:700,textTransform:\"uppercase\",letterSpacing:\"2px\"}"
+        },
+        {
+          "offset": 521910,
+          "excerpt": "style:{padding:\"16px 24px\",borderRadius:\"100px\",backgroundColor:\"var(--primary)\",color:\"#fff\",fontSize:\"16px\",fontWeight:700,boxShadow:\"0 4px 16px rgba(59, 130, 246, 0.4)\",transition:\"transform 0.1s\"}"
+        },
+        {
+          "offset": 522376,
+          "excerpt": "style:{padding:\"16px 24px\",borderRadius:\"100px\",backgroundColor:\"rgba(255, 255, 255, 0.1)\",color:\"#fff\",fontSize:\"16px\",fontWeight:700,opacity:A?.55:1,border:\"1px solid rgba(255, 255, 255, 0.2)\"}"
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "name": "Sand Digging",
+      "reviewHash": "playable2_20260927020825_lnwh1h",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_lnwh1h/playable2_20260927020825_lnwh1h/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_lnwh1h/playable2_20260927020825_lnwh1h/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The level indicator still reads LEVEL n; use n/3."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Progress and captured-ball status need the agreed numeric HUD styling."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "HUD/reset positions retain 40 px vertical / 25 px side offsets."
+        }
+      ],
+      "preserve": "Keep the 100-ball target, all three levels, smooth sand, and current obstacle order.",
+      "evidence": [
+        {
+          "offset": 610843,
+          "excerpt": "style:{position:\"absolute\",\nbottom:\"max(40px, calc(env(safe-area-inset-bottom, 0px) + 16px))\"\n,left:\"25px\",zIndex:10}"
+        },
+        {
+          "offset": 611007,
+          "excerpt": "style:{padding:\"10px 20px\",fontSize:\"clamp(14px, 4cqi, 18px)\"}"
+        },
+        {
+          "offset": 611556,
+          "excerpt": "style:{fontFamily:\"var(--font-display)\",color:\"#fff\",fontSize:\"clamp(32px, 10cqi, 48px)\",textShadow:\"0 4px 0 #d17a00\",marginBottom:\"40px\",textAlign:\"center\",padding:\"0 20px\"}"
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "name": "Synthwave Stack",
+      "reviewHash": "playable2_20260927020825_ufhwuj",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_ufhwuj/playable2_20260927020825_ufhwuj/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_ufhwuj/playable2_20260927020825_ufhwuj/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The idle screen retains the game-name heading."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "Top counters still include TIME: and SCORE:."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The two numbers are 24 px and the HUD is at 10% of screen height rather than the fixed top row."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Top status uses 20 px side spacing rather than 30."
+        }
+      ],
+      "preserve": "Preserve alternating directions, multicolor single-gradient blocks, bevel/impact effects, and background particles.",
+      "evidence": [
+        {
+          "offset": 384715,
+          "excerpt": "style:{fontFamily:\"var(--font-display)\",color:\"#fff\",textShadow:\"0 0 15px var(--neon-cyan), 0 0 30px var(--neon-magenta)\",fontSize:\"clamp(32px, 10cqi, 48px)\",textAlign:\"center\",marginBottom:\"10px\"}"
+        },
+        {
+          "offset": 385501,
+          "excerpt": "style:{fontFamily:\"var(--font-display)\",color:\"var(--neon-magenta)\",textShadow:\"0 0 15px var(--neon-magenta)\",fontSize:\"clamp(28px, 8cqi, 40px)\",marginBottom:\"10px\"}"
+        },
+        {
+          "offset": 385725,
+          "excerpt": "style:{fontFamily:\"var(--font-mono)\",color:\"#fff\",fontSize:\"32px\",marginBottom:\"40px\"}"
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "name": "Ant Trapper",
+      "reviewHash": "playable2_20260927020825_kxh9p4",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_kxh9p4/playable2_20260927020825_kxh9p4/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_kxh9p4/playable2_20260927020825_kxh9p4/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Cash is 32 px while the ant count is 14 px; both status values need consistent numeric styling."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Page uses 25 px sides / 40 px vertical padding; instruction is 14 px."
+        }
+      ],
+      "preserve": "The instruction already hides after interaction; preserve ant spawning and functional purchase controls.",
+      "evidence": [
+        {
+          "offset": 473965,
+          "excerpt": "style:{fontFamily:\"var(--font-body)\",fontSize:\"12px\",marginTop:\"4px\"}"
+        },
+        {
+          "offset": 474089,
+          "excerpt": "style:{flex:1,minWidth:0,minHeight:\"70px\",padding:\"10px 8px\",background:\"#b91c1c\",border:\"2px solid #2a2a2a\",borderRadius:\"12px\",color:\"#fff\",fontFamily:\"var(--font-display)\",fontSize:\"22px\",lineHeight:1.15,cursor:\"pointer\",boxShadow:\"0 3px 0 rgba(0,0,0,.18)\"}"
+        },
+        {
+          "offset": 474451,
+          "excerpt": "style:{fontFamily:\"var(--font-body)\",fontSize:\"12px\",marginTop:\"4px\"}"
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "name": "Cube Physics",
+      "reviewHash": "playable2_20260927021136_x3i163",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927021136_x3i163/playable2_20260927021136_x3i163/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927021136_x3i163/playable2_20260927021136_x3i163/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "CUBE PHYSICS is still displayed as a separate game title."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "“Tap empty space to add cubes” remains in the header after interaction."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header uses 16–32 px / 20–40 px clamps rather than the approved safe margins; instruction is only 14–16 px."
+        }
+      ],
+      "preserve": "Keep manual spawning, different cube sizes, split/popping feedback, and stronger impulses.",
+      "evidence": [
+        {
+          "offset": 479351,
+          "excerpt": "style:{margin:0,fontFamily:\"var(--font-display)\",fontSize:\"clamp(24px, 8vw, 32px)\",fontWeight:700,color:\"var(--color-text-main)\",letterSpacing:\"-0.02em\",lineHeight:1.2}"
+        },
+        {
+          "offset": 479576,
+          "excerpt": "style:{margin:\"4px 0 0 0\",fontFamily:\"var(--font-body)\",fontSize:\"clamp(14px, 4vw, 16px)\",color:\"var(--color-text-sub)\",fontWeight:400}"
+        },
+        {
+          "offset": 480476,
+          "excerpt": "style:{display:\"block\",position:\"absolute\",top:0,left:0,cursor:\"pointer\",touchAction:\"none\"}"
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "name": "Like If You Hate Bugs",
+      "reviewHash": "playable2_20260927021201_7etgko",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927021201_7etgko/playable2_20260927021201_7etgko/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927021201_7etgko/playable2_20260927021201_7etgko/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "W",
+          "category": "Unnecessary mock host chrome",
+          "detail": "The active layout contains mock post author/timestamp chrome, including “Posted 1 min ago”."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Framing uses 20 px sides / 40 px top and an oversized post heading."
+        }
+      ],
+      "preserve": "Keep the bug, 100 HP, meaningful Like action, and combat outcome; simplify the post framing without removing the objective.",
+      "evidence": [
+        {
+          "offset": 527288,
+          "excerpt": "style:{display:\"flex\",flexDirection:\"column\",gap:16,width:\"100%\",maxWidth:300,padding:\"0 20px\"}"
+        },
+        {
+          "offset": 527424,
+          "excerpt": "style:{width:\"100%\",padding:\"16px\",borderRadius:12,background:\"#fff\",color:\"#000\",border:\"none\",fontFamily:\"var(--font-display)\",fontSize:24,cursor:\"pointer\",textTransform:\"uppercase\"}"
+        },
+        {
+          "offset": 527677,
+          "excerpt": "style:{width:\"100%\",padding:\"16px\",borderRadius:12,background:\"var(--color-panel)\",color:\"#fff\",border:\"2px solid #333\",fontFamily:\"var(--font-display)\",fontSize:24,cursor:M?\"not-allowed\":\"pointer\",textTransform:\"uppercase\",opacity:M?.55:1}"
+        }
+      ]
+    },
+    {
+      "number": 23,
+      "name": "Army Commander",
+      "reviewHash": "playable2_20260928023148_i47u62",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928023148_i47u62/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928023148_i47u62/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The game-name heading is shown in the active top HUD."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The status number is 16 px and sits opposite the title; once the title is removed, a lone status should be centered."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Top overlay uses 40 px top / 25 px sides."
+        }
+      ],
+      "preserve": "Keep recruitable troops, respawning groups, matching troop sizes, faster movement, and real end UI.",
+      "evidence": [
+        {
+          "offset": 525495,
+          "excerpt": "style:{display:\"flex\",gap:\"16px\",flexWrap:\"wrap\",justifyContent:\"center\",width:\"100%\",padding:\"0 20px\"}"
+        },
+        {
+          "offset": 525640,
+          "excerpt": "style:{flex:\"1 1 auto\",minWidth:\"130px\",padding:\"16px 20px\",fontFamily:\"var(--font-body)\",fontSize:\"18px\",fontWeight:\"bold\",color:\"white\",backgroundColor:\"#2d82fe\",border:\"none\",borderRadius:\"32px\",cursor:\"pointer\",boxShadow:\"0 4px 12px rgba(45,130,254,0.3)\"}"
+        },
+        {
+          "offset": 525972,
+          "excerpt": "style:{flex:\"1 1 auto\",minWidth:\"130px\",padding:\"16px 20px\",fontFamily:\"var(--font-body)\",fontSize:\"18px\",fontWeight:\"bold\",color:\"white\",backgroundColor:\"#ff2d55\",border:\"none\",borderRadius:\"32px\",cursor:B?\"not-allowed\":\"pointer\",opacity:B?.6:1,boxShadow:\"0 4px 12px rgba(255,45,85,0.3)\"}"
+        }
+      ]
+    },
+    {
+      "number": 24,
+      "name": "Police Chase Escape",
+      "reviewHash": "playable2_20260928023148_kiq9wu",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928023148_kiq9wu/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928023148_kiq9wu/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "F",
+          "category": "Instruction / reference typography",
+          "detail": "The drawing instruction uses a 20–28 px heading clamp rather than the 18 px instruction role / 20 px caption limit."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "The top status bar is only 16 px from the edge; guide/result panels still use 25 px sides and old vertical padding."
+        }
+      ],
+      "preserve": "The instruction already disappears when the route is committed. Keep safe-zone lettering and visible outcome screens.",
+      "evidence": [
+        {
+          "offset": 391063,
+          "excerpt": "style:{fontFamily:\"Arial, sans-serif\",fontWeight:900,fontSize:\"clamp(36px, 9vw, 52px)\",lineHeight:1.1,textAlign:\"center\",maxWidth:\"100%\",overflowWrap:\"anywhere\",margin:\"0 0 28px 0\",color:r===\"win\"?\"#4ade80\":\"#ff5a5f\",textShadow:\"0 3px 14px rgba(0,0,0,0.9)\"}"
+        },
+        {
+          "offset": 391499,
+          "excerpt": "style:{padding:\"16px 32px\",fontSize:\"20px\",fontFamily:\"Arial, sans-serif\",fontWeight:900,backgroundColor:\"#fff\",color:\"#111827\",border:\"none\",borderRadius:\"30px\",cursor:\"pointer\",flex:\"0 0 auto\"}"
+        },
+        {
+          "offset": 391808,
+          "excerpt": "style:{padding:\"16px 32px\",fontSize:\"20px\",fontFamily:\"Arial, sans-serif\",fontWeight:900,backgroundColor:\"var(--color-green)\",color:\"#000\",border:\"none\",borderRadius:\"30px\",cursor:\"pointer\",opacity:y?.6:1,flex:\"0 0 auto\"}"
+        }
+      ]
+    },
+    {
+      "number": 25,
+      "name": "Soda Drop Physics Puzzle",
+      "reviewHash": "playable2_20260928024159_iasubp",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024159_iasubp/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024159_iasubp/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The top counter still reads Level n."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The fill percentage is displayed at bottom-right rather than sharing the top status row with level progress."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "UI uses the previous 25 px sides / 40 px bottom spacing."
+        },
+        {
+          "code": "F",
+          "category": "Instruction / reference typography",
+          "detail": "The initial instruction is 22 px, exceeding the 20 px caption upper bound."
+        }
+      ],
+      "preserve": "Keep reset on the same level and the separate New Level button. The guide already hides after the first valid line segment.",
+      "evidence": [
+        {
+          "offset": 479937,
+          "excerpt": "style:{display:\"flex\",gap:\"16px\",flexWrap:\"wrap\",justifyContent:\"center\",padding:\"0 20px\"}"
+        },
+        {
+          "offset": 480085,
+          "excerpt": "style:{opacity:me?.6:1,padding:\"14px 28px\",borderRadius:\"30px\",border:\"2px solid #d1d5db\",backgroundColor:\"#fff\",color:\"var(--color-primary)\",fontSize:\"20px\",fontWeight:\"bold\",boxShadow:\"0 4px 0 #d1d5db\"}"
+        },
+        {
+          "offset": 480343,
+          "excerpt": "style:{padding:\"14px 28px\",borderRadius:\"30px\",border:\"none\",backgroundColor:\"var(--color-soda)\",color:\"#fff\",fontSize:\"20px\",fontWeight:\"bold\",boxShadow:\"0 4px 0 #5ab5c2\"}"
+        }
+      ]
+    },
+    {
+      "number": 26,
+      "name": "Phone Charging",
+      "reviewHash": "playable2_20260928024549_3bsc4d",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024549_3bsc4d/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024549_3bsc4d/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The active top overlay still displays the game-name TITLE."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "The lower Tap to Plug instruction is rendered continuously."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Top overlay uses 40/25 spacing; the instruction uses 12 px side insets and 22 px text."
+        }
+      ],
+      "preserve": "Keep the large battery number inside the phone as gameplay content, cable pivot/line, snap alignment, and the 100% win.",
+      "evidence": [
+        {
+          "offset": 390255,
+          "excerpt": "style:{fontFamily:\"var(--font-display)\",fontSize:\"48px\",color:o===\"full\"?\"var(--color-green)\":\"var(--color-red)\",marginBottom:\"40px\"}"
+        },
+        {
+          "offset": 390567,
+          "excerpt": "style:{padding:\"16px 32px\",fontFamily:\"var(--font-display)\",fontSize:\"24px\",background:\"white\",color:\"black\",border:\"none\",borderRadius:\"12px\",cursor:\"pointer\",boxShadow:\"0 4px 12px rgba(255,255,255,0.2)\"}"
+        },
+        {
+          "offset": 390860,
+          "excerpt": "style:{padding:\"16px 32px\",fontFamily:\"var(--font-display)\",fontSize:\"24px\",background:\"var(--color-red)\",color:\"white\",border:\"none\",borderRadius:\"12px\",cursor:\"pointer\",opacity:a?.55:1,boxShadow:\"0 4px 12px rgba(248,113,113,0.3)\"}"
+        }
+      ]
+    },
+    {
+      "number": 27,
+      "name": "Zen Bounce Sandbox",
+      "reviewHash": "playable2_20260928024805_31g1lw",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024805_31g1lw/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024805_31g1lw/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The top cash value repeats its meaning with a CASH EARNED caption."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Cash uses an oversized 36–64 px clamp instead of the numeric HUD role."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "The draw instruction is always present in the bottom controls."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Top/bottom use 25 px sides and 40 px margins; instruction is 14 px."
+        }
+      ],
+      "preserve": "Keep captured balls, randomized spawn positions, slower constant-speed infinite bouncing, and the Add Ball control.",
+      "evidence": [
+        {
+          "offset": 489160,
+          "excerpt": "style:{fontFamily:\"var(--font-display)\",fontSize:\"12px\",fontWeight:700,color:\"var(--color-text-dim)\",textTransform:\"uppercase\",marginBottom:\"4px\"}"
+        },
+        {
+          "offset": 489353,
+          "excerpt": "style:{fontFamily:\"var(--font-display)\",fontSize:\"24px\",fontWeight:700,color:\"#fff\"}"
+        },
+        {
+          "offset": 489478,
+          "excerpt": "style:{flex:1,fontFamily:\"var(--font-body)\",fontSize:\"14px\",color:\"rgba(255,255,255,0.72)\",fontStyle:\"italic\",textShadow:\"0 2px 4px rgba(0,0,0,0.5)\",lineHeight:1.2}"
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "name": "Double Tap Reaction",
+      "reviewHash": "playable2_20260928024950_5wf6st",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024950_5wf6st/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024950_5wf6st/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The game-name heading remains above the main timer."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header/result controls retain old 40/25 spacing and 14–16 px guide typography."
+        }
+      ],
+      "preserve": "Keep the large central timer and target time: these are the core playable objects, not an ordinary score HUD.",
+      "evidence": [
+        {
+          "offset": 521368,
+          "excerpt": "style:{fontSize:\"20px\",color:\"var(--color-accent)\"}"
+        },
+        {
+          "offset": 521528,
+          "excerpt": "style:{fontSize:\"12px\",color:\"var(--color-text-dim)\",marginBottom:4,fontFamily:\"var(--font-body)\"}"
+        },
+        {
+          "offset": 521668,
+          "excerpt": "style:{fontSize:\"20px\"}"
+        }
+      ]
+    },
+    {
+      "number": 29,
+      "name": "Infinite Age Guesser",
+      "reviewHash": "playable2_20260928025305_2wpf3o",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928025305_2wpf3o/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928025305_2wpf3o/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The only score is off-center and only 20 px."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The SCORE label repeats the numeric value."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header still uses 40 px top / 25 px sides."
+        }
+      ],
+      "preserve": "Keep the actual age question and age feedback.",
+      "evidence": [
+        {
+          "offset": 521248,
+          "excerpt": "style:{fontFamily:\"var(--font-display)\",fontSize:\"42px\",lineHeight:.9}"
+        },
+        {
+          "offset": 521706,
+          "excerpt": "style:{width:\"100%\",padding:\"16px\",borderRadius:\"16px\",border:\"none\",background:\"#ffffff\",color:\"#111\",fontSize:\"18px\",fontWeight:\"bold\",fontFamily:\"var(--font-body)\",cursor:\"pointer\",boxShadow:\"0 4px 12px rgba(255,255,255,0.2)\"}"
+        },
+        {
+          "offset": 522073,
+          "excerpt": "style:{width:\"100%\",padding:\"16px\",borderRadius:\"16px\",border:\"none\",background:\"linear-gradient(90deg, #a8ff78 0%, #78ffd6 100%)\",color:\"#0a3a2a\",fontSize:\"18px\",fontWeight:\"bold\",fontFamily:\"var(--font-body)\",cursor:\"pointer\",boxShadow:\"0 4px 16px rgba(120,255,214,0.4)\"}"
+        }
+      ]
+    },
+    {
+      "number": 30,
+      "name": "Find the Mistake",
+      "reviewHash": "playable2_20260928025330_g1w5ss",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928025330_g1w5ss/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928025330_g1w5ss/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The title and the separate “tap the odd” guide duplicate the same instruction."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "Progress still includes the LEVEL label."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Progress uses an 18–24 px clamp rather than the numeric role."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "The guide remains throughout active rounds instead of hiding after a tile action."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header retains 40 px top / 25 px sides."
+        }
+      ],
+      "preserve": "Keep the 12-round board and meaningful win/fail feedback; no reward needs to be reintroduced.",
+      "evidence": [
+        {
+          "offset": 516516,
+          "excerpt": "rewardImageWrapper:{width:\"80%\",aspectRatio:\"1 / 1\",backgroundColor:\"#fff\",borderRadius:\"24px\",padding:\"16px\",boxShadow:\"0 8px 16px rgba(0,0,0,0.08)\"}"
+        },
+        {
+          "offset": 516798,
+          "excerpt": "btnPrimary:{width:\"100%\",padding:\"16px\",borderRadius:\"999px\",border:\"none\",backgroundColor:\"var(--accent-color)\",color:\"#fff\",fontSize:\"20px\",fontFamily:\"inherit\",fontWeight:\"bold\",cursor:\"pointer\",boxShadow:\"0 4px 12px rgba(66, 153, 225, 0.3)\"}"
+        },
+        {
+          "offset": 517044,
+          "excerpt": "btnSecondary:{width:\"100%\",padding:\"16px\",borderRadius:\"999px\",border:\"2px solid var(--accent-color)\",backgroundColor:\"transparent\",color:\"var(--accent-color)\",fontSize:\"20px\",fontFamily:\"inherit\",fontWeight:\"bold\",cursor:\"pointer\"}"
+        }
+      ]
+    },
+    {
+      "number": 31,
+      "name": "Real-Time Liquify",
+      "reviewHash": "playable2_20260928025635_idnu2k",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928025635_idnu2k/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928025635_idnu2k/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "Liquify Editor remains as a redundant application heading."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header/empty-state/tool spacing does not follow 30/30/30/50."
+        }
+      ],
+      "preserve": "Keep Start Live Camera, denied-camera error, Undo, Reset, and labeled editing tools.",
+      "evidence": [
+        {
+          "offset": 286439,
+          "excerpt": ".src,onPointerDown:R=>R.stopPropagation(),style:{position:\"absolute\",top:\"50%\",left:\"50%\",width:\"120px\",height:\"120px\",marginTop:\"-60px\",marginLeft:\"-60px\",objectFit:\"contain\"}"
+        },
+        {
+          "offset": 287605,
+          "excerpt": "style:{border:\"none\",fontFamily:\"inherit\",fontSize:\"16px\"}"
+        },
+        {
+          "offset": 287745,
+          "excerpt": "style:{maxWidth:\"300px\",padding:\"0 25px\",textAlign:\"center\",color:\"#ffb4a2\",fontSize:\"14px\",lineHeight:1.4}"
+        }
+      ]
+    },
+    {
+      "number": 33,
+      "name": "Street Hobo",
+      "reviewHash": "playable2_20260928030116_67pobm",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030116_67pobm/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030116_67pobm/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The opening screen still contains the large game-name heading."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "HUD and bottom controls use old 25 px side / 40 px vertical placement."
+        }
+      ],
+      "preserve": "Keep BEG/PUNCH/JUMP, shop controls, lower cars, collision damage, jump dodging, and the following camera.",
+      "evidence": [
+        {
+          "offset": 399721,
+          "excerpt": "style:{fontFamily:\"var(--font-display)\",fontSize:\"20px\",whiteSpace:\"nowrap\",overflow:\"hidden\",textOverflow:\"ellipsis\"}"
+        },
+        {
+          "offset": 399876,
+          "excerpt": "style:{fontFamily:\"var(--font-body)\",fontSize:\"14px\",color:\"#666\"}"
+        },
+        {
+          "offset": 400160,
+          "excerpt": "style:{marginTop:\"16px\",padding:\"12px\",background:\"#ccc\",border:\"none\",borderRadius:\"8px\",fontFamily:\"var(--font-display)\",fontSize:\"20px\",cursor:\"pointer\"}"
+        }
+      ]
+    },
+    {
+      "number": 34,
+      "name": "Particle Art Creator",
+      "reviewHash": "playable2_20260928030211_tdjer2",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030211_tdjer2/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030211_tdjer2/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The control panel still has the redundant Particle Studio heading."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "DRAG TO SCULPT and a separate Tip repeat the same instruction and remain visible."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Controls/instruction retain 25 px sides / 40 px bottom spacing and inconsistent 11–18 px explanatory text."
+        }
+      ],
+      "preserve": "Preserve a fully visible control panel below the artwork with no internal scrolling.",
+      "evidence": [
+        {
+          "offset": 288286,
+          "excerpt": "style:{flex:1,padding:\"6px\",background:S===R?\"var(--accent)\":\"rgba(0,0,0,0.5)\",color:\"#fff\",border:\"1px solid var(--panel-border)\",borderRadius:\"6px\",cursor:\"pointer\",fontSize:\"12px\"}"
+        },
+        {
+          "offset": 288713,
+          "excerpt": "style:{gridColumn:\"1 / -1\",minHeight:\"44px\",padding:\"9px 14px\",borderRadius:\"8px\",border:\"1px solid var(--accent)\",background:\"var(--accent)\",color:\"#111\",fontWeight:700,cursor:\"pointer\"}"
+        },
+        {
+          "offset": 288965,
+          "excerpt": "style:{gridColumn:\"1 / -1\",fontSize:\"11px\",color:\"var(--text-dim)\",marginTop:0,lineHeight:1.2}"
+        }
+      ]
+    },
+    {
+      "number": 36,
+      "name": "Fruit Peeler Challenge",
+      "reviewHash": "playable2_20260928030642_uthymy",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030642_uthymy/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030642_uthymy/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The active screen still displays the POTATO heading."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Peels-left and peeled-percentage status need the common two-sided numeric HUD."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "Tap to Drop instruction remains available in the active state rather than hiding after the first peel."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header still uses 40 px top / 25 px sides, with small status typography."
+        }
+      ],
+      "preserve": "Keep five peels, the 10% smaller peeler, accurate potato coverage, and 100%-only success.",
+      "evidence": [
+        {
+          "offset": 527877,
+          "excerpt": "style:{padding:\"40px 24px\",textAlign:\"center\",width:\"100%\",maxWidth:\"360px\",background:r===\"level_fail\"?\"rgba(255,235,238,0.9)\":\"rgba(255,255,255,0.9)\"}"
+        },
+        {
+          "offset": 528058,
+          "excerpt": "style:{fontFamily:\"var(--font-display)\",fontSize:\"48px\",margin:\"0 0 16px 0\",color:r===\"level_fail\"?\"var(--color-primary)\":\"var(--color-success)\",lineHeight:1}"
+        },
+        {
+          "offset": 528353,
+          "excerpt": "style:{fontFamily:\"var(--font-body)\",fontSize:\"18px\",color:\"var(--color-text)\",margin:\"0 0 32px 0\",fontWeight:\"bold\"}"
+        }
+      ]
+    },
+    {
+      "number": 37,
+      "name": "Fishing Net Slice",
+      "reviewHash": "playable2_20260928030932_n6urd6",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030932_n6urd6/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030932_n6urd6/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The opening overlay still shows the large game-name title."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "HUD retains SCORE: and TIME:."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Top numbers are 32 px rather than 28."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "HUD uses 40 px top / 25 px sides; instructions are 16 px."
+        }
+      ],
+      "preserve": "Keep fish art, flexible continuous dragging, node-by-node tearing, and required result screens.",
+      "evidence": [
+        {
+          "offset": 525963,
+          "excerpt": ".hud { position:absolute; top:calc(40px + env(safe-area-inset-top, 0px)); left:25px; right:25px; display:flex; justify-content:space-between; pointer-events:none; font-family:var(--font-display); font-size:32px; color:#fff; text-shadow:0 3px 6px rgba(0,0,0,0.8); z-index:10; }"
+        },
+        {
+          "offset": 526248,
+          "excerpt": ".btn-group { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; padding:0 20px; }"
+        },
+        {
+          "offset": 527182,
+          "excerpt": "style:{maxWidth:\"340px\",padding:\"0 25px\",marginBottom:\"28px\",textAlign:\"center\",fontFamily:\"var(--font-body)\",fontSize:\"16px\",lineHeight:1.35,color:\"rgba(255,255,255,.86)\",letterSpacing:\".4px\"}"
+        }
+      ]
+    },
+    {
+      "number": 38,
+      "name": "The Maze of Horror",
+      "reviewHash": "playable2_20260928031234_805376",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928031234_805376/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928031234_805376/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The game title stays above the maze."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "The subtitle remains visible during navigation."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header/footer use old 40/25 margins and 14 px instruction text."
+        }
+      ],
+      "preserve": "Keep movement arrows, maze visibility, and horror feedback.",
+      "evidence": [
+        {
+          "offset": 393383,
+          "excerpt": "style:{flex:\"1\",minHeight:0,display:\"flex\",alignItems:\"center\",justifyContent:\"center\",overflow:\"hidden\",padding:\"0 25px\",touchAction:\"none\"}"
+        },
+        {
+          "offset": 395249,
+          "excerpt": "style:{flex:\"0 0 auto\",display:\"flex\",justifyContent:\"center\",alignItems:\"center\",padding:\"16px 0\",zIndex:10}"
+        },
+        {
+          "offset": 395617,
+          "excerpt": "style:{fontFamily:\"var(--font-display)\",fontSize:\"32px\",color:\"#ff2a2a\",marginBottom:\"24px\"}"
+        }
+      ]
+    },
+    {
+      "number": 39,
+      "name": "Piano Tiles Rhythm Game",
+      "reviewHash": "playable2_20260928031559_rckaf4",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928031559_rckaf4/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928031559_rckaf4/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Score-only centering is already correct, but the number uses a 32–64 px clamp rather than 28."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "The HUD is only 24 px from the top."
+        }
+      ],
+      "preserve": "No opening title needs removal. Preserve the playable keyboard/tiles and end result.",
+      "evidence": [
+        {
+          "offset": 384371,
+          "excerpt": "btnPrimary:{fontFamily:\"var(--font-body)\",fontSize:\"16px\",fontWeight:700,color:\"#111\",backgroundColor:\"#fff\",border:\"none\",borderRadius:\"12px\",padding:\"16px 24px\",width:\"100%\",cursor:\"pointer\",touchAction:\"manipulation\"}"
+        },
+        {
+          "offset": 384592,
+          "excerpt": "btnSecondary:{fontFamily:\"var(--font-body)\",fontSize:\"16px\",fontWeight:700,color:\"#fff\",backgroundColor:\"transparent\",border:\"2px solid rgba(255,255,255,0.2)\",borderRadius:\"12px\",padding:\"16px 24px\",width:\"100%\",cursor:\"pointer\",touchAction:\"manipulation\"}"
+        },
+        {
+          "offset": 389935,
+          "excerpt": "#root { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background: #FFF; }"
+        }
+      ]
+    },
+    {
+      "number": 40,
+      "name": "Underwater Breath Hold",
+      "reviewHash": "playable2_20260928031734_t68did",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928031734_t68did/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928031734_t68did/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "F",
+          "category": "Instruction / reference typography",
+          "detail": "The initial Hold to Dive instruction is presented as a 32–48 px heading, above the approved instruction size."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Oxygen/result controls retain the previous bottom spacing."
+        }
+      ],
+      "preserve": "Keep the main elapsed-time display and oxygen meter as gameplay content; the initial instruction already disappears on play.",
+      "evidence": [
+        {
+          "offset": 520654,
+          "excerpt": "style:{fontSize:\"24px\",opacity:.7}"
+        },
+        {
+          "offset": 520933,
+          "excerpt": "style:{padding:\"16px\",borderRadius:\"12px\",border:\"none\",background:\"var(--color-accent)\",color:\"#000\",fontFamily:\"var(--font-display)\",fontSize:\"20px\",fontWeight:\"bold\",cursor:\"pointer\",boxShadow:\"0 4px 12px rgba(51, 255, 214, 0.3)\"}"
+        },
+        {
+          "offset": 521236,
+          "excerpt": "style:{padding:\"16px\",borderRadius:\"12px\",border:\"2px solid rgba(255,255,255,0.3)\",background:\"transparent\",color:\"#fff\",fontFamily:\"var(--font-display)\",fontSize:\"20px\",cursor:m?\"not-allowed\":\"pointer\",opacity:m?.55:1}"
+        }
+      ]
+    },
+    {
+      "number": 41,
+      "name": "Ball Line Bouncer",
+      "reviewHash": "playable2_20261001225611_9hp79k",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_9hp79k/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_9hp79k/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "The Add Ball button is placed 42 px from the bottom instead of 50."
+        }
+      ],
+      "preserve": "No game title, mute control, or fabricated score should be added. This is a small spacing-only adjustment.",
+      "evidence": [
+        {
+          "offset": 594449,
+          "excerpt": "#root { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); user-select: none; -webkit-user-select: none; }"
+        },
+        {
+          "offset": 598874,
+          "excerpt": "style:{position:\"absolute\",left:\"50%\",bottom:\"max(42px, env(safe-area-inset-bottom))\",transform:\"translateX(-50%)\",minWidth:176,minHeight:54,padding:\"10px 28px\",border:0,borderRadius:13,background:\"#1686f7\",boxShadow:\"0 4px 0 #0758ac\",color:\"#fff\",fontSize:21,fontWeight:700,whiteSpace:\"nowrap\",cursor:\"pointer"
+        }
+      ]
+    },
+    {
+      "number": 42,
+      "name": "Rolling Physics",
+      "reviewHash": "playable2_20261001225611_hg6unh",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_hg6unh/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_hg6unh/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "Physics 2.0 remains in the top toolbar as a game-name heading."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "Separate top/bottom guides remain during motion, instead of a concise initial instruction hiding after joint adjustment/start."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header/start control use old 40 px vertical / 25 px side margins; guides are 13–14 px."
+        }
+      ],
+      "preserve": "Keep one articulated arm, draggable numbered joints, Speed/Glow controls, and Start/Pause Motion.",
+      "evidence": [
+        {
+          "offset": 611890,
+          "excerpt": "style:{position:\"absolute\",zIndex:2,top:\"calc(102px + env(safe-area-inset-top))\",left:25,right:25,color:\"#c9c9c9\",textAlign:\"center\",fontSize:14,pointerEvents:\"none\",display:panel?\"none\":\"block\"}"
+        },
+        {
+          "offset": 612249,
+          "excerpt": "style:{position:\"absolute\",zIndex:2,bottom:\"calc(40px + env(safe-area-inset-bottom))\",left:25,right:25,minHeight:56,border:\"1px solid #74ff60\",borderRadius:16,background:running?\"#152319\":\"#43e530\",color:running?\"#d8ffcf\":\"#062406\",fontSize:18,fontWeight:700,fontFamily:\"Arial, sans-serif\",cursor:\"pointer\",tou"
+        },
+        {
+          "offset": 612693,
+          "excerpt": "style:{position:\"absolute\",zIndex:2,bottom:\"calc(108px + env(safe-area-inset-bottom))\",left:25,right:25,color:\"#a8a8a8\",textAlign:\"center\",fontSize:13,pointerEvents:\"none\"}"
+        }
+      ]
+    },
+    {
+      "number": 43,
+      "name": "Find the Animal",
+      "reviewHash": "playable2_20261001225611_gjmtbw",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_gjmtbw/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_gjmtbw/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "Find the Animal remains as a separate game-name heading."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Taps are displayed below the board at 15 px, rather than as the lone top-centered status."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Page uses 42 px top / 25 px sides / 40 px bottom."
+        }
+      ],
+      "preserve": "Keep the 8×8 map and heat-clue legend, which explains gameplay.",
+      "evidence": [
+        {
+          "offset": 520230,
+          "excerpt": "style:{width:\"100%\",maxWidth:390,background:\"#d4c0d9\",borderRadius:8,padding:\"10px 6px\",display:\"flex\",flexWrap:\"wrap\",justifyContent:\"space-around\",gap:4,fontSize:\"clamp(10px, 2.75vw, 13px)\",whiteSpace:\"nowrap\"}"
+        },
+        {
+          "offset": 521346,
+          "excerpt": "style:{fontSize:15,minHeight:24,textAlign:\"center\",marginTop:14}"
+        },
+        {
+          "offset": 521512,
+          "excerpt": "style:{minHeight:46,minWidth:140,marginTop:12,border:0,borderRadius:12,background:\"#744e92\",color:\"white\",fontSize:16,fontWeight:700,cursor:\"pointer\"}"
+        }
+      ]
+    },
+    {
+      "number": 44,
+      "name": "Pixel Sandbox",
+      "reviewHash": "playable2_20261001225611_zgfls0",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_zgfls0/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_zgfls0/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "The material toolbar starts at 12 px from the top and the Clear button at 24 px from the bottom."
+        }
+      ],
+      "preserve": "The selected-material name is functional, not a game title. Preserve collisions, fire/smoke rise/lifetime, wood burning, and lava-water stone reactions.",
+      "evidence": [
+        {
+          "offset": 232091,
+          "excerpt": "style:{position:\"absolute\",top:\"74px\",left:\"50%\",transform:\"translateX(-50%)\",backgroundColor:\"rgba(0,0,0,0.6)\",padding:\"6px 16px\",borderRadius:\"20px\",color:\"#FFF\",fontFamily:\"var(--font-display\",fontSize:\"14px\",fontWeight:\"700\",zIndex:10,pointerEvents:\"none\",backdropFilter:\"blur(4px)\"}"
+        },
+        {
+          "offset": 232723,
+          "excerpt": "style:{position:\"absolute\",bottom:\"max(24px, env(safe-area-inset-bottom, 24px))\",left:\"50%\",transform:\"translateX(-50%)\",zIndex:10}"
+        },
+        {
+          "offset": 232894,
+          "excerpt": "style:{padding:\"16px 32px\",borderRadius:\"30px\",border:\"none\",backgroundColor:\"#ECECEC\",color:\"#12121A\",fontFamily:\"var(--font-display\",fontSize:\"18px\",fontWeight:\"700\",cursor:\"pointer\",boxShadow:\"0 4px 16px rgba(0,0,0,0.4)\"}"
+        }
+      ]
+    },
+    {
+      "number": 45,
+      "name": "Text Your Ex",
+      "reviewHash": "playable2_20261001225611_23t98b",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_23t98b/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_23t98b/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "The opening narrative and conversation/composer use older 25 px side / 40 px vertical framing."
+        }
+      ],
+      "preserve": "Keep the iMessage-like contact, conversation, and choice buttons: these are the gameplay interface, not redundant game-name text.",
+      "evidence": [
+        {
+          "offset": 521877,
+          "excerpt": "style:{maxWidth:360,margin:\"0 auto\",padding:\"17px 16px\",borderRadius:18,background:\"#fff\",boxShadow:\"0 5px 18px #00000012\"}"
+        },
+        {
+          "offset": 522011,
+          "excerpt": "style:{fontSize:17,fontWeight:650,lineHeight:1.3,marginBottom:13}"
+        },
+        {
+          "offset": 522126,
+          "excerpt": "style:{...button,minHeight:48,width:\"100%\",borderRadius:12,background:\"#007aff\",color:\"#fff\",fontSize:17}"
+        }
+      ]
+    },
+    {
+      "number": 46,
+      "name": "Stayin' Alive CPR",
+      "reviewHash": "playable2_20261001225611_bz1ptc",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_bz1ptc/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_bz1ptc/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The separate Stayin’ Alive CPR game title remains visible."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Streak/time are positioned at 20% screen height and only 16 px, not the shared 28 px top row."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "STREAK: is retained as a redundant status prefix."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "The subtitle and bottom instruction persist through the round."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "UI uses 25 px sides / 40 px bottom; instruction is 13 px."
+        }
+      ],
+      "preserve": "Keep the beat ring, timed TAP cue, target pace, and essential accuracy feedback.",
+      "evidence": [
+        {
+          "offset": 517367,
+          "excerpt": "style:{fontSize:19,fontWeight:700}"
+        },
+        {
+          "offset": 517465,
+          "excerpt": "style:{minWidth:170,minHeight:48,border:0,borderRadius:25,background:\"#e950a0\",color:\"white\",fontWeight:800,fontSize:17}"
+        },
+        {
+          "offset": 517631,
+          "excerpt": "style:{position:\"absolute\",bottom:\"max(40px, env(safe-area-inset-bottom))\",left:25,right:25,fontSize:13,lineHeight:1.35,color:\"#63737d\",margin:0}"
+        }
+      ]
+    },
+    {
+      "number": 47,
+      "name": "Cats Snake",
+      "reviewHash": "playable2_20261001225611_0e3wo5",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_0e3wo5/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_0e3wo5/meme-snake.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "Cats Snake appears in both the HUD and opening card."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "Score/best captions remain."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Score/best are grouped below the title rather than occupying a consistent two-sided top row."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Native UI uses the older margins and mixed status sizes."
+        }
+      ],
+      "preserve": "Keep random cat head, square pickups becoming cats, joystick control, and pickup feedback.",
+      "evidence": [
+        {
+          "offset": 22651,
+          "excerpt": ".meme-controls{padding-top:8px;padding-bottom:max(24px,calc(env(safe-area-inset-bottom) + 14px))}"
+        },
+        {
+          "offset": 22821,
+          "excerpt": ".meme-controls p{margin-top:4px}"
+        },
+        {
+          "offset": 22892,
+          "excerpt": ".meme-card{padding-top:18px;padding-bottom:18px}"
+        }
+      ]
+    },
+    {
+      "number": 48,
+      "name": "Draw Your Blade",
+      "reviewHash": "playable2_20261001225611_9its9h",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_9its9h/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_9its9h/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "DRAW YOUR BLADE remains as a separate persistent title."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "KOs and HP are stacked together at one corner rather than spread across the top row."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "Several draw/equip/fight descriptions remain on screen instead of one relevant initial instruction per phase."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Top/bottom overlays retain the older insets and text sizing."
+        }
+      ],
+      "preserve": "Keep drawing first, equipping that blade, free dragging, continuously spinning blade, five-hit enemies, and unlimited KOs.",
+      "evidence": [
+        {
+          "offset": 389704,
+          "excerpt": ".card h1{margin:0 0 16px;font-size:clamp(27px,8vw,40px);color:#87eff9;line-height:1.15}"
+        },
+        {
+          "offset": 389854,
+          "excerpt": ".card button{min-height:52px;min-width:190px;border:2px solid #85effa;border-radius:12px;color:#09212b;background:#83eaf5;padding:11px 20px;font-size:17px;cursor:pointer}"
+        },
+        {
+          "offset": 390066,
+          "excerpt": ".card button.secondary{margin-top:12px;background:transparent;color:#a8f2fa}"
+        }
+      ]
+    },
+    {
+      "number": 49,
+      "name": "Draw a Star",
+      "reviewHash": "playable2_20261001225821_af5uee",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225821_af5uee/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225821_af5uee/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "DRAW A STAR appears in both the active HUD and opening panel."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The two percentage meters use a small label/value treatment rather than the agreed top-row numeric role."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "Hold to Carve / Release to Cool remains throughout the round."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Overlays use 26 px sides / 40 px top/bottom."
+        }
+      ],
+      "preserve": "Keep progress/stress meanings distinguishable and preserve the faster stress/harder control.",
+      "evidence": [
+        {
+          "offset": 387254,
+          "excerpt": ".card .result{font-size:clamp(40px,12vw,52px);font-weight:700;color:#ac4d1f;margin:0 0 18px;line-height:1.15}"
+        },
+        {
+          "offset": 387363,
+          "excerpt": ".card button{display:block;width:100%;min-height:52px;border:0;border-radius:999px;background:#efad3c;color:#3f240e;font:700 18px Poppins,system-ui,sans-serif;cursor:pointer;padding:9px 15px}"
+        },
+        {
+          "offset": 387604,
+          "excerpt": ".card button.secondary{margin-top:11px;border:2px solid #aa6a2d;background:transparent}"
+        }
+      ]
+    },
+    {
+      "number": 50,
+      "name": "Keep Him Steady",
+      "reviewHash": "playable2_20261001225836_jx30zt",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225836_jx30zt/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225836_jx30zt/temperature-stickman.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "Spicy Stickman remains as a separate title."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "After every food reaction, the timer restores “Tap a treat to feed him!”; the instruction returns repeatedly during play."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Native layout uses 25 px sides / 40 px vertical margins."
+        }
+      ],
+      "preserve": "Keep hot/cold meter meanings, complete stick figure, shake/hand-drawn effects, and recovery choices. Do not restore Start Over.",
+      "evidence": [
+        {
+          "offset": 20001,
+          "excerpt": ".temperature-track{margin-bottom:21px}"
+        },
+        {
+          "offset": 20071,
+          "excerpt": ".recovery-bubble{padding:8px 10px}"
+        },
+        {
+          "offset": 20105,
+          "excerpt": ".bubble-message{font-size:15px}"
+        }
+      ]
+    },
+    {
+      "number": 51,
+      "name": "Drag Toy",
+      "reviewHash": "playable2_20261001225842_2d0kul",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225842_2d0kul/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225842_2d0kul/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "HEAT MIRROR remains above the effect."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "The instruction changes into a second persistent guide after the first drag rather than disappearing."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Guides use 26 px sides / 40–45 px vertical spacing and 12–16 px instruction text."
+        }
+      ],
+      "preserve": "Preserve the approved thermal map, cooling palette, and fade behavior.",
+      "evidence": [
+        {
+          "offset": 384933,
+          "excerpt": "createElement(\"div\",{className:\"hint\"},s?\"Drag around the center to spin the reflections\":n?.LABEL_INSTRUCTION||\"DRAG THE HEAT DOT\"))}(0,Ev.createRoot)(document.getElementById(\"root\")).render(nt.default.createElement(DT,null));})();\n/*! Bundled license information:\n\nreact/cjs/react.production.min.js:\n  (**\n  "
+        },
+        {
+          "offset": 384005,
+          "excerpt": ".heading{position:absolute;top:calc(40px + env(safe-area-inset-top));left:max(26px,env(safe-area-inset-left));right:max(26px,env(safe-area-inset-right));text-align:center;pointer-events:none;font-size:clamp(19px,5.3vw,27px);color:#ffb6a3;text-shadow:0 0 13px #d40d36;line-height:1.2}"
+        },
+        {
+          "offset": 384295,
+          "excerpt": ".hint{position:absolute;bottom:calc(45px + env(safe-area-inset-bottom));left:26px;right:26px;text-align:center;pointer-events:none;color:#ffe0d8;font-size:clamp(12px,3.4vw,16px);line-height:1.4;text-shadow:0 0 8px #f72143;background:rgba(12,6,23,.76);border:1px solid rgba(255,103,111,.36);border-radius:12px;p"
+        }
+      ]
+    },
+    {
+      "number": 52,
+      "name": "2048 Ball Merge",
+      "reviewHash": "playable2_20261001225856_15hv2j",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225856_15hv2j/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225856_15hv2j/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The only score is canvas-drawn at the left, using 34 px, instead of top center at 28."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "A separate SCORE caption repeats the value."
+        },
+        {
+          "code": "F",
+          "category": "Instruction / reference typography",
+          "detail": "TAP HERE is drawn at up to 34 px rather than the instruction role."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Canvas UI/container and result dialog retain 25 px side / 40 px bottom distances."
+        }
+      ],
+      "preserve": "Do not change numbers printed on balls: those are gameplay objects, not HUD values.",
+      "evidence": [
+        {
+          "offset": 514576,
+          "excerpt": ".btn {\n      background: #8f7a66; color: var(--text-light); border: none; padding: 12px 24px;\n      border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer;\n      font-family: var(--font-display); box-shadow: 0 4px 6px rgba(0,0,0,0.1);\n      transition: transform 0.1s, background 0.2s;\n    }"
+        },
+        {
+          "offset": 525517,
+          "excerpt": "style:{padding:24,margin:25,background:\"#f7f0df\",borderRadius:18,textAlign:\"center\",minWidth:240}"
+        },
+        {
+          "offset": 525732,
+          "excerpt": "style:{minHeight:48,minWidth:140,border:0,borderRadius:12,background:\"#6a7599\",color:\"white\",fontWeight:700,fontSize:16}"
+        }
+      ]
+    },
+    {
+      "number": 53,
+      "name": "Mandala",
+      "reviewHash": "playable2_20261001225926_ibkv62",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225926_ibkv62/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225926_ibkv62/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The top controls include the redundant Mandala title."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "The instruction block persists until the whole UI is manually hidden instead of hiding after drawing."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "UI overlay uses 25 px sides / 40 px vertical padding and small explanatory text."
+        }
+      ],
+      "preserve": "Keep Print, Clear, Undo, Pause, color controls, and their accessible labels.",
+      "evidence": [
+        {
+          "offset": 146170,
+          "excerpt": "style:{position:\"absolute\",inset:0,pointerEvents:\"none\",display:\"flex\",flexDirection:\"column\",justifyContent:\"space-between\",padding:\"calc(40px + env(safe-area-inset-top, 0px)) 25px calc(40px + env(safe-area-inset-bottom, 0px)) 25px\",opacity:r?1:0,transition:\"opacity 0.3s\"}"
+        },
+        {
+          "offset": 147133,
+          "excerpt": "style:{alignSelf:\"flex-end\",...C,display:\"flex\",flexDirection:\"column\",marginTop:\"8px\",fontSize:\"clamp(10px, 2.5cqi, 12px)\",lineHeight:1.4}"
+        },
+        {
+          "offset": 148481,
+          "excerpt": "style:{position:\"absolute\",top:\"calc(40px + env(safe-area-inset-top, 0px))\",right:\"25px\"}"
+        }
+      ]
+    },
+    {
+      "number": 54,
+      "name": "Sky Cycle",
+      "reviewHash": "playable2_20261001225937_72e2ez",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225937_72e2ez/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225937_72e2ez/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "Top prompt and bottom Double-tap/Drag guide both persist after operation."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The clock is placed near the bottom and uses a 34–54 px numeric clamp rather than top-centered status styling."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "UI uses 25 px sides and 40–48 px vertical insets; bottom guide is 12 px."
+        }
+      ],
+      "preserve": "Keep continuous sky motion, timelapse button, and double-tap/drag controls.",
+      "evidence": [
+        {
+          "offset": 395740,
+          "excerpt": "style:{position:\"absolute\",left:25,right:25,bottom:\"max(120px, calc(env(safe-area-inset-bottom) + 112px))\",textAlign:\"center\",fontFamily:\"ui-monospace,Menlo,monospace\",fontSize:\"clamp(34px,9vw,54px)\",fontWeight:700,letterSpacing:2,textShadow:\"0 4px 20px #000b\",pointerEvents:\"none\"}"
+        },
+        {
+          "offset": 396154,
+          "excerpt": "style:{position:\"absolute\",left:\"50%\",bottom:\"max(42px, calc(env(safe-area-inset-bottom) + 40px))\",transform:\"translateX(-50%)\",minWidth:210,minHeight:48,maxWidth:\"calc(100% - 50px)\",padding:\"10px 20px\",borderRadius:24,border:\"1px solid #ffffffa8\",background:u?\"#f5d86b\":\"#16283edb\",color:u?\"#16283e\":\"white\",b"
+        },
+        {
+          "offset": 396679,
+          "excerpt": "style:{position:\"absolute\",bottom:\"max(98px, calc(env(safe-area-inset-bottom) + 94px))\",left:25,right:25,textAlign:\"center\",fontSize:12,fontWeight:700,letterSpacing:\".02em\",textShadow:\"0 2px 8px #000\",pointerEvents:\"none\"}"
+        }
+      ]
+    },
+    {
+      "number": 55,
+      "name": "Crack the Code",
+      "reviewHash": "playable2_20261001225941_zi6jj7",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225941_zi6jj7/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225941_zi6jj7/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "CRACK THE CODE remains as an extra heading."
+        },
+        {
+          "code": "F",
+          "category": "Instruction / reference typography",
+          "detail": "Explanatory color-key typography needs the instruction/reference-text role rather than tiny captions."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Board/keypad/header use previous 25 px sides / 40 px vertical spacing."
+        }
+      ],
+      "preserve": "Keep the six-digit puzzle, useful green/orange/gray meanings, keyboard, and outcome feedback. Do not hide essential rules without an accessible alternative.",
+      "evidence": [
+        {
+          "offset": 523641,
+          "excerpt": "style:{flex:\"0 0 auto\",padding:\"clamp(16px, 4cqi, 24px) 16px\",textAlign:\"center\",paddingTop:\"calc(40px + env(safe-area-inset-top, 0px))\"}"
+        },
+        {
+          "offset": 523805,
+          "excerpt": "style:{margin:0,fontFamily:\"var(--font-display)\",fontSize:\"clamp(20px, 6cqi, 28px)\",letterSpacing:\"2px\",fontWeight:700,color:\"#a1a1aa\"}"
+        },
+        {
+          "offset": 524004,
+          "excerpt": "style:{flex:1,minHeight:0,display:\"flex\",flexDirection:\"column\",alignItems:\"center\",justifyContent:\"center\",padding:\"6px 0\",overflowY:\"hidden\"}"
+        }
+      ]
+    },
+    {
+      "number": 56,
+      "name": "Starlit Hill",
+      "reviewHash": "playable2_20261001230001_ag49cj",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230001_ag49cj/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230001_ag49cj/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "The launch guide remains permanently, switching to “keep lighting the sky” after a successful launch."
+        },
+        {
+          "code": "F",
+          "category": "Instruction / reference typography",
+          "detail": "The two instruction lines use 12 px and 11 px rather than 18."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "The guide is 42 px from the bottom instead of 50."
+        }
+      ],
+      "preserve": "The title is already removed. Preserve trajectory preview, varied firework styles/sizes, launch sound, and explosion sound.",
+      "evidence": [
+        {
+          "offset": 384363,
+          "excerpt": "desc:{margin:0,fontFamily:\"var(--font-body)\",fontSize:\"clamp(14px, 4cqi, 16px)\",color:\"rgba(255, 255, 255, 0.85)\",lineHeight:1.4,maxWidth:\"400px\"}"
+        },
+        {
+          "offset": 393266,
+          "excerpt": "style:{position:\"absolute\",bottom:\"calc(42px + env(safe-area-inset-bottom, 0px))\",left:\"50%\",transform:\"translateX(-50%)\",width:\"min(82%,280px)\",padding:\"13px 18px\",boxSizing:\"border-box\",borderRadius:40,background:\"#0a1319eb\",border:\"1px solid #eee4\",textAlign:\"center\",lineHeight:1.4,fontSize:12,pointerEvent"
+        },
+        {
+          "offset": 393653,
+          "excerpt": "style:{opacity:.7,fontSize:11}"
+        }
+      ]
+    },
+    {
+      "number": 57,
+      "name": "Creature Sandbox",
+      "reviewHash": "playable2_20261001230052_xrken6",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230052_xrken6/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230052_xrken6/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "Creature Sandbox remains as a separate heading."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "The header instruction persists even after the central empty-meadow instruction disappears; the descriptions are initially duplicated."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Header/palette use 25 px sides / 40 px vertical offsets; guides use 12–15 px text."
+        }
+      ],
+      "preserve": "Keep solid grass with edge texture, flower replacement/layering, plant selection, and insects.",
+      "evidence": [
+        {
+          "offset": 157434,
+          "excerpt": "style:{position:\"absolute\",left:0,right:0,top:\"calc(136px + env(safe-area-inset-top))\",bottom:\"calc(190px + env(safe-area-inset-bottom))\",zIndex:1}"
+        },
+        {
+          "offset": 157865,
+          "excerpt": "style:{position:\"absolute\",left:25,right:25,top:\"48%\",transform:\"translateY(-50%)\",textAlign:\"center\",pointerEvents:\"none\",fontSize:15,color:\"#416d49\",textShadow:\"0 1px #fff\",opacity:.92}"
+        },
+        {
+          "offset": 158156,
+          "excerpt": "style:{position:\"absolute\",left:25,right:25,bottom:\"calc(40px + env(safe-area-inset-bottom))\",maxWidth:520,margin:\"0 auto\",zIndex:3,padding:8,borderRadius:18,background:\"#fffdf0f2\",boxShadow:\"0 5px 0 #91b88299,0 10px 24px #214d4433\"}"
+        }
+      ]
+    },
+    {
+      "number": 58,
+      "name": "How Strong Are You?",
+      "reviewHash": "playable2_20261001230112_0ivocb",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230112_0ivocb/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230112_0ivocb/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The separate How Strong Are You? game-name heading remains."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "Progress still reads “Question n of n”."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Progress is 12 px rather than the agreed 28 px numeric role."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Main and spinner overrides retain 25 px sides / 40 px vertical padding and inconsistent explanatory sizes."
+        }
+      ],
+      "preserve": "Keep the actual fate questions, randomized spinner answers, Not Yet Born respin, and no-scroll layout. The four answer buttons are already hidden.",
+      "evidence": [
+        {
+          "offset": 151052,
+          "excerpt": "style:{minHeight:70,padding:\"10px 8px\",borderRadius:14,border:u===C?\"2px solid #ffe6a3\":\"1.5px solid #65ad9f\",background:u===C?\"#e9ca76\":\"#1b4149\",color:u===C?\"#203334\":\"#f7fff9\",fontSize:\"clamp(15px,3.8vw,18px)\",fontWeight:800,lineHeight:1.2,boxShadow:u===C?\"0 0 16px #f5df8480\":\"0 4px 0 #092127\",cursor:\"poin"
+        },
+        {
+          "offset": 151731,
+          "excerpt": "style:{minHeight:44,minWidth:120,border:\"1px solid #9ad2c2\",borderRadius:12,background:\"#0a1c25ba\",color:\"#d7f5e7\",fontWeight:700,fontSize:14,cursor:\"pointer\"}"
+        },
+        {
+          "offset": 151939,
+          "excerpt": "style:{fontSize:12,color:\"#acd4c9\"}"
+        }
+      ]
+    },
+    {
+      "number": 60,
+      "name": "Snake",
+      "reviewHash": "playable2_20261001230122_0sowkn",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230122_0sowkn/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230122_0sowkn/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The only score is inside the handheld screen at its upper-left, not in the common top-centered HUD; it is 15 px canvas text."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The score retains SCORE:."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Outer layout uses old 25 px side / 40 px vertical spacing."
+        }
+      ],
+      "preserve": "Keep the handheld visual theme, snake board, and movement/pause/restart controls.",
+      "evidence": [
+        {
+          "offset": 176786,
+          "excerpt": "style:{position:\"absolute\",top:\"58%\",left:\"31%\",width:\"38%\",height:11,borderRadius:10,background:\"#6e7d8e\",boxShadow:\"inset 0 1px 4px #0009\"}"
+        },
+        {
+          "offset": 176983,
+          "excerpt": "style:{position:\"absolute\",left:\"6%\",bottom:\"11%\",minWidth:78,minHeight:50,borderRadius:\"50%\",border:\"2px solid #263042\",background:\"#a6adb8\",fontWeight:800,fontSize:16}"
+        },
+        {
+          "offset": 177221,
+          "excerpt": "style:{position:\"absolute\",left:\"6%\",bottom:\"2%\",minWidth:78,minHeight:50,borderRadius:\"50%\",border:\"2px solid #263042\",background:\"#a6adb8\",fontWeight:800,fontSize:13}"
+        }
+      ]
+    },
+    {
+      "number": 61,
+      "name": "Northern Lights",
+      "reviewHash": "playable2_20261001230147_id39lj",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230147_id39lj/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230147_id39lj/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "F",
+          "category": "Instruction / reference typography",
+          "detail": "The initial aurora guide uses a 16–24 px clamp instead of 18 logical px, and its upper limit exceeds the 20 px caption limit."
+        }
+      ],
+      "preserve": "Title and mute are already absent, and the guide hides on interaction. Keep foreground trees in front of the aurora and drag-only sound. This is a typography-only adjustment.",
+      "evidence": [
+        {
+          "offset": 563822,
+          "excerpt": "jsx)(\"div\",{style:{fontFamily:\"var(--font-display)\",color:\"rgba(255,255,255,0.8)\",fontSize:\"clamp(1rem, 5cqi, 1.5rem)\",letterSpacing:\"2px\",textTransform:\"uppercase\",textShadow:\"0 2px 10px rgba(0,0,0,0.5)\",animation:\"pulse 2s infinite ease-in-out\"},children:t.HINT_TEXT})})}),(0,Kt.jsx)(\"style\",{children:`\n    "
+        },
+        {
+          "offset": 557096,
+          "excerpt": "#root { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background: #050510; }"
+        },
+        {
+          "offset": 563834,
+          "excerpt": "style:{fontFamily:\"var(--font-display)\",color:\"rgba(255,255,255,0.8)\",fontSize:\"clamp(1rem, 5cqi, 1.5rem)\",letterSpacing:\"2px\",textTransform:\"uppercase\",textShadow:\"0 2px 10px rgba(0,0,0,0.5)\",animation:\"pulse 2s infinite ease-in-out\"}"
+        }
+      ]
+    },
+    {
+      "number": 62,
+      "name": "Hit the Time",
+      "reviewHash": "playable2_20261001230212_tajqhm",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230212_tajqhm/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230212_tajqhm/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "M",
+          "category": "In-game mute control",
+          "detail": "A visible Mute Sound button remains."
+        },
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "Hit the Time remains as a separate title."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "Secondary numerical stats are 20 px and remain in the lower stats area rather than a consistent top HUD."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "Round/status wording has not been simplified."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Game padding uses 25 px sides and 28/40 px bottom variants."
+        }
+      ],
+      "preserve": "Keep the large central stopwatch, target time, precision feedback, Play/Stop/Next controls, and audio-unlock behavior.",
+      "evidence": [
+        {
+          "offset": 8163,
+          "excerpt": ".title { padding-top: 8px; font-size: clamp(38px, 10vw, 54px); }"
+        },
+        {
+          "offset": 8236,
+          "excerpt": ".target-card { min-height: 116px; padding: 12px; }"
+        },
+        {
+          "offset": 8337,
+          "excerpt": ".timer { font-size: clamp(66px, 18vw, 94px); }"
+        }
+      ]
+    },
+    {
+      "number": 64,
+      "name": "New Instrument",
+      "reviewHash": "playable2_20261001230222_8qptsc",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230222_8qptsc/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230222_8qptsc/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "M",
+          "category": "In-game mute control",
+          "detail": "A visible Mute Instrument button remains."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The frequency/string-count readout is bottom-left, with 16 px values, rather than the lone centered top status."
+        },
+        {
+          "code": "F",
+          "category": "Instruction / reference typography",
+          "detail": "The initial guide uses a variable 13–18 px role instead of the agreed instruction size."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "Clear/status/control placement uses 25 px sides, 18/25 px top, and 28/40 px bottom variants."
+        }
+      ],
+      "preserve": "Keep Clear (not a host Close button), the clean wave strands, continuous hum, and length-to-frequency mapping. Initial prompt already hides after drawing.",
+      "evidence": [
+        {
+          "offset": 4220,
+          "excerpt": ".prompt { top: calc(30px + env(safe-area-inset-top)); }"
+        },
+        {
+          "offset": 4284,
+          "excerpt": ".clear { top: calc(18px + env(safe-area-inset-top)); }"
+        },
+        {
+          "offset": 4347,
+          "excerpt": ".sound, .status { bottom: calc(28px + env(safe-area-inset-bottom)); }"
+        }
+      ]
+    },
+    {
+      "number": 65,
+      "name": "Pocket Racer",
+      "reviewHash": "playable2_20261001230332_5af21q",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230332_5af21q/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230332_5af21q/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "T",
+          "category": "Redundant title",
+          "detail": "The opening screen still shows the oversized Pocket Racer heading."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The only distance value is top-left rather than centered."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The Distance caption repeats the score-like distance readout."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "HUD/steer/pedal controls retain 25 px sides / 40 px vertical spacing."
+        }
+      ],
+      "preserve": "Keep rear-view car assets, horizon track, smaller cars, free steering, accelerate, and brake.",
+      "evidence": [
+        {
+          "offset": 607617,
+          "excerpt": ".drive-controls{position:absolute;left:calc(25px + env(safe-area-inset-left));right:calc(25px + env(safe-area-inset-right));bottom:calc(40px + env(safe-area-inset-bottom));display:flex;align-items:flex-end;justify-content:space-between;gap:16px;pointer-events:none}"
+        },
+        {
+          "offset": 608013,
+          "excerpt": ".drive-controls .steer-btn{width:clamp(58px,16vw,72px);height:clamp(58px,16vw,72px);border-radius:20px;font-size:29px;touch-action:none}"
+        },
+        {
+          "offset": 608822,
+          "excerpt": ".drive-controls{bottom:calc(40px + env(safe-area-inset-bottom))}"
+        }
+      ]
+    },
+    {
+      "number": 66,
+      "name": "Twilight Grayscale",
+      "reviewHash": "playable2_20261001230352_h4uxll",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230352_h4uxll/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230352_h4uxll/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "M",
+          "category": "In-game mute control",
+          "detail": "A visible Mute Rain and Thunder button remains."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The only strike counter is bottom-left at 13 px rather than top center at 28."
+        },
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "STRIKES remains as a redundant counter prefix."
+        },
+        {
+          "code": "F",
+          "category": "Instruction / reference typography",
+          "detail": "The instruction uses a 14–19 px clamp instead of 18."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "HUD/controls use previous 25 px sides / 40 px vertical offsets."
+        }
+      ],
+      "preserve": "Title already removed; guide already hides after a lightning interaction. Keep smooth clouds, large lightning, rain, and thunder.",
+      "evidence": [
+        {
+          "offset": 1914,
+          "excerpt": ".guide {\n        max-width: 420px;\n        margin: 0 auto;\n        color: rgba(226,232,242,.72);\n        font-size: clamp(14px, 3.8vw, 19px);\n        font-weight: 600;\n        line-height: 1.35;\n        transition: opacity .35s ease, transform .35s ease;\n      }"
+        },
+        {
+          "offset": 2248,
+          "excerpt": ".counter {\n        position: absolute;\n        z-index: 2;\n        left: max(25px, env(safe-area-inset-left));\n        bottom: calc(40px + env(safe-area-inset-bottom));\n        min-width: 104px;\n        min-height: 46px;\n        display: flex;\n        align-items: center;\n        justify-content: center;\n    "
+        },
+        {
+          "offset": 2899,
+          "excerpt": ".sound {\n        position: absolute;\n        z-index: 3;\n        right: max(25px, env(safe-area-inset-right));\n        bottom: calc(40px + env(safe-area-inset-bottom));\n        width: 48px;\n        height: 48px;\n        display: grid;\n        place-items: center;\n        border: 1px solid rgba(255,255,255,.15"
+        }
+      ]
+    },
+    {
+      "number": 67,
+      "name": "Stack",
+      "reviewHash": "playable2_20261001230412_o52e38",
+      "entry": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230412_o52e38/game.html",
+      "primarySource": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230412_o52e38/bundle.js",
+      "status": "not_applied",
+      "confidence": "source_confirmed; rendered layout not verified",
+      "findings": [
+        {
+          "code": "L",
+          "category": "Redundant status wording",
+          "detail": "The centered score still includes SCORE."
+        },
+        {
+          "code": "H",
+          "category": "HUD placement / numeric size",
+          "detail": "The active score uses a 20–30 px clamp instead of the agreed numeric role."
+        },
+        {
+          "code": "I",
+          "category": "Instruction lifecycle / duplication",
+          "detail": "The hint changes from TAP TO STACK to TIME YOUR TAP after a successful stack and remains visible."
+        },
+        {
+          "code": "S",
+          "category": "Spacing / safe areas",
+          "detail": "HUD/hint use 25 px sides / 40 px vertical offsets; hint is 15 px."
+        }
+      ],
+      "preserve": "Centering and capsule removal already comply. Preserve 3D stacking, faster motion, and the reduced snap tolerance.",
+      "evidence": [
+        {
+          "offset": 397542,
+          "excerpt": ".stack-modal{position:absolute;inset:0;z-index:5;background:#231914b8;display:flex;align-items:center;justify-content:center;padding:40px 25px;cursor:default}"
+        },
+        {
+          "offset": 397702,
+          "excerpt": ".stack-card{width:min(100%,360px);padding:28px 24px;border-radius:24px;background:#f4e9d7;color:#3e3028;text-align:center;box-shadow:0 22px 50px #20171399}"
+        },
+        {
+          "offset": 398100,
+          "excerpt": ".stack-button{display:flex;align-items:center;justify-content:center;text-align:center;flex:1 1 125px;min-height:52px;border:0;border-radius:14px;background:#6b513e;color:white;font:700 16px \\\"Poppins\\\",system-ui,sans-serif;line-height:1.25;white-space:normal;overflow-wrap:anywhere;padding:10px 14px;cursor:po"
+        }
+      ]
+    }
+  ],
+  "sourceSnapshot": [
+    {
+      "number": 1,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260924214501_peqvrc_game/game.html",
+          "sha256": "c8c5233237ca8c32f79565295606228cb7702a6764f5344f5c12992f4c2cec42"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260924214501_peqvrc_game/duel-rules.js",
+          "sha256": "8c77629a461ba285edba0aa95f1dde369b2d7433cc0f0435794373a06360ced8"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260924214501_peqvrc_game/bundle.js",
+          "sha256": "66245526f9ed11e71dd190ce86f5265334af9c005a97ab9a53ee6d16814a688d"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260924214501_peqvrc_game/duel-rematch.js",
+          "sha256": "b534a515a001f9b017a23e3b502646efddb4ff80f1ccc9f4f8986077b4f5410b"
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/draw_face/draw_face/game.html",
+          "sha256": "6554b0f42cd0ae1718f89368b660da6e27cc29f660043f42c23548a07f7ee067"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/draw_face/draw_face/face-game.js",
+          "sha256": "76e636221a3c9d4d294692f2331b4479a14955a13572288cb95d34e81147edb7"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_5pmrhn/playable2_20260927020828_5pmrhn/game.html",
+          "sha256": "3840ab522a648025d42c259037e9930e2120d93b8ea8c8e920b2f87557fbf8ed"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_5pmrhn/playable2_20260927020828_5pmrhn/bundle.js",
+          "sha256": "dea3f323b6cfafddbb81cfed8a4c101e924bc521d78fe09bb57c34037f0f63bb"
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_hix8pk/playable2_20260927020828_hix8pk/game.html",
+          "sha256": "967cc19172e7f0298d105acb091bd432c9930c96f281f30e316c95ea6f7fae37"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_hix8pk/playable2_20260927020828_hix8pk/bundle.js",
+          "sha256": "b826f0f9c0e4262d81926ed13357bb0e7a14dd18cb039b23ff0299495100e900"
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_iuyca5/playable2_20260927020828_iuyca5/game.html",
+          "sha256": "f09989c2fc2217bb4cbe8ea1e9aa5ec790dad1dc73c5a24d40a0ebfe266914bc"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_iuyca5/playable2_20260927020828_iuyca5/bundle.js",
+          "sha256": "dec676e3552d46c90bf7197e237d7cc0d3a4337be430c6fa2f54afbd57c4e264"
+        }
+      ]
+    },
+    {
+      "number": 6,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_oumj12/playable2_20260927020828_oumj12/game.html",
+          "sha256": "4bfea2ee0a8852062205a577585396fbc12995855f2c6692ec5de080f9472b8c"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_oumj12/playable2_20260927020828_oumj12/bundle.js",
+          "sha256": "e027da82297b9e868b929ffcd48dda82458d6042262bdd3a540c48a59453ad2b"
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_9vxaxo/playable2_20260927020828_9vxaxo/game.html",
+          "sha256": "ebda9676794a71e051f8d7c14d04d0e4de374749bc2f90b03f369c6a839b870d"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_9vxaxo/playable2_20260927020828_9vxaxo/bundle.js",
+          "sha256": "6e5ea5d7237713a35eb9fdfb8ea6246c0f88e39070a03a8a5ba87af27f93706d"
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_bnkh36/playable2_20260927020828_bnkh36/game.html",
+          "sha256": "bdf7fbdb1e8f6aa31bb4c3fab3b889a7fd89000362c08e872dfea963873e9b00"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_bnkh36/playable2_20260927020828_bnkh36/bundle.js",
+          "sha256": "44a6a9d880cb766b97bc8d5a5a4ef21de38928f211a859aeea413fcb92cc43b5"
+        }
+      ]
+    },
+    {
+      "number": 9,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_86gl5z/playable2_20260927020828_86gl5z/game.html",
+          "sha256": "86327134e7bac43c78988ce3b6201ea17dcc8e520b4957dea4bcffb3cb88dd32"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_86gl5z/playable2_20260927020828_86gl5z/bundle.js",
+          "sha256": "c9fe3db59de21758ebe8ada5f21c8909009bb620ed8575ad23f03e0d9b5ce6e4"
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_y5a1vt/playable2_20260927020828_y5a1vt/game.html",
+          "sha256": "a3837170e9352dea3f13166800e750d53aacfa8baa34a253481419d5c8179ba2"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_y5a1vt/playable2_20260927020828_y5a1vt/bundle.js",
+          "sha256": "2126f208e89089f37e539e59322484e111a837cb29f8317ec68107ca066c35c2"
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927021659_jfkvov/playable2_20260927021659_jfkvov/game.html",
+          "sha256": "08bfba032126a91e776ab098f55b69ef18a53884c640a5fb3ea203a81885b56b"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927021659_jfkvov/playable2_20260927021659_jfkvov/bundle.js",
+          "sha256": "e38d6ecd876eef8dfab890083ea489121e6d800d10fa56a35052ae0c3de35e1e"
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_z23fv4/playable2_20260927020825_z23fv4/game.html",
+          "sha256": "428a8442b0a3800c2cc1f0e5c1fc52932a34489b29af28c5e92f6fce5b899376"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_z23fv4/playable2_20260927020825_z23fv4/bundle.js",
+          "sha256": "6228e297ef96440dffa9f6a13f53a65d760d7de956cbb6f0753258e570b893a1"
+        }
+      ]
+    },
+    {
+      "number": 14,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_iyfbfj/playable2_20260927020825_iyfbfj/game.html",
+          "sha256": "f2fb9bad0673ddb90d18e28bbfc3e105e0da9d01dd254e2c99dc760e57b29b64"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_iyfbfj/playable2_20260927020825_iyfbfj/bundle.js",
+          "sha256": "44e1e0aa83ad065bc4eedf0dc88e5a1aa6dd57da7c52de4bd2a769de0f2796ad"
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_hjn7q5/playable2_20260927020825_hjn7q5/game.html",
+          "sha256": "5ca3dee71290dfaf48705f3923fbaa29ee9a8019694ddf1bc8a82a6c59498f61"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_hjn7q5/playable2_20260927020825_hjn7q5/bundle.js",
+          "sha256": "db1fa35900851c765450b243a335a36a0f4a869def79dbe0126f23103f5ccc08"
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_n4r34c/playable2_20260927020825_n4r34c/game.html",
+          "sha256": "fcde04b2cc4a2d9cab81813fa8cc188643a3152866ae3c486097acb59e74cfb4"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_n4r34c/playable2_20260927020825_n4r34c/bundle.js",
+          "sha256": "72ae53b99093d0c8b646434d5adeef667f9201e86eae8c8c6c8cc4456318f8c1"
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_lnwh1h/playable2_20260927020825_lnwh1h/game.html",
+          "sha256": "2e68a73757bccce9e92b2aaddeb2830cf706556c2bb7945890e057443eff87a2"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_lnwh1h/playable2_20260927020825_lnwh1h/bundle.js",
+          "sha256": "e0c3c48b80d4cb63a1cb12ce82f343063b078688817fd93b7f2099b4387ff478"
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_ufhwuj/playable2_20260927020825_ufhwuj/game.html",
+          "sha256": "922dcdae1cd92eb6f0523f9823a8f665288e8277d171fcc1130515956a2c821c"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_ufhwuj/playable2_20260927020825_ufhwuj/bundle.js",
+          "sha256": "44769d8bdb58dd6e2d32b30ec2c5f6c711f47ec37307e3aff0ecb35c9827c8c3"
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_kxh9p4/playable2_20260927020825_kxh9p4/game.html",
+          "sha256": "bdc7e8acc082d75d4178b1ac093395ed8644920e216a7e578d7559e0f8b94a9a"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020825_kxh9p4/playable2_20260927020825_kxh9p4/bundle.js",
+          "sha256": "5194930502ce90bf6fc103e15f3e03c63aad614d038db935e3909917d65811b2"
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927021136_x3i163/playable2_20260927021136_x3i163/game.html",
+          "sha256": "7075b75928f4af509f13c68e575dbfcb37fe06b8d529af6d7dfa13348dabd635"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927021136_x3i163/playable2_20260927021136_x3i163/bundle.js",
+          "sha256": "cd189da2eea973f68929d9f050fe9bccb97ce64b2e4f7ba4b52f7b926332a6e4"
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927021201_7etgko/playable2_20260927021201_7etgko/game.html",
+          "sha256": "c28a2bcd932be167a6351a64f6dc36d297bc55aca778f23d4d48537f7df8c7fa"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927021201_7etgko/playable2_20260927021201_7etgko/bundle.js",
+          "sha256": "c5542be3f5b24bc4470932d7f19bc03126e48c21d1c4863b4e7f4dce2cd3304a"
+        }
+      ]
+    },
+    {
+      "number": 23,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928023148_i47u62/game.html",
+          "sha256": "d0b36ded05cdf2fddc4343c06e17ad0530027d11910721eb2cd0187d91deea27"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928023148_i47u62/bundle.js",
+          "sha256": "0e1bdbcb2754456fc5d9f7bfd7f5340611b4fe476c3b795b914ed67a91c18a18"
+        }
+      ]
+    },
+    {
+      "number": 24,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928023148_kiq9wu/game.html",
+          "sha256": "0882b7629510eab36f44d761629e8464a0ce1a799d853587abb0f3f70fab7288"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928023148_kiq9wu/bundle.js",
+          "sha256": "bbee7cad238e3513a068dcf3098e60c6957bbf0e86cee44abf30c0ccafd8b92b"
+        }
+      ]
+    },
+    {
+      "number": 25,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024159_iasubp/game.html",
+          "sha256": "59724dc2dba4af7cc43839873b42f5d3b2ecd80c4b0fc2e00a7c0523a78c1579"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024159_iasubp/canvas-color-repair.js",
+          "sha256": "7e641c595e7e034a4e0ec7940e7c0921c1c6c3536d2315ff741854856aec7035"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024159_iasubp/bundle.js",
+          "sha256": "0e93addb04c35fdee443e5ef739b441763ad07a3353632f010604fbae0a41984"
+        }
+      ]
+    },
+    {
+      "number": 26,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024549_3bsc4d/game.html",
+          "sha256": "ab580f12c8b102924cb272c3a48d5ef1e7845393798a5b03ce460fdc84b0e000"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024549_3bsc4d/bundle.js",
+          "sha256": "99a56bfd4d437d1715d8a86eeba8ff71d0a97b335cef49580b23bb448b63196f"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024549_3bsc4d/phone-cable-repair.js",
+          "sha256": "adaedce4f843107fa36adaea108a4a73dd516c117efe34388ad57dc5a741edaa"
+        }
+      ]
+    },
+    {
+      "number": 27,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024805_31g1lw/game.html",
+          "sha256": "cb108a7e2b46ea3cd06bbbcc9101eb46a3775433c5ef1aa114ecf0bc3713d578"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024805_31g1lw/bundle.js",
+          "sha256": "86fb27184ed437894de86b9b2793fb8d1a06d823a4c1bccf773d8963284d933e"
+        }
+      ]
+    },
+    {
+      "number": 28,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024950_5wf6st/game.html",
+          "sha256": "1bf199f7b31e5466b8e40e5d5849a7e7efa490b3ea2bf72a42561003731c7563"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928024950_5wf6st/bundle.js",
+          "sha256": "9c2fff3bc2e513945ceba20bd9625282f050592c70f7c26b359f6d067862bcc2"
+        }
+      ]
+    },
+    {
+      "number": 29,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928025305_2wpf3o/game.html",
+          "sha256": "6e99019b8c982a8052b35bc3ece5ce4bdc28026c423bf4d346b5608d63f9caa0"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928025305_2wpf3o/bundle.js",
+          "sha256": "aa9cd1fe167dd482ac3a4424d10e480239491866a5a76242c9033b47724c60d8"
+        }
+      ]
+    },
+    {
+      "number": 30,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928025330_g1w5ss/game.html",
+          "sha256": "119e71aec1f35246ddeb58ebfc7433b1e3ab9282ad695f2fab7b8ebfaf6085e8"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928025330_g1w5ss/bundle.js",
+          "sha256": "0d345012ca2e1830933765b3a460adba0fbeb3b19b3eaa893fb97627cb20ee22"
+        }
+      ]
+    },
+    {
+      "number": 31,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928025635_idnu2k/game.html",
+          "sha256": "15384f3b7745f7b34fc448a95ffee88cfd766a542e130353ed4788ffb385a565"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928025635_idnu2k/bundle.js",
+          "sha256": "48e607c34e3577a1154f1a54e18a5ce0edebadccfd88a9cc59b46bb00493eadc"
+        }
+      ]
+    },
+    {
+      "number": 33,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030116_67pobm/game.html",
+          "sha256": "6f702a798ece0e03e79debc7e9df631a977a36603d42c806fbed0a934cbe8fd8"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030116_67pobm/bundle.js",
+          "sha256": "acf8e89d91fb8d6cac2c6a1438f8d8a0a08eb4a3b3965f4d3d2f6d21ad703ed9"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030116_67pobm/hobo-layout-repair.js",
+          "sha256": "e6ad01a82d1cb12c3a2e12d3db2942b3962f9a365c77ea95e2b88dbad2160cdd"
+        }
+      ]
+    },
+    {
+      "number": 34,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030211_tdjer2/game.html",
+          "sha256": "644d922592bd9924cb4b2fb3aaf280ecb8ff3f8c32e3491dadd4c2ee9ace204d"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030211_tdjer2/bundle.js",
+          "sha256": "f923055977bd0de685ac5196246a3b09be0e5c0ed353da78d38bcb18ceab92db"
+        }
+      ]
+    },
+    {
+      "number": 36,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030642_uthymy/game.html",
+          "sha256": "913c0244b6b918bbf7d33c4f2cec422af375ec8199ae2568379afcf1df7e7a86"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030642_uthymy/bundle.js",
+          "sha256": "b17b8b7376ffd02b7b25ccc36f35eff2b45d1b67e8a1ce70077be945fa8f4e41"
+        }
+      ]
+    },
+    {
+      "number": 37,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030932_n6urd6/game.html",
+          "sha256": "82d65b937423c8afb8cbe557ae38376a49861e2a90073ed1a034a16b51c9433f"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030932_n6urd6/bundle.js",
+          "sha256": "b1b4952453b3e6b538c19ff92a34bf39dc1f8571c6fafdfeb825a3d2673afeaa"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928030932_n6urd6/fishing-net-repair.js",
+          "sha256": "07bf6b3d8ea6e0f9713e73c0ab677bcf908d6ac4f4d431dfa785d2b2ad8663d2"
+        }
+      ]
+    },
+    {
+      "number": 38,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928031234_805376/game.html",
+          "sha256": "674b9d299f9544c9e629dd0e09fbb01a76bd87fb8e299ef34687f0ac821ec5b0"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928031234_805376/bundle.js",
+          "sha256": "adbf329a02f6ebe1a8bb6bda389b2461cdb8d4f65185661cf9c169f4fd9c93e6"
+        }
+      ]
+    },
+    {
+      "number": 39,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928031559_rckaf4/game.html",
+          "sha256": "b8bc2ee4a61ac5daf26b5b037d39cf560f40f0a470a1a3d253ed4dc846957160"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928031559_rckaf4/bundle.js",
+          "sha256": "bfb07e2673d1b0f68e1e3217df8ba0fa26380a76b464e152f7825917ba264488"
+        }
+      ]
+    },
+    {
+      "number": 40,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928031734_t68did/game.html",
+          "sha256": "84883ea991bcd3f318c5ebcdeb8bfec6c7aa8745672710cbcd1f374255842a6a"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-09-28-batch23-40-initial/playable2_20260928031734_t68did/bundle.js",
+          "sha256": "c8165dc9e6daad1c6adb300b70a603e76135f33fbb63011b48b242be097f4c05"
+        }
+      ]
+    },
+    {
+      "number": 41,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_9hp79k/game.html",
+          "sha256": "143a0c618c75d88afb7dea06d8480b461722b3fa144f76fae411515b4616ecc9"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_9hp79k/bundle.js",
+          "sha256": "26e849420bc67257f2148d355e1c1eb8ac9441e3b087d9dd481f061e15da57fd"
+        }
+      ]
+    },
+    {
+      "number": 42,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_hg6unh/game.html",
+          "sha256": "caa4763947834ce7f95e84c05c16f5317768f46c755b474f8fb4f5173597baf1"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_hg6unh/bundle.js",
+          "sha256": "04a2675c832cda0ed302ab557439fdded61255fc4e6179075314f1a1de9bed45"
+        }
+      ]
+    },
+    {
+      "number": 43,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_gjmtbw/game.html",
+          "sha256": "d6667cf053f39ad61a87023c075980df20d6b1216769487741fe68cd9fc81886"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_gjmtbw/bundle.js",
+          "sha256": "87d145905a70aa7a6d27979fecd641a43b3386d86748b03c4ba58a3f2593b923"
+        }
+      ]
+    },
+    {
+      "number": 44,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_zgfls0/game.html",
+          "sha256": "91e1f3ba345b3bd59ed3b07f5067fa5d52c38e3fb30b1309e1ec258d6af90ecd"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_zgfls0/bundle.js",
+          "sha256": "4d0e4b077201973395b74a1125eeb37fbaf1a8de483f8320a315766cf8c552cb"
+        }
+      ]
+    },
+    {
+      "number": 45,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_23t98b/game.html",
+          "sha256": "63776428d76462c0af1002d0cf1a7415f617697afdc86544e9eca298500d54a8"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_23t98b/bundle.js",
+          "sha256": "b08b4a653e3cd70feffa9f4b46b960e1cac4beaa3a983ea82974cdeaf1377917"
+        }
+      ]
+    },
+    {
+      "number": 46,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_bz1ptc/game.html",
+          "sha256": "a1076ddcf85689f2e7f5fa8717300697f18169b0c03111e61f7681b71cce88fb"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_bz1ptc/bundle.js",
+          "sha256": "92106e7eec4544b5a896083a545fae29ab36b2d38b1d8c7a2cb8eb35bfd2544f"
+        }
+      ]
+    },
+    {
+      "number": 47,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_0e3wo5/game.html",
+          "sha256": "da6a555b33a677ae366b08a26e2fb4947852b6898a2ecab5b54f81ff1e6aef71"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_0e3wo5/meme-snake.js",
+          "sha256": "1b3e492cb93ba0d0a9f669eac88319237ee96e421ba18b91a324fda83af25166"
+        }
+      ]
+    },
+    {
+      "number": 48,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_9its9h/game.html",
+          "sha256": "8556478d21679fbf102b9a8e112c83ae0d7c2140b40d5eac919b9a94fa22acae"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225611_9its9h/bundle.js",
+          "sha256": "dc37be3a135bb45084543a3a078332cfce9d21e238fab696f14dc48e9ebf27fe"
+        }
+      ]
+    },
+    {
+      "number": 49,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225821_af5uee/game.html",
+          "sha256": "aa04c27f8824bd36af838241d46ea34bfc1c641a32f8b092bd0ad3733449dde7"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225821_af5uee/bundle.js",
+          "sha256": "8a3578702ed18f5fca824d159d1da477bf49fdeda1a2b9e5a709b1d4695f71f1"
+        }
+      ]
+    },
+    {
+      "number": 50,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225836_jx30zt/game.html",
+          "sha256": "005fb659bcb76dc95b7dc9b222538d943edb71de683dd4e02fa2dee5c7a93d20"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225836_jx30zt/temperature-stickman.js",
+          "sha256": "22d66e010b0b7ef2f3e8c45ecc2946c8320335360fb4196deafd179fcfb8bf28"
+        }
+      ]
+    },
+    {
+      "number": 51,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225842_2d0kul/game.html",
+          "sha256": "886af523371564db3f7763d436607bfcf4c8d6eea35861c26c09c6152bb4a4c9"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225842_2d0kul/bundle.js",
+          "sha256": "44e7e7bdd20b7975dd9b376abe422ba1f1cb0124470589054f78cda003e5716c"
+        }
+      ]
+    },
+    {
+      "number": 52,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225856_15hv2j/game.html",
+          "sha256": "ca7beaa56e830944765afa012f56073b5ddb01f7e316f78fd341d91249a5a5ad"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225856_15hv2j/bundle.js",
+          "sha256": "a8c1c322af092f309fed7015f8c1a0e7b8d8195934439a536cc52f58f600701e"
+        }
+      ]
+    },
+    {
+      "number": 53,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225926_ibkv62/game.html",
+          "sha256": "c1eabd90598777b4acc38d822040e33e66173b50f4031c71d200cbfdc88c8ed5"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225926_ibkv62/bundle.js",
+          "sha256": "1f27eac3c13d9bd0aca28a4a32699adf6397862d2c1c1820e612870800ad6664"
+        }
+      ]
+    },
+    {
+      "number": 54,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225937_72e2ez/game.html",
+          "sha256": "0564bef657b9caf917ca139a9103e1576bc7ae2877f1ddf03ccc165c95d36ba9"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225937_72e2ez/bundle.js",
+          "sha256": "5155d001ed1088add617cbc54e0ef30f4dc305f5a42f9e0a83969d809c3385bc"
+        }
+      ]
+    },
+    {
+      "number": 55,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225941_zi6jj7/game.html",
+          "sha256": "01322cff52a230316361ea2290476184584fffbf72eabb9c8110bbab19793fd4"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001225941_zi6jj7/bundle.js",
+          "sha256": "ebe4903062fba86e8bb52dd89d711d32e05ef837928ba3f8238346056c849323"
+        }
+      ]
+    },
+    {
+      "number": 56,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230001_ag49cj/game.html",
+          "sha256": "d5e71fd1cf74619bdd18752bf30de805f18e34aa56df25151864b4f249eca3c8"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230001_ag49cj/bundle.js",
+          "sha256": "3b2ca1de1a4eff01b76da1fd62f59c9ddf14f2a522358f8161d78e7bb20199d9"
+        }
+      ]
+    },
+    {
+      "number": 57,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230052_xrken6/game.html",
+          "sha256": "9ae2bd9c5bfa485775d564738c68f5708562c4c539abd28a2924eb6e775e4eac"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230052_xrken6/bundle.js",
+          "sha256": "e11eab4a7231b636fd81241a41101212c78621da8c2fc1fb426f950a455c7584"
+        }
+      ]
+    },
+    {
+      "number": 58,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230112_0ivocb/game.html",
+          "sha256": "debd6c96c70faa1d3c355d5282983ed536cf84a34366fc9d3e9c73983fa0768b"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230112_0ivocb/bundle.js",
+          "sha256": "9fb031876c21119ff19f0bd8d80690014f0bafd01c823e237b1902377e003411"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230112_0ivocb/random-spinner.js",
+          "sha256": "2b3e3e2e43456d28d10bd1d5cadc56e7276a09870ce834b327c9bc36912dd04b"
+        }
+      ]
+    },
+    {
+      "number": 60,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230122_0sowkn/game.html",
+          "sha256": "5d7fa210ed227dac8ad73ca415f3e063301208ff922a9cf1fab604ea4c605c1b"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230122_0sowkn/bundle.js",
+          "sha256": "adb790e2649ea0ddcf6907586652b0ab119719670120d873567eb82abbe8f47e"
+        }
+      ]
+    },
+    {
+      "number": 61,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230147_id39lj/game.html",
+          "sha256": "029fb93a94d6e93e0309438345d677d559e114d7548125debe2b6f4e6f497870"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230147_id39lj/bundle.js",
+          "sha256": "127e7f1d59551d8d6ddbfd5fa5da3af68bd6124e1a4dbd92b07530da10c742c3"
+        }
+      ]
+    },
+    {
+      "number": 62,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230212_tajqhm/game.html",
+          "sha256": "5605efbc298f86ca5f8cca63a2100bc3279b2d75d23386f6701e6f064ae8233a"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230212_tajqhm/bundle.js",
+          "sha256": "8ce79103cabe38174c7667d6d2a2c214ebe55f5e58eb8327d35763b62ff5c3d8"
+        }
+      ]
+    },
+    {
+      "number": 64,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230222_8qptsc/game.html",
+          "sha256": "dc4f9ecca4ac873e13914ea1b75ec50e33d4ee877acc89b93e3ad60df6f504c3"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230222_8qptsc/bundle.js",
+          "sha256": "bb5a1a2fe5975680c52bc19cd4587a4b8915086361438f5b22064bb2f062b083"
+        }
+      ]
+    },
+    {
+      "number": 65,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230332_5af21q/game.html",
+          "sha256": "d0708f23e5d5aee34816ded13a9ff25f75eba8ede06e13c95f45800a8b61d292"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230332_5af21q/bundle.js",
+          "sha256": "cb5b0aeaca800188011115a0f68615794ce4a587bcab417970cdf5c72c7c33a2"
+        }
+      ]
+    },
+    {
+      "number": 66,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230352_h4uxll/game.html",
+          "sha256": "95fd7da1315388b92f9ea6886a6af2c63e17972151ba157b6569a08ad2567a8d"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230352_h4uxll/bundle.js",
+          "sha256": "bce7a15c8a44347c2f3e9fac810dcb7c2499ae61c912af83e5f169896fdcdd0c"
+        }
+      ]
+    },
+    {
+      "number": 67,
+      "files": [
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230412_o52e38/game.html",
+          "sha256": "99c71d0dd2281d1889b5301b354595adea8dcdcb02ac7ea42d6360c45455dfa6"
+        },
+        {
+          "path": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20261001230412_o52e38/bundle.js",
+          "sha256": "ea3acb8621a08065e01e2dd8123bda3e93a1c4c85ce9dcd835290c86ea8c82ab"
+        }
+      ]
+    }
+  ]
+}
+

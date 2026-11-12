@@ -1,0 +1,8 @@
+{
+  "date": "2026-10-07",
+  "tool": "built-in image_gen",
+  "prompt": "Use case: product-mockup. Asset type: opening-cover hero for a mobile food freshness inspection game. Create a new photorealistic product photograph of ONE modern compact white refrigerator with its single door swung fully open to the right by approximately 100 degrees, clearly exposing the whole bright interior. Camera almost straight-on at middle shelf height, only a slight three-quarter angle, not a narrow side view. Fridge is broad and compact, not tall and skinny. Three clean glass shelves with a few clearly recognizable fresh foods: a red apple, three strawberries, one broccoli crown, a red tomato, a yellow cheese wedge and one slice of bread, naturally spaced and large enough to recognize at thumbnail size. Real white enamel exterior, subtle brushed-metal handle, authentic seals and shelf hardware, soft neutral daylight from upper left and gentle warm-white internal fridge lighting. Premium catalog photography, natural physically real materials, not illustration, not cartoon, not CGI. Square composition with the complete fridge and open door centered and fully visible, 10 percent transparent margin on every side. Genuinely transparent background, clean alpha edges, no kitchen, walls, floor, plate, props outside fridge, person, detached shadow, text, logo, branding, sticker or UI.",
+  "sourcePath": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-dcc1b296-a82b-4dce-a436-2240d5a38a1e.png",
+  "slot": "BG_MAIN",
+  "destination": "./assets/fridge-hero-photo-v5.webp"
+}

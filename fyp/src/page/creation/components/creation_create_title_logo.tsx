@@ -1,0 +1,34 @@
+import type { ColorV2Name } from "@byted-tiktok/tux-color";
+import { getColorCSSVar } from "@byted-tiktok/tux-web";
+import type { SVGProps } from "react";
+
+export type CreationCreateTitleLogoProps = Omit<SVGProps<SVGSVGElement>, "color"> & {
+  /** TUX semantic color token — same as `TUXIcon` `color` prop. */
+  color?: ColorV2Name;
+};
+
+/** Figma `create-title-logo` wordmark — paths use `currentColor` for theme tokens. */
+export function CreationCreateTitleLogo({
+  color = "UIText1",
+  className,
+  ...props
+}: CreationCreateTitleLogoProps) {
+  return (
+    <svg
+      viewBox="0 0 87.9894 17"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+      className={className}
+      style={{ color: getColorCSSVar(color), display: "block" }}
+      {...props}
+    >
+      <path d="M26.2604 0.5C29.0173 0.500236 31.2526 2.73522 31.2526 5.49219C31.2526 8.24915 29.0173 10.4841 26.2604 10.4844H25.7985L32.7652 16.6016H28.8649L21.776 10.4844H20.6969V16.6016H17.6969V0.5H26.2604ZM20.4703 2.99414V8.08984H25.985C26.4927 8.08982 26.9816 7.89686 27.3522 7.5498L28.3268 6.63672C28.9595 6.04404 28.9595 5.03995 28.3268 4.44727L27.3522 3.53418C26.9816 3.18712 26.4927 2.99416 25.985 2.99414H20.4703Z" />
+      <path d="M72.7779 3.74707H68.8483V16.751H65.6266V3.74707H61.6969V0.5H72.7779V3.74707Z" />
+      <path d="M47.444 16.5003L52.4847 0.419922H57.115L62.1558 16.5003H59.259L57.5711 10.8664H52.0286L50.3407 16.5003H47.444ZM52.7128 8.58554H56.8869L55.2876 3.24304C55.1455 2.7683 54.4736 2.76729 54.3301 3.2416L52.7128 8.58554Z" />
+      <path d="M86.5031 3.50293H78.0793V6.80078H84.2385V9.65918H78.0793V13.6221H87.9894V16.6523H75.0754V13.6221H75.0764V9.65918H75.0754V6.80078H75.0764V3.50293H75.0754V0.5H86.5031V3.50293Z" />
+      <path d="M45.6969 3.5H37.7008V6.5H43.6969V9.5H37.7008V13.5H45.6969V16.5H34.6969V13.5H34.6979V9.5H34.6969V6.5H34.6979V3.5H34.6969V0.5H45.6969V3.5Z" />
+      <path d="M8.5 0C11.066 0 13.3643 1.13883 14.9229 2.93652L12.6562 4.89941C11.6478 3.73638 10.1601 3.0001 8.5 3C5.46243 3 3 5.46243 3 8.5C3.00018 11.5374 5.46254 14 8.5 14C10.1603 13.9999 11.6478 13.263 12.6562 12.0996L14.9229 14.0625C13.3643 15.8605 11.0663 17 8.5 17C3.80558 17 0 13.1944 0 8.5C0 3.80558 3.80558 0 8.5 0Z" />
+    </svg>
+  );
+}

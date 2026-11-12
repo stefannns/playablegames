@@ -1,0 +1,19 @@
+/* Animated "now playing" equalizer — bars bounce while a sound is playing. */
+.tt-eq-bar {
+  transform-box: fill-box;
+  transform-origin: 50% 100%; /* scale from each bar's bottom */
+  animation: tt-eq 0.85s ease-in-out infinite;
+}
+.tt-eq-bar:nth-child(1) { animation-delay: -0.20s; }
+.tt-eq-bar:nth-child(2) { animation-delay: -0.55s; }
+.tt-eq-bar:nth-child(3) { animation-delay: -0.10s; }
+.tt-eq-bar:nth-child(4) { animation-delay: -0.70s; }
+
+@keyframes tt-eq {
+  0%, 100% { transform: scaleY(0.25); }
+  50% { transform: scaleY(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tt-eq-bar { animation: none; transform: scaleY(0.6); }
+}

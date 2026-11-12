@@ -1,0 +1,42 @@
+/* Comment sheet: override TUXSheet container chrome to match Figma exactly. */
+[data-testid="comment-sheet"] {
+  /* Figma panel container radius = 12px */
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+
+  /*
+   * TUXSheet adds safe-area padding on the container. For the comment sheet we
+   * implement the "Home Indicator Spacer" inside the input area to match Figma.
+   */
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  transition: height 320ms cubic-bezier(0.33, 0.86, 0.2, 1) !important;
+  will-change: height, transform;
+}
+
+[data-comment-panel-surface="true"] {
+  --comment-panel-dismiss-offset: 0px;
+  --comment-panel-dismiss-transition-ms: 0ms;
+  transform: translate3d(0, var(--comment-panel-dismiss-offset), 0);
+  transition: transform var(--comment-panel-dismiss-transition-ms) cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+  position: relative;
+}
+
+[data-comment-panel-edge-swipe-zone="true"] {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 24px;
+  z-index: 10;
+  touch-action: none;
+  background: transparent;
+}
+
+/* Comment wiki sheet: use the exact same container chrome override. */
+[data-testid="comment-wiki-sheet"],
+[data-testid^="comment-wiki-sheet-"] {
+  border-top-left-radius: 12px !important;
+  border-top-right-radius: 12px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}

@@ -1,0 +1,129 @@
+/* FYP-only review: one live feed host, inline or fullscreen. */
+(() => {
+  const api=window.PlayableReviewLibrary, trigger=document.getElementById('tiktok-view'), script=document.currentScript;
+  if(!api||!trigger||!script?.src)return;
+  const runtime=new URL(trigger.dataset.feedRuntime||'/app/home',script.src), origin=runtime.origin;
+  const inlineControls=document.querySelector('[data-inline-controls]'), announcement=document.getElementById('player-status');
+  const viewport=document.createElement('div');viewport.id='fyp-fit';viewport.className='fyp-viewport';viewport.hidden=true;
+  viewport.innerHTML='<div id="fyp-phone" class="fyp-phone"><iframe class="fyp-frame" title="FYP game review" allow="camera; microphone; autoplay; fullscreen"></iframe><div class="fyp-error" hidden><p>Couldn’t load FYP Mode.</p><button type="button">Try again</button></div></div>';
+  document.getElementById('stage').append(viewport);
+  const coverToggle=document.getElementById('cover-mode-toggle');
+  const withoutIds=html=>html.replace(/\s+id="[^"]*"/g,'');
+  const navigation=withoutIds(inlineControls.querySelector('.player-navigation').innerHTML);
+  const language=withoutIds(inlineControls.querySelector('.player-language')?.outerHTML||'');
+  const dialog=document.createElement('dialog');dialog.className='batch-view-dialog';dialog.setAttribute('aria-labelledby','batch-view-heading');
+  dialog.innerHTML='<header class="batch-view-toolbar"><div class="batch-view-summary"><h2 id="batch-view-heading">Game review</h2><p class="batch-view-status" role="status"></p></div><label class="batch-view-picker">Choose game<select aria-label="Choose game"></select></label><nav class="batch-view-controls"><button type="button" class="batch-view-close">Back to review</button></nav></header><p class="batch-view-error" hidden>Couldn’t load the feed. <button type="button" class="batch-view-retry">Try again</button></p><div class="batch-player-body"><div class="player-controls batch-player-controls" role="group" aria-label="Full-screen player controls"><nav class="player-navigation" aria-label="Game navigation">'+navigation+'</nav><div class="player-mode-and-language"><span class="player-mode-label">FYP</span>'+language+'<span class="language-note" data-language-note hidden role="status"></span></div></div><div class="batch-player-content"><div class="batch-fyp-fit" hidden><div class="batch-fyp-phone"><iframe class="batch-view-frame" title="Full-screen FYP review" allow="camera; microphone; autoplay; fullscreen"></iframe></div></div></div></div>';
+  document.body.append(dialog);
+  const inline=viewport.querySelector('iframe'), full=dialog.querySelector('.batch-view-frame');
+  const content=dialog.querySelector('.batch-player-content');
+  const fullFit=dialog.querySelector('.batch-fyp-fit'), fullPhone=dialog.querySelector('.batch-fyp-phone');
+  const picker=dialog.querySelector('select'), status=dialog.querySelector('[role="status"]'), heading=dialog.querySelector('h2');
+  const error=dialog.querySelector('.batch-view-error'), inlineError=viewport.querySelector('.fyp-error');
+  const controlSets=[inlineControls,dialog.querySelector('.batch-player-controls')];
+  const buttons=selector=>controlSets.flatMap(controls=>[...controls.querySelectorAll(selector)]);
+  const visibleGames=()=>api.getPoolGames?.()||api.games;
+  const poolKey=()=>visibleGames().map(game=>game.taskId).join(',');
+  function refreshPicker(){
+    const games=visibleGames();picker.replaceChildren();picker.disabled=!games.length;
+    if(!games.length){const option=document.createElement('option');option.value='';option.textContent='No matching games';picker.append(option);}
+    for(const game of games){const option=document.createElement('option');option.value=game.taskId;option.textContent=game.number+'. '+game.name;picker.append(option);}
+  }
+  refreshPicker();
+  let expanded=false,selected=api.getCurrent(),ready=false,timer=null,pending=null,loadedPool='',loadedLocale='en',coverMode=false;
+  const nativeFrame=()=>expanded?full:inline;
+  const send=data=>nativeFrame()?.contentWindow?.postMessage(data,origin);
+  function controls(){
+    const games=visibleGames(),index=games.findIndex(game=>game.taskId===selected?.taskId);
+    for(const button of buttons('[data-step]'))button.disabled=index<0||!ready||(button.dataset.step==='previous'?index<=0:index>=games.length-1);
+    picker.disabled=!games.length;
+    if(selected){picker.value=selected.taskId;status.textContent=selected.number+'. '+selected.name;}
+    heading.textContent='FYP review';
+    window.PlayableReviewLocale?.reflect(selected);
+  }
+  function fitExpanded(){
+    if(!expanded)return;
+    const width=Math.max(1,content.clientWidth-24),height=Math.max(1,content.clientHeight-24);
+    api.fitPhone(fullFit,fullPhone,width,height);
+  }
+  new ResizeObserver(fitExpanded).observe(content);
+  function paint(){
+    viewport.hidden=expanded;
+    document.getElementById('preview-fit').hidden=true;
+    document.getElementById('stage').classList.toggle('is-fyp',!expanded);
+    fullFit.hidden=false;
+    controls();api.fitPreview();fitExpanded();
+  }
+  function stop(){
+    clearTimeout(timer);pending=null;ready=false;
+    inline.src='about:blank';full.src='about:blank';
+    api.suspend();
+  }
+  function load(){
+    error.hidden=true;inlineError.hidden=true;
+    ready=false;controls();announcement.textContent='Loading FYP view';
+    loadedPool=poolKey();
+    loadedLocale=window.PlayableReviewLocale?.language||'en';
+    const url=new URL(api.fypSource(selected));url.searchParams.set('reviewHost',location.origin);url.searchParams.set('v','fyp-only-20261029');
+    url.searchParams.set('lang',loadedLocale);
+    if(coverMode)url.searchParams.set('cover','still');
+    nativeFrame().src=url.href;clearTimeout(timer);
+    timer=setTimeout(()=>{error.hidden=false;inlineError.hidden=false;announcement.textContent='FYP view unavailable. Use Try again to reload.';},15000);
+  }
+  function reflect(game){selected=game;controls();}
+  function select(game){
+    if(!game||!visibleGames().some(item=>item.taskId===game.taskId))return;selected=game;controls();
+    if(loadedPool!==poolKey()){stop();paint();load();return;}
+    pending=game;
+    if(ready)send({type:'playable-batch-select',taskId:game.taskId});
+  }
+  function step(direction){
+    const games=visibleGames(),index=games.findIndex(game=>game.taskId===api.getCurrent()?.taskId);
+    const game=index<0?null:games[index+(direction==='next'?1:-1)];
+    if(!game||!ready)return;
+    // Select the adjacent filtered ID. Native step would use the full host feed.
+    api.select(game,{reveal:true});
+  }
+  function restart(){selected=api.getCurrent();stop();paint();load();}
+  coverToggle?.addEventListener('click',()=>{
+    stop();coverMode=!coverMode;selected=api.getCurrent();
+    coverToggle.setAttribute('aria-pressed',String(coverMode));
+    coverToggle.textContent=coverMode?'Animated covers':'Still covers';
+    coverToggle.title=coverMode?'Show animated FYP covers':'Show still covers in the FYP';
+    announcement.textContent=coverMode?'Showing still covers in FYP':'Showing animated FYP covers';
+    paint();load();
+  });
+  for(const button of buttons('[data-step]'))button.addEventListener('click',()=>step(button.dataset.step));
+  for(const button of buttons('[data-action="restart"]'))button.addEventListener('click',restart);
+  trigger.addEventListener('click',()=>{
+    if(expanded)return;selected=api.getCurrent();stop();expanded=true;paint();
+    dialog.showModal();document.body.classList.add('batch-view-open');fitExpanded();load();dialog.querySelector('.batch-view-close').focus();
+  });
+  dialog.querySelector('.batch-view-close').addEventListener('click',()=>dialog.close());
+  dialog.addEventListener('close',()=>{stop();expanded=false;document.body.classList.remove('batch-view-open');paint();load();trigger.focus();});
+  for(const frame of [inline,full])frame.addEventListener('load',()=>{
+    if(frame===nativeFrame()&&frame.getAttribute('src')!=='about:blank')frame.contentWindow?.postMessage({type:'safe-area:set',safeArea:{top:'0px',bottom:'0px',left:'0px',right:'0px'},fullScreen:true,hostProvidesPhoneChrome:false},origin);
+  });
+  inlineError.querySelector('button').addEventListener('click',restart);dialog.querySelector('.batch-view-retry').addEventListener('click',restart);
+  picker.addEventListener('change',()=>{const game=api.games.find(game=>game.taskId===picker.value);if(game)api.select(game,{reveal:true});});
+  window.addEventListener('playable-review-filter-change',()=>{
+    refreshPicker();
+    if(loadedPool!==poolKey()){selected=api.getCurrent();stop();paint();load();}
+    else controls();
+  });
+  window.addEventListener('playable-review-language-change',restart);
+  window.addEventListener('message',event=>{
+    const frame=nativeFrame();
+    if(!frame||event.source!==frame.contentWindow||event.origin!==origin||event.data?.type!=='playable-batch-selection')return;
+    const game=visibleGames().find(game=>game.taskId===event.data.taskId);
+    // A previous iframe document may still report after changing categories.
+    // Neither an old pool nor an out-of-pool game can escape the chosen Batch.
+    if(!game||event.data.reviewPool!==loadedPool||(window.PlayableReviewLocale&&event.data.reviewLocale!==loadedLocale))return;
+    clearTimeout(timer);error.hidden=true;inlineError.hidden=true;ready=true;announcement.textContent='';
+    if(pending&&pending.taskId!==game.taskId){send({type:'playable-batch-select',taskId:pending.taskId});return;}pending=null;
+    selected=game;controls();
+    // Changing views/restarting the same game must not clear an unfinished review comment.
+    if(api.getCurrent()?.taskId!==game.taskId)api.select(game,{preview:false,reveal:true});
+  });
+  window.PlayableFypMode={get active(){return true;},get view(){return 'fyp';},select,reflect,restart,step};
+  paint();load();
+})();

@@ -1,0 +1,60 @@
+/* Remix sheet — Figma 25682:207490: 616px tall, #1e1e1e, 26px top corners. */
+.playable-remix {
+  /* The sheet container is a flex box; without these the panel collapses to 0 height. */
+  position: relative; flex-shrink: 0; width: 100%; height: 616px; min-height: 616px; display: flex; flex-direction: column; overflow: hidden;
+  background: var(--tux-v2-color-ui-sheet-flat-1, #1e1e1e); border-radius: 26px 26px 0 0; color: var(--tux-v2-color-ui-text-1, #f6f6f6);
+}
+.playable-remix-nav { position: relative; flex-shrink: 0; height: 44px; padding: 4px 8px; display: flex; align-items: center; justify-content: flex-end; }
+.playable-remix-nav h2 {
+  position: absolute; left: 50%; transform: translateX(-50%); margin: 0; font-size: 17px; font-weight: 700; line-height: 1.3; pointer-events: none;
+}
+/* Two 180px columns, 10px side insets, 20px between rows; scrolls under the dock. */
+.playable-remix-grid {
+  flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; padding: 2px 10px 120px;
+  display: grid; grid-template-columns: repeat(2, 180px); justify-content: space-between; row-gap: 20px; align-content: start;
+}
+.playable-remix-grid::-webkit-scrollbar { display: none; }
+.playable-remix-card { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.playable-remix-cover { display: block; width: 180px; height: 240px; border-radius: 20px; object-fit: cover; background: #fff; }
+.playable-remix-title { margin: 0; padding-left: 4px; font-size: 13px; font-weight: 600; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.playable-remix-meta {
+  display: flex; align-items: center; justify-content: space-between; margin-top: -4px; padding-left: 4px;
+  font-size: 13px; font-weight: 600; line-height: 1.3; color: var(--tux-v2-color-ui-text-3, rgba(255, 255, 255, 0.6));
+}
+.playable-remix-meta span { display: flex; align-items: center; gap: 4px; }
+.playable-remix-meta span:last-child { gap: 3px; }
+.playable-remix-meta img { width: 20px; height: 20px; border-radius: 999px; object-fit: cover; }
+/* Bottom: blurred fade into black under a 358×56 pill (grouped-2, neutral-4 hairline). */
+.playable-remix-dock {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 156px; display: flex; align-items: flex-start; justify-content: center; padding-top: 65px;
+  box-sizing: border-box; pointer-events: none; isolation: isolate;
+  background: linear-gradient(180deg, rgba(30, 30, 30, 0) 0%, rgba(30, 30, 30, 0.6) 47%, #1e1e1e 95%);
+}
+/* Blur on its own layer: none above the middle, then easing in to full strength at the bottom. */
+.playable-remix-dock::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  -webkit-mask-image: linear-gradient(180deg, transparent 50%, #000 100%); mask-image: linear-gradient(180deg, transparent 50%, #000 100%);
+}
+.playable-remix-input {
+  pointer-events: auto; box-sizing: border-box; width: calc(100% - 32px); height: 56px; padding: 12px 10px 12px 16px;
+  position: relative; overflow: hidden; display: flex; align-items: center; gap: 6px; border-radius: 999px; text-align: left;
+  background: linear-gradient(rgba(30, 30, 30, 0.19), rgba(30, 30, 30, 0.19)), #2c2c2c;
+  border: 1px solid var(--tux-v2-color-ui-shape-neutral-4, rgba(255, 255, 255, 0.13));
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.25); color: var(--tux-v2-color-ui-text-1, #f6f6f6);
+}
+.playable-remix-describe { flex: 1; min-width: 0; height: 100%; padding: 0; display: flex; align-items: center; gap: 6px; text-align: left; color: inherit; }
+.playable-remix-describe-text {
+  flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 17px; line-height: 1.3; color: var(--tux-v2-color-ui-text-placeholder, rgba(255, 255, 255, 0.4)); }
+.playable-remix-go {
+  height: 32px; padding: 0 15px; display: grid; place-items: center; border-radius: 999px;
+  background: var(--tux-v2-color-ui-shape-neutral, #fafafa); color: #000; font-size: 14px; font-weight: 700;
+}
+/* Glow frame: 23px tall at the pill's bottom (top 32px), the art bleeding past it as in Figma. */
+.playable-remix-glow { position: absolute; left: -1px; top: 32px; width: calc(100% + 2px); height: 23px; pointer-events: none; }
+.playable-remix-glow img { position: absolute; top: -4.35%; right: -7.82%; bottom: -669.57%; left: -3.91%; width: auto; height: auto; }
+.playable-remix-describe, .playable-remix-go { position: relative; z-index: 1; }
+.playable-remix-close { position: relative; z-index: 1; width: 44px; height: 44px; padding: 0; display: grid; place-items: center; color: var(--tux-v2-color-ui-text-1, #f6f6f6); }
+.playable-remix-describe-icon { position: relative; flex-shrink: 0; width: 22px; height: 22px; }
+.playable-remix-describe-icon img { position: absolute; left: -30.42%; top: -23.43%; width: 35.38px; max-width: none; height: 35.38px; }

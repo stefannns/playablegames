@@ -1,0 +1,89 @@
+{
+  "tweaks": [
+    {
+      "id": "MAX_CREATURES",
+      "kind": "number",
+      "label": "场景生物上限",
+      "value": 36,
+      "default": 36,
+      "min": 8,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "id": "GROUND_RATIO",
+      "kind": "number",
+      "label": "地平线高度",
+      "value": 0.86,
+      "default": 0.86,
+      "min": 0.72,
+      "max": 0.94,
+      "step": 0.01
+    },
+    {
+      "id": "WOBBLE_SPEED",
+      "kind": "number",
+      "label": "摇摆速度",
+      "value": 0.0018,
+      "default": 0.0018,
+      "min": 0.0005,
+      "max": 0.004,
+      "step": 0.0001
+    }
+  ],
+  "texts": [
+    {
+      "id": "GAME_TITLE",
+      "label": "游戏标题",
+      "value": "Doodle Zoo",
+      "default": "Doodle Zoo",
+      "max_length": 20
+    },
+    {
+      "id": "DRAW_HINT",
+      "label": "绘制引导",
+      "value": "Draw a creature",
+      "default": "Draw a creature",
+      "max_length": 60
+    },
+    {
+      "id": "ZOO_BOOK",
+      "label": "图鉴按钮",
+      "value": "Zoo Book",
+      "default": "Zoo Book",
+      "max_length": 20
+    },
+    {
+      "id": "BOOK_TITLE",
+      "label": "图鉴标题",
+      "value": "Zoo Book",
+      "default": "Zoo Book",
+      "max_length": 20
+    },
+    {
+      "id": "EMPTY_BOOK",
+      "label": "空图鉴提示",
+      "value": "Your first little friend is waiting to be drawn.",
+      "default": "Your first little friend is waiting to be drawn.",
+      "max_length": 70
+    },
+    {
+      "id": "CREATURE_SUFFIX",
+      "label": "生物数量单位",
+      "value": "friends",
+      "default": "friends",
+      "max_length": 20
+    }
+  ],
+  "images": [],
+  "config_version": "2.0",
+  "playable": {
+    "post_id": "109025442480348814",
+    "version_id": "109025442480302833",
+    "runtime_target": "h5",
+    "h5_playstyle_type": "general_game",
+    "content_locale": "en",
+    "min_capability_level": 1,
+    "full_capability_level": 1
+  }
+}

@@ -1,0 +1,199 @@
+/* Result preview — Figma 25205:313324; tool sheets — 25205:313325 / 16143:183977 / 16143:183978 / 18096:183258. */
+.playable-result {
+  position: absolute; inset: 0; z-index: 6; overflow: hidden; display: flex; flex-direction: column;
+  box-sizing: border-box; background: var(--tux-v2-color-ui-page-flat-1, #000); color: var(--tux-v2-color-ui-text-1, #f6f6f6);
+}
+/* Page fill lives on its own layer so a template zoom can fade it in behind the growing card. */
+.playable-result[data-zooming] { background: transparent; }
+.playable-result-backdrop { position: absolute; inset: 0; z-index: -1; background: var(--tux-v2-color-ui-page-flat-1, #000); pointer-events: none; }
+.playable-result-zoom { flex-shrink: 0; will-change: transform; }
+.playable-result-nav { flex-shrink: 0; height: 44px; display: flex; align-items: center; padding: 0 8px; position: relative; z-index: 1; }
+
+/* Stage fills the space between nav and input; the card animates size/offset inside it. */
+.playable-result-stage { flex: 1; min-height: 0; display: flex; justify-content: center; align-items: flex-start; }
+/* Smooth (squircle) corners, no stroke; no fill behind the art so no light fringe. */
+.playable-result-card { position: relative; flex-shrink: 0; overflow: hidden; }
+.playable-result-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* Chat to edit: 358×48, 20px under the card and above the tool bar. */
+.playable-result-input {
+  flex-shrink: 0; box-sizing: border-box; margin: 20px 16px 0; height: 48px; padding: 14px 16px; border-radius: 25px;
+  background: var(--tux-v2-color-ui-sheet-flat-1, #1e1e1e); border: 0.5px solid var(--tux-v2-color-ui-shape-neutral-4, rgba(255, 255, 255, 0.13));
+  font-size: 17px; line-height: 1.3; color: rgba(255, 255, 255, 0.2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.playable-result-toolbar { flex-shrink: 0; height: 54px; margin-top: 20px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px 0 12px; }
+.playable-result-tools { display: flex; gap: 6px; }
+.playable-result-tool {
+  width: 56px; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-size: 11px; font-weight: 600; line-height: 1.3; color: var(--tux-v2-color-ui-text-2, rgba(255, 255, 255, 0.88));
+}
+.playable-result-tool-icon { position: relative; width: 28px; height: 28px; display: grid; place-items: center; color: var(--tux-v2-color-ui-text-1, #f6f6f6); }
+/* 16px count badge at the icon's top-right (left 20, top -4.5). */
+.playable-result-badge {
+  position: absolute; left: 20px; top: -4.5px; width: 16px; height: 16px; border-radius: 999px; background: #8fb4ff;
+  display: grid; place-items: center; font-size: 11px; font-weight: 700; line-height: 1; color: #000;
+}
+.playable-result-next {
+  width: 48px; height: 48px; padding: 0; border-radius: 999px; display: grid; place-items: center;
+  background: var(--tux-v2-color-ui-shape-neutral, #fafafa); color: #000;
+}
+
+/* Tool sheet: #1e1e1e, 26px top corners, floating shadow; 52px nav then a 276px body. */
+.playable-tool-sheet {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; box-sizing: border-box; overflow: hidden;
+  background: var(--tux-v2-color-ui-sheet-flat-1, #1e1e1e); border-radius: 26px 26px 0 0; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+}
+.playable-sheet-nav { position: relative; height: 44px; padding: 4px 8px; display: flex; align-items: center; justify-content: space-between; }
+.playable-sheet-nav button { width: 48px; height: 44px; padding: 0; display: grid; place-items: center; color: var(--tux-v2-color-ui-text-1, #f6f6f6); }
+.playable-sheet-nav button:disabled { opacity: 0.2; cursor: default; }
+.playable-sheet-nav h2 {
+  position: absolute; left: 75px; right: 75px; margin: 0; display: flex; align-items: center; justify-content: center; gap: 5px;
+  font-size: 17px; font-weight: 700; line-height: 1.3; pointer-events: none;
+}
+.playable-sheet-body { position: relative; height: 276px; box-sizing: border-box; overflow-y: auto; scrollbar-width: none; }
+.playable-sheet-body::-webkit-scrollbar { display: none; }
+
+/* Modify */
+.playable-modify-body { padding: 13px 20px 0; display: flex; flex-direction: column; gap: 24px; }
+.playable-tweak { display: flex; flex-direction: column; gap: 8px; }
+.playable-tweak-label { display: flex; justify-content: space-between; font-size: 15px; font-weight: 600; line-height: 1.3; color: var(--tux-v2-color-ui-text-3, rgba(255, 255, 255, 0.6)); }
+.playable-tweak[data-active="true"] .playable-tweak-label span:first-child { color: rgba(255, 255, 255, 0.75); }
+.playable-tweak-track {
+  position: relative; height: 32px; border-radius: 12px; box-sizing: border-box; touch-action: none; cursor: pointer; outline: none;
+  background: rgba(51, 51, 51, 0.6); border: 1px solid rgba(255, 255, 255, 0.02);
+}
+.playable-tweak-track:focus-visible { box-shadow: 0 0 0 2px #4b80ff; }
+.playable-tweak-fill { position: absolute; left: -1px; top: -1px; bottom: -1px; border-radius: 10px; background: var(--tux-v2-color-ui-shape-neutral, #fafafa); opacity: 0.6; }
+.playable-tweak-thumb { position: absolute; top: -1px; bottom: -1px; width: 14px; border-radius: 12px; background: #fff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); }
+.playable-tweak-dot { position: absolute; top: 50%; width: 4px; height: 4px; margin: -2px 0 0 -2px; border-radius: 50%; background: rgba(255, 255, 255, 0.1); }
+.playable-modify-switches { display: flex; flex-direction: column; gap: 4px; padding-bottom: 16px; }
+.playable-modify-switch { height: 59px; display: flex; align-items: center; justify-content: space-between; font-size: 15px; font-weight: 600; line-height: 1.3; color: var(--tux-v2-color-ui-text-3, rgba(255, 255, 255, 0.6)); }
+
+/* Text: 15px labels (12px inset) over 52px pill inputs. */
+.playable-text-body { padding: 12px 20px 0; display: flex; flex-direction: column; gap: 24px; }
+.playable-text-field { display: flex; flex-direction: column; gap: 8px; }
+.playable-text-field span { padding: 0 12px; font-size: 15px; font-weight: 600; line-height: 1.3; color: var(--tux-v2-color-ui-text-3, rgba(255, 255, 255, 0.6)); }
+.playable-text-field input {
+  height: 52px; box-sizing: border-box; padding: 0 12px 0 16px; border-radius: 999px; outline: none;
+  background: var(--tux-v2-color-ui-shape-neutral-4, rgba(255, 255, 255, 0.13)); border: 1px solid rgba(255, 255, 255, 0.02);
+  font: inherit; font-size: 16px; font-weight: 600; line-height: 1.3; color: var(--tux-v2-color-ui-text-1, #f6f6f6); caret-color: #4b80ff;
+}
+
+/* Images: 114px tiles (r16, 8px apart); Replace / AI cutout circles 238px down, 20% until a tile is picked. */
+.playable-images-body { padding: 8px 16px 0; }
+.playable-images-row { display: flex; gap: 8px; }
+.playable-images-tile { position: relative; width: 114px; height: 114px; padding: 0; border-radius: 16px; overflow: hidden; }
+.playable-images-tile img { width: 100%; height: 100%; object-fit: cover; }
+/* Transparent cutouts sit on the usual transparency checkerboard. */
+.playable-images-tile[data-cutout] {
+  background: repeating-conic-gradient(#3b3b3b 0 25%, #2a2a2a 0 50%) 0 0 / 18px 18px;
+}
+.playable-images-tile[data-cutout] img { object-fit: contain; }
+.playable-images-tile[aria-pressed="true"] { box-shadow: inset 0 0 0 2px #fff; }
+.playable-images-check {
+  position: absolute; left: 88px; top: 6px; width: 20px; height: 20px; border-radius: 999px; display: grid; place-items: center;
+  background: var(--tux-v2-color-primary, #ff2c55); color: #fff;
+}
+.playable-images-actions { position: absolute; left: 0; right: 0; top: 186px; display: flex; justify-content: center; gap: 24px; opacity: 0.2; transition: opacity 160ms ease-out; }
+.playable-images-actions[data-enabled="true"] { opacity: 1; }
+.playable-images-actions button { width: 48px; height: 48px; padding: 0; border-radius: 999px; display: grid; place-items: center; background: var(--tux-v2-color-ui-shape-neutral, #fafafa); color: #000; }
+
+/* Music: search, tabs, 60px cells; the playing cell is highlighted in TikTok red. */
+.playable-music-body { display: flex; flex-direction: column; overflow: hidden; }
+.playable-music-search {
+  flex-shrink: 0; margin: 0 16px 4px; height: 40px; box-sizing: border-box; padding: 0 10px; border-radius: 8px; display: flex; align-items: center; gap: 4px;
+  background: var(--tux-v2-color-ui-shape-neutral-4, rgba(255, 255, 255, 0.13)); color: rgba(255, 255, 255, 0.4);
+}
+.playable-music-search input { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font: inherit; font-size: 16px; color: var(--tux-v2-color-ui-text-1, #f6f6f6); }
+.playable-music-search input::placeholder { color: rgba(255, 255, 255, 0.4); }
+.playable-music-tabs { flex-shrink: 0; height: 44px; display: flex; gap: 24px; padding: 0 16px; border-bottom: 0.5px solid var(--tux-v2-color-ui-shape-neutral-3, rgba(255, 255, 255, 0.19)); }
+.playable-music-tabs button { position: relative; padding: 0; font-size: 15px; font-weight: 600; line-height: 1.3; color: var(--tux-v2-color-ui-text-3, rgba(255, 255, 255, 0.6)); }
+.playable-music-tabs button[aria-selected="true"] { color: var(--tux-v2-color-ui-text-1, #f6f6f6); }
+.playable-music-tabs button[aria-selected="true"]::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--tux-v2-color-ui-shape-neutral, #fafafa); }
+.playable-music-list { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; }
+.playable-music-cell { display: flex; align-items: center; gap: 12px; padding: 6px 16px 6px; cursor: pointer; }
+.playable-music-cell[data-selected="true"] { background: var(--tux-v2-color-ui-shape-neutral-4, rgba(255, 255, 255, 0.13)); }
+.playable-music-cover { width: 48px; height: 48px; flex-shrink: 0; border-radius: 8px; object-fit: cover; box-sizing: border-box; }
+.playable-music-cell[data-selected="true"] .playable-music-cover { border: 2px solid #ff3b5c; }
+.playable-music-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.playable-music-info strong { display: flex; align-items: center; gap: 4px; font-size: 15px; font-weight: 600; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.playable-music-cell[data-selected="true"] strong { color: #ff3b5c; }
+.playable-music-info span { font-size: 12px; line-height: 1.3; color: var(--tux-v2-color-ui-text-3, rgba(255, 255, 255, 0.6)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.playable-music-wave { display: inline-flex; align-items: flex-end; gap: 1.33px; width: 16px; height: 16px; padding: 0 2px 2.67px; box-sizing: border-box; }
+.playable-music-wave b { width: 2px; border-radius: 0.67px; background: #ff3b5c; animation: playable-wave 0.9s ease-in-out infinite alternate; }
+.playable-music-wave b:nth-child(1) { height: 2px; }
+.playable-music-wave b:nth-child(2) { height: 11px; animation-delay: -0.3s; }
+.playable-music-wave b:nth-child(3) { height: 4px; animation-delay: -0.6s; }
+.playable-music-wave b:nth-child(4) { height: 5px; animation-delay: -0.15s; }
+@keyframes playable-wave { to { transform: scaleY(0.4); } }
+@media (prefers-reduced-motion: reduce) { .playable-music-wave b { animation: none; } }
+.playable-music-wave b { transform-origin: bottom; }
+.playable-music-save { width: 24px; height: 24px; padding: 0; display: grid; place-items: center; color: var(--tux-v2-color-ui-text-1, #f6f6f6); }
+.playable-music-save[aria-pressed="true"] { color: #fecb2f; }
+
+/* LUI typing — Figma 16143:184769 / 16143:186204 / 18220:283985. */
+.playable-result-input { display: block; width: auto; text-align: left; font-family: inherit; }
+.playable-result-input[data-filled] { color: var(--tux-v2-color-ui-text-1, #f6f6f6); }
+.playable-result-toolbar[hidden] { display: none; }
+.playable-result-keyboard { flex-shrink: 0; }
+/* Input_LUI: 12px around a 366-wide box; text 14/14/10 inset over a 50px action row (96px at one line). */
+.playable-lui-dock { position: relative; flex-shrink: 0; padding: 12px; }
+.playable-lui-box {
+  position: relative; display: flex; flex-direction: column; box-sizing: border-box; border-radius: 24px;
+  background: var(--tux-v2-color-ui-sheet-flat-1, #1e1e1e); border: 0.5px solid var(--tux-v2-color-ui-shape-neutral-4, rgba(255, 255, 255, 0.13));
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+.playable-lui-field-wrap { position: relative; margin: 14px 14px 10px; }
+.playable-lui-field, .playable-lui-field-mirror {
+  box-sizing: content-box; width: 100%; padding: 0; border: 0; font: inherit; font-size: 16px; line-height: 1.3;
+  white-space: pre-wrap; overflow-wrap: break-word; word-break: normal; letter-spacing: normal;
+}
+.playable-lui-field {
+  position: relative; display: block; min-height: 22px; outline: 0; background: transparent; resize: none;
+  overflow-y: auto; scrollbar-width: none; color: transparent; caret-color: #728eff;
+}
+.playable-lui-field-mirror {
+  position: absolute; left: 0; top: 0; height: 100%; overflow: hidden; pointer-events: none;
+  color: var(--tux-v2-color-ui-text-1, #f6f6f6);
+}
+/* Mentions: #60B3FF semibold. In the field it is a hairline stroke, so glyph widths (and the caret) stay put. */
+.playable-mention-tag { color: #60b3ff; font-weight: 600; }
+.playable-lui-field-mirror .playable-mention-tag { font-weight: inherit; -webkit-text-stroke: 0.4px currentColor; }
+.playable-lui-field::-webkit-scrollbar { display: none; }
+.playable-lui-field::placeholder { color: rgba(255, 255, 255, 0.2); }
+.playable-lui-actions { display: flex; align-items: center; gap: 4px; padding: 0 10px 10px; }
+.playable-lui-actions button { width: 40px; height: 40px; padding: 0; display: grid; place-items: center; color: var(--tux-v2-color-ui-text-1, #f6f6f6); }
+.playable-lui-actions .playable-generating-send:not(:disabled) { opacity: 1; }
+/* Mention: 104px blurred fade over the card's bottom, its frame ending 1px into the dock's top padding. */
+.playable-lui-mention {
+  position: absolute; left: 0; right: 0; bottom: calc(100% - 11px); height: 104px; overflow: hidden; isolation: isolate;
+  background: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.8) 72.36%, rgba(0, 0, 0, 0) 100%);
+}
+/* The blur lives on its own layer and fades in from the top, so it has no hard edge over the card. */
+.playable-lui-mention::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  -webkit-mask-image: linear-gradient(to top, #000 45%, transparent 100%); mask-image: linear-gradient(to top, #000 45%, transparent 100%);
+}
+.playable-lui-mention::after {
+  content: ""; position: absolute; right: 0; top: 28px; width: 56px; height: 64px; pointer-events: none;
+  background: linear-gradient(to left, #000 0%, rgba(0, 0, 0, 0) 254.17%);
+}
+.playable-lui-mention-row {
+  position: absolute; left: 0; right: 0; top: 20px; display: flex; align-items: flex-end; gap: 2px;
+  padding: 8px 56px 12px 12px; overflow-x: auto; scrollbar-width: none;
+}
+.playable-lui-mention-row::-webkit-scrollbar { display: none; }
+.playable-lui-mention-item {
+  flex-shrink: 0; width: 64px; padding: 0; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  font-size: 12px; line-height: 1.3; color: var(--tux-v2-color-ui-text-3, rgba(255, 255, 255, 0.6));
+}
+.playable-lui-mention-item img {
+  width: 42px; height: 42px; box-sizing: border-box; border-radius: 999px; object-fit: cover;
+  border: 0.5px solid var(--tux-v2-color-ui-shape-neutral-4, rgba(255, 255, 255, 0.13));
+}
+.playable-lui-mention-item span { width: 64px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; }
+
+/* Generated game in a card — playable_game_frame.tsx scales a phone-width viewport to cover the box. */
+.playable-game-box { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; background: #87ceeb; }
+.playable-game-frame { position: absolute; left: 0; top: 0; display: block; border: 0; transform-origin: 0 0; }

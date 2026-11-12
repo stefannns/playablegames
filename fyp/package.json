@@ -1,0 +1,47 @@
+{
+  "name": "tiktok_ux_demo",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "bash ./dev.sh",
+    "build": "tsc -b && vite build",
+    "build:cdn": "tsc -b && vite build --mode cdn",
+    "build:goofy": "python3 scripts/cdn/build_minitt_goofy.py",
+    "resource:optimize-videos": "python3 scripts/cdn/optimize_minitt_videos.py",
+    "cdn:upload:minitt": "python3 scripts/cdn/upload_minitt_resource_cdn.py",
+    "cdn:upload:minitt:dry": "python3 scripts/cdn/upload_minitt_resource_cdn.py --dry-run",
+    "preview": "vite preview",
+    "agentation:server": "agentation-mcp server",
+    "agentation:doctor": "agentation-mcp doctor"
+  },
+  "dependencies": {
+    "@byted-tiktok/fly-color-wasm-lib": "^1.0.2",
+    "@byted-tiktok/tux-color": "^1.3.0",
+    "@byted-tiktok/tux-icons": "^2.39.54",
+    "@byted-tiktok/tux-web": "^1.6.2",
+    "@paper-design/shaders-react": "^0.0.81",
+    "@tiktok-arch/tux-illustration": "^0.2.7",
+    "framer-motion": "^12.38.0",
+    "gsap": "^3.14.2",
+    "lottie-react": "^2.4.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-qr-code": "^2.0.18",
+    "react-router-dom": "^7.13.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-basic-ssl": "^2.3.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "agentation": "^3.0.1",
+    "agentation-mcp": "^1.2.0",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.0",
+    "vite-plugin-pwa": "^1.2.0"
+  }
+}

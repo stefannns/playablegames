@@ -1,0 +1,878 @@
+@import "tailwindcss";
+@config "../tailwind.config.cjs";
+
+/*
+ * 全局默认字体（TikTok Sans）。
+ *
+ * --app-font-sans / --app-font-display 是项目级语义 token，默认指向 TUX 的
+ * TikTok Sans 字族变量（随 `@byted-tiktok/tux-web/styles.css` 注入 @font-face）。
+ * 将来要整体换字体或做 A/B，只改这两行即可。Tailwind 的 `font-sans` /
+ * `font-display` 也映射到这两个 token（见 tailwind.config.cjs）。
+ */
+:root {
+	--app-font-sans: var(--tux-v2-font-text);
+	--app-font-display: var(--tux-v2-font-display);
+
+	/*
+	 * Desagent host bridge (index.html HMR) writes --safe-area-* on
+	 * documentElement via safe-area:set postMessage. Default to env() so
+	 * standalone real devices keep native insets.
+	 */
+	--safe-area-top: env(safe-area-inset-top, 0px);
+	--safe-area-bottom: env(safe-area-inset-bottom, 0px);
+	--safe-area-left: env(safe-area-inset-left, 0px);
+	--safe-area-right: env(safe-area-inset-right, 0px);
+
+	/*
+	 * Resolved safe-area insets for layout:
+	 * - Real touch devices → env(safe-area-inset-*)
+	 * - Desktop fine pointer (Desagent narrow embed) → host --safe-area-*
+	 */
+	--app-safe-area-top: env(safe-area-inset-top, 0px);
+	--app-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+	--app-safe-area-left: env(safe-area-inset-left, 0px);
+	--app-safe-area-right: env(safe-area-inset-right, 0px);
+}
+
+@media (hover: none) and (pointer: coarse) {
+	:root {
+		--app-safe-area-top: env(safe-area-inset-top, 0px);
+		--app-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+		--app-safe-area-left: env(safe-area-inset-left, 0px);
+		--app-safe-area-right: env(safe-area-inset-right, 0px);
+	}
+}
+
+@media (hover: hover) and (pointer: fine) {
+	:root {
+		--app-safe-area-top: var(--safe-area-top, env(safe-area-inset-top, 0px));
+		--app-safe-area-bottom: var(--safe-area-bottom, env(safe-area-inset-bottom, 0px));
+		--app-safe-area-left: var(--safe-area-left, env(safe-area-inset-left, 0px));
+		--app-safe-area-right: var(--safe-area-right, env(safe-area-inset-right, 0px));
+	}
+}
+
+/*
+ * 根兜底：未显式设字体的元素（含未走 TUXText 的自定义组件）继承 TikTok Sans。
+ * 刻意不使用 !important —— 让内联 / 特殊字体（软键盘的 Apple 系统字体、
+ * 文字转图片模板的 Google Fonts 等）按 CSS 优先级自然胜出，无需逐处豁免。
+ */
+html {
+	font-family: var(--app-font-sans);
+}
+
+html,
+body {
+	touch-action: pan-x pan-y;
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-touch-callout: none;
+}
+
+/* 输入场景保留系统选区（发布文案、评论、软键盘绑定的 input/textarea 等）。 */
+input,
+textarea,
+[contenteditable="true"] {
+	-webkit-user-select: text;
+	user-select: text;
+	-webkit-touch-callout: default;
+}
+
+html[data-app-display-mode="standalone"],
+html[data-app-display-mode="standalone"] body,
+html[data-app-display-mode="standalone"] #root {
+	height: 100%;
+	min-height: 100%;
+	background-color: #222222;
+	overflow: hidden;
+	overscroll-behavior: none;
+}
+
+html[data-app-display-mode="standalone"] #root {
+	position: relative;
+}
+
+@supports (height: 100dvh) {
+	html[data-app-display-mode="standalone"],
+	html[data-app-display-mode="standalone"] body,
+	html[data-app-display-mode="standalone"] #root {
+		height: 100dvh;
+		min-height: 100dvh;
+	}
+}
+
+@supports (height: 100lvh) {
+	html[data-app-display-mode="standalone"],
+	html[data-app-display-mode="standalone"] body,
+	html[data-app-display-mode="standalone"] #root {
+		height: 100lvh;
+		min-height: 100lvh;
+	}
+}
+
+/*
+ * 容器 squircle：节点设 border-radius 并加 data-electron-smooth-corner（勿在业务 CSS
+ * 重复 -electron-corner-smoothing）。机框 62px 仅 [data-app-frame-root]。
+ * TUXButton 带 text 须 smoothRadius（仓库工程约定）。
+ *
+ * Electron-only: browsers ignore the property; Electron 35+ maps it to system-ui
+ * squircle on the desktop phone-frame root and marked descendants.
+ */
+[data-app-frame-root="true"],
+[data-electron-smooth-corner] {
+	-electron-corner-smoothing: system-ui;
+}
+
+/*
+ * AppFrame inset model (consumed via the `useAppFrame()` context).
+ * Full usage rules: `src/components/sys/SAFE_AREA.md`.
+ *
+ *   --app-frame-top-inset              — stable top inset for elements
+ *                                        anchored to the frame top
+ *                                        (status bar / safe-area).
+ *                                        Reflects `--app-safe-area-top` on
+ *                                        real devices and Desagent embed, and
+ *                                        the 62px desktop StatusBar height
+ *                                        (matches `h-15.5`) on sm+ phone-frame.
+ *   --app-frame-top-toast-offset       — TUXTopToast `topSafeAreaHeight`
+ *                                        when portaled to AppFrame via
+ *                                        `showAppFrameTopToast()` (inset +
+ *                                        8px breathing room).
+ *   --app-frame-bottom-inset           — stable bottom inset for in-flow
+ *                                        elements anchored to the frame
+ *                                        bottom (tab bars, sticky footers,
+ *                                        scroll padding-bottom). Reflects
+ *                                        the real safe-area on mobile and
+ *                                        the fake 34px Home Indicator pill
+ *                                        on the desktop phone-frame.
+ *   --app-frame-floating-bottom-inset  — same value while the soft keyboard
+ *                                        is down; collapses to 0px while it
+ *                                        is up so floating composers that
+ *                                        translate above the keys sit flush
+ *                                        against the surface instead of
+ *                                        floating with a stale safe-area
+ *                                        gap below them.
+ *
+ * All three variables are driven entirely by CSS (media query + `data-
+ * keyboard-open`), so consumers can `transition: padding-bottom …` and the
+ * change carries through naturally without any JS scheduling.
+ */
+[data-app-frame-root="true"] {
+	--app-frame-top-inset: var(--app-safe-area-top);
+	--app-frame-top-toast-offset: calc(var(--app-frame-top-inset) + 8px);
+	--app-frame-bottom-inset: max(var(--app-safe-area-bottom), 8px);
+	--app-frame-floating-bottom-inset: var(--app-frame-bottom-inset);
+}
+
+@media (min-width: 640px) {
+	html:not([data-desagent-embed="true"]) [data-app-frame-root="true"] {
+		/* Standalone browser sm+ phone-frame: env() is 0 inside the centered
+		 * frame, so swap in fixed heights matching the fake StatusBar
+		 * (`h-15.5` = 62px) and HomeIndicator (`h-8.5` = 34px).
+		 * Desagent phone-frame embed keeps host `--safe-area-*`. */
+		--app-frame-top-inset: 62px;
+		--app-frame-bottom-inset: 34px;
+		--app-frame-floating-bottom-inset: 34px;
+	}
+}
+
+/* Desagent Full Screen: host sends 0px insets — AppFrame owns fake chrome. */
+html[data-desagent-embed="true"][data-desagent-fullscreen="true"] [data-app-frame-root="true"] {
+	--app-frame-top-inset: 62px;
+	--app-frame-bottom-inset: 34px;
+	--app-frame-floating-bottom-inset: 34px;
+}
+
+/*
+ * Fake iOS shell chrome — standalone browser sm+ OR Desagent Full Screen only.
+ * Desagent phone-frame embed: host paints status bar + home indicator.
+ */
+.app-frame-fake-status-bar,
+.app-frame-fake-home-indicator,
+.app-frame-fake-status-bar-spacer,
+.app-frame-fake-home-indicator-spacer {
+	display: none;
+}
+
+@media (min-width: 640px) {
+	html:not([data-desagent-embed="true"]) .app-frame-fake-status-bar,
+	html:not([data-desagent-embed="true"]) .app-frame-fake-home-indicator {
+		display: flex;
+	}
+
+	html:not([data-desagent-embed="true"]) .app-frame-fake-status-bar-spacer,
+	html:not([data-desagent-embed="true"]) .app-frame-fake-home-indicator-spacer {
+		display: block;
+	}
+}
+
+html[data-desagent-embed="true"][data-desagent-fullscreen="true"] .app-frame-fake-status-bar,
+html[data-desagent-embed="true"][data-desagent-fullscreen="true"] .app-frame-fake-home-indicator {
+	display: flex;
+}
+
+html[data-desagent-embed="true"][data-desagent-fullscreen="true"] .app-frame-fake-status-bar-spacer,
+html[data-desagent-embed="true"][data-desagent-fullscreen="true"] .app-frame-fake-home-indicator-spacer {
+	display: block;
+}
+
+/* Tab bar: sm+ standalone or Desagent Full Screen clears pb for home-indicator spacer. */
+.pb-app-tab-bar-bottom {
+	padding-bottom: max(var(--app-safe-area-bottom), 8px);
+}
+
+@media (min-width: 640px) {
+	html:not([data-desagent-embed="true"]) .pb-app-tab-bar-bottom {
+		padding-bottom: 0;
+	}
+}
+
+html[data-desagent-embed="true"][data-desagent-fullscreen="true"] .pb-app-tab-bar-bottom {
+	padding-bottom: 0;
+}
+
+/*
+ * Shell debug chrome — RouteSwitcher, ThemeSwitcher, QR, Agentation.
+ * Hidden in Desagent embed; standalone browser keeps sm+ (QR uses md+ in component).
+ */
+.app-shell-dev-toolbar {
+	display: none;
+}
+
+@media (min-width: 640px) {
+	html:not([data-desagent-embed="true"]) .app-shell-dev-toolbar {
+		display: block;
+	}
+}
+
+/*
+ * 配置面板 — standalone sm+; Desagent phone preview hidden; Full Screen only when embedded.
+ */
+.app-frame-config-panel-chrome {
+	display: none;
+}
+
+html[data-desagent-embed="true"][data-desagent-fullscreen="true"] .app-frame-config-panel-chrome {
+	display: block;
+}
+
+@media (min-width: 640px) {
+	html:not([data-desagent-embed="true"]) .app-frame-config-panel-chrome {
+		display: block;
+	}
+}
+
+.app-frame-config-panel-chrome--flex {
+	display: none;
+}
+
+html[data-desagent-embed="true"][data-desagent-fullscreen="true"] .app-frame-config-panel-chrome--flex {
+	display: flex;
+}
+
+@media (min-width: 640px) {
+	html:not([data-desagent-embed="true"]) .app-frame-config-panel-chrome--flex {
+		display: flex;
+	}
+}
+
+[data-app-frame-root="true"][data-keyboard-open="true"] {
+	--app-frame-floating-bottom-inset: 0px;
+}
+
+:root[data-home-explore-surface="light"]
+	[data-app-status-bar="true"]
+	[data-app-status-bar-foreground="true"] {
+	color: #000 !important;
+	fill: #000 !important;
+	filter: none !important;
+	text-shadow: none !important;
+}
+
+/*
+ * Desktop phone-frame silhouette (sm+).
+ *
+ *   `[data-app-frame-root]` — squircle (`border-radius` + electron smoothing +
+ *   `overflow: hidden`). Single rounded silhouette; do not add a second 62px
+ *   `clip-path` / `border-radius` on descendants (nested rims in light mode).
+ *
+ *   `[data-app-frame-content]` — rectangular `overflow: hidden` only. Traps
+ *   transform/backdrop compositor layers inside the business subtree so frame
+ *   overlays (Add to story @ APP_Z_OVERLAY) paint above tab content.
+ *
+ * 沉浸式 / 浮层分层 — 见 `src/components/sys/app_frame.tsx` 文件头。
+ *
+ * Mobile (< sm) stays edge-to-edge (no rounding).
+ */
+@media (min-width: 640px) {
+	[data-app-frame-root="true"] {
+		border-radius: 62px;
+	}
+
+	/* Sliding keyboard panel — 27px top squircle (`data-electron-smooth-corner`
+	 * on host), square bottom; frame root keeps the 62px phone silhouette. */
+	[data-soft-keyboard-clip] {
+		overflow: hidden;
+	}
+}
+
+/*
+ * Soft keyboard built-in <input>. The placeholder colour is driven via a CSS
+ * variable so the host component can pick the right hue per resolved theme
+ * without resorting to a `<style>` block in JSX.
+ */
+input[data-softkb-input]::placeholder {
+	color: var(--softkb-placeholder-color, rgba(60, 60, 67, 0.55));
+}
+
+/*
+ * Music panel: TUX overlay CSS defaults to #000; keep the node for outside-tap
+ * dismiss but force transparent so edit preview / camera shows through.
+ */
+[data-app-frame-root="true"] [class*="tux-sheet__overlay"]:has(+ [data-testid="edit-music-panel-sheet"]),
+[data-app-frame-root="true"] [class*="tux-sheet__overlay"]:has(+ [data-testid="edit-music-volume-sheet"]),
+[data-app-frame-root="true"] [class*="tux-sheet__overlay"]:has(+ * [data-testid="edit-music-panel-sheet"]),
+[data-app-frame-root="true"] [class*="tux-sheet__overlay"]:has(+ * [data-testid="edit-music-volume-sheet"]) {
+	background-color: transparent !important;
+}
+
+/*
+ * Publish page title/description fields: bind the native ::placeholder
+ * pseudo-element to the TUX UITextPlaceholder token so it matches theme
+ * (instead of falling back to the browser UA default colour).
+ */
+.app-token-placeholder::placeholder {
+	color: var(--ui-text-placeholder);
+}
+
+@utility shadow-panel-floating {
+	box-shadow: 0 16px 48px rgb(0 0 0 / 0.28);
+}
+
+@utility shadow-tabbar-top {
+	box-shadow: 0 -1px 0 0 var(--tux-v2-color-ui-shape-neutral-3);
+}
+
+/* Comment debug panels + friends horizontal bleed (canonical utilities, no arbitrary brackets). */
+@utility max-h-comment-panel-shell {
+	max-height: calc(100vh - 32px);
+}
+
+@utility max-h-comment-panel-body {
+	max-height: calc(100vh - 112px);
+}
+
+@utility top-experiment-menu {
+	top: calc(100% + 8px);
+}
+
+@utility w-friends-carousel-bleed-sm {
+	width: calc(100% + 32px);
+}
+
+@utility w-friends-carousel-bleed-lg {
+	width: calc(100% + 84px);
+}
+
+@utility max-h-feed-cover {
+	max-height: min(52vh, 420px);
+}
+
+@utility friends-feed-scroll {
+	& > article:last-child {
+		border-bottom-width: 0;
+	}
+}
+
+/*
+ * Home For You feed: distance from a snap page's top to the bottom edge of
+ * the category tab row. Photo-text cards use this to keep framework C clear
+ * of the status bar + top tab chrome.
+ */
+.home-feed-page {
+	--home-feed-tab-row-height: 44px;
+	--home-tabs-below-top: calc(var(--app-frame-top-inset) + var(--home-feed-tab-row-height));
+}
+
+@utility pt-app-frame-top {
+	padding-top: var(--app-frame-top-inset);
+}
+
+@utility pt-app-frame-top-gap-4 {
+	padding-top: calc(var(--app-frame-top-inset) + 16px);
+}
+
+@utility pb-app-safe-bottom {
+	padding-bottom: max(var(--app-safe-area-bottom), 8px);
+}
+
+@utility h-app-frame-bottom {
+	height: var(--app-frame-bottom-inset);
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+[data-agentation-toolbar].agentation-toolbar-bottom-right {
+  top: auto !important;
+  right: 1rem !important;
+  bottom: 4.75rem !important;
+  left: auto !important;
+  z-index: 60 !important;
+}
+
+@keyframes feed-music-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-1 * var(--music-marquee-distance, 0px)));
+  }
+}
+
+@keyframes text-to-image-caret-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.feed-music-marquee-track {
+  display: inline-flex;
+  min-width: max-content;
+  animation-name: feed-music-marquee;
+  animation-duration: var(--music-marquee-duration, 8s);
+  animation-delay: 0.8s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+/*
+ * Leading-trim utilities so bare text rows in the feed info column sit on
+ * cap-height/baseline boxes. Without this, line-height leading (~2px per side)
+ * makes 8px flex gaps read visually as ~12px next to the tight chip boxes.
+ */
+.feed-text-trim {
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.feed-text-trim-end {
+  text-box-trim: trim-end;
+  text-box-edge: cap alphabetic;
+}
+
+/*
+ * Disable native browser image drag / selection globally (mobile-app-like UX).
+ * dragstart prevention in main.tsx covers non-WebKit browsers.
+ */
+img {
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-touch-callout: none;
+}
+
+/* Edit preview containers: explicit no-drag hook (inherits global user-select). */
+.app-no-img-drag {
+	user-select: none;
+}
+
+@media (max-width: 639px) {
+  [data-agentation-toolbar].agentation-toolbar-bottom-right {
+    display: none !important;
+  }
+}
+
+@keyframes app-route-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes app-route-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes photo-text-action-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes photo-text-header-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes photo-text-header-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes photo-text-body-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes photo-text-body-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+@keyframes photo-text-detail-frame-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.photo-text-detail-frame-overlay-enter {
+  animation: photo-text-detail-frame-overlay-in 180ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+[data-photo-text-non-shared] {
+  transition: opacity 160ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+[data-photo-text-exit-target-active="true"] [data-photo-text-non-shared] {
+  opacity: 0;
+}
+
+[data-photo-text-detail-image-target] {
+  transition: opacity 90ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+html[data-photo-text-local-enter="true"] [data-photo-text-detail-image-target] {
+  opacity: 0;
+}
+
+@keyframes like-heart-outline-exit {
+  0% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale3d(
+      var(--like-heart-outline-exit-scale, 0.3),
+      var(--like-heart-outline-exit-scale, 0.3),
+      1
+    );
+  }
+}
+
+@keyframes like-heart-filled-enter {
+  0% {
+    transform: scale3d(
+      var(--like-heart-filled-start-scale, 0.3),
+      var(--like-heart-filled-start-scale, 0.3),
+      1
+    );
+  }
+  62% {
+    transform: scale3d(
+      var(--like-heart-expand-scale-x, 1.2),
+      var(--like-heart-expand-scale-y, 1.08),
+      1
+    );
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes like-heart-particle {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+        calc(-50% + var(--particle-x)),
+        calc(-50% + var(--particle-y))
+      )
+      scale(var(--particle-end-scale, 0.3));
+  }
+}
+
+@keyframes like-count-digit-change {
+  0% {
+    opacity: 0;
+    transform: translateY(var(--like-digit-lift, 6px));
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+::view-transition-group(root) {
+  animation-duration: 320ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(root) {
+  animation: app-route-fade-out 180ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+::view-transition-new(root) {
+  animation: app-route-fade-in 240ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+::view-transition-group(photo-text-shared-image) {
+  animation-duration: 360ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 2;
+}
+
+::view-transition-old(photo-text-shared-image),
+::view-transition-new(photo-text-shared-image) {
+  animation-duration: 360ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-group(photo-text-detail-header),
+::view-transition-group(photo-text-detail-body),
+::view-transition-group(photo-text-detail-action) {
+  animation-duration: 300ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 3;
+}
+
+::view-transition-new(photo-text-detail-header) {
+  animation: photo-text-header-in 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+::view-transition-old(photo-text-detail-header) {
+  animation: photo-text-header-out 300ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+::view-transition-new(photo-text-detail-body) {
+  animation: photo-text-body-in 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+::view-transition-old(photo-text-detail-body) {
+  animation: photo-text-body-out 300ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+::view-transition-new(photo-text-detail-action) {
+  animation: app-route-fade-in 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+::view-transition-old(photo-text-detail-action) {
+  animation: app-route-fade-out 220ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+html[data-photo-text-transition="detail-exit"]::view-transition-group(root),
+html[data-photo-text-transition="detail-exit"]::view-transition-old(root),
+html[data-photo-text-transition="detail-exit"]::view-transition-new(root) {
+  animation: none;
+}
+
+html[data-photo-text-transition="detail-enter"]::view-transition-group(root),
+html[data-photo-text-transition="detail-enter"]::view-transition-old(root),
+html[data-photo-text-transition="detail-enter"]::view-transition-new(root) {
+  animation: none;
+}
+
+html[data-photo-text-transition="detail-enter"]::view-transition-old(root) {
+  animation: app-route-fade-out 160ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+html[data-photo-text-transition="detail-enter"]::view-transition-new(root) {
+  animation: app-route-fade-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+html[data-photo-text-transition="detail-enter"]::view-transition-new(
+    photo-text-detail-header
+  ),
+html[data-photo-text-transition="detail-enter"]::view-transition-new(
+    photo-text-detail-body
+  ),
+html[data-photo-text-transition="detail-enter"]::view-transition-new(
+    photo-text-detail-action
+  ) {
+  animation: app-route-fade-in 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+html[data-photo-text-transition="detail-exit"]::view-transition-old(root) {
+  opacity: 0;
+}
+
+html[data-photo-text-transition="detail-exit"]::view-transition-new(root) {
+  opacity: 1;
+}
+
+html[data-photo-text-transition="detail-exit"]::view-transition-group(
+    photo-text-shared-image
+  ) {
+  animation-duration: 350ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html[data-photo-text-transition="detail-exit"]::view-transition-old(
+    photo-text-shared-image
+  ),
+html[data-photo-text-transition="detail-exit"]::view-transition-new(
+    photo-text-shared-image
+  ) {
+  animation-duration: 350ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html[data-photo-text-transition="detail-exit"]::view-transition-group(
+    photo-text-detail-header
+  ),
+html[data-photo-text-transition="detail-exit"]::view-transition-group(
+    photo-text-detail-body
+  ),
+html[data-photo-text-transition="detail-exit"]::view-transition-group(
+    photo-text-detail-action
+  ) {
+  animation-duration: 150ms;
+  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+html[data-photo-text-transition="detail-exit"]::view-transition-old(
+    photo-text-detail-header
+  ) {
+  animation: photo-text-header-out 150ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+html[data-photo-text-transition="detail-exit"]::view-transition-old(
+    photo-text-detail-body
+  ) {
+  animation: photo-text-body-out 150ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+html[data-photo-text-transition="detail-exit"]::view-transition-old(
+    photo-text-detail-action
+  ) {
+  animation: photo-text-action-out 150ms cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+.like-heart-outline-exit {
+  transform-origin: center;
+  animation: like-heart-outline-exit 150ms both;
+  animation-duration: var(--like-heart-outline-exit-duration, 150ms);
+  animation-timing-function: linear;
+}
+
+.like-heart-filled-enter {
+  transform-origin: center;
+  animation: like-heart-filled-enter 200ms both;
+  animation-duration: var(--like-heart-filled-duration, 200ms);
+  animation-timing-function: cubic-bezier(0.4, 0.3, 1, 1.1);
+}
+
+.like-heart-particle {
+  animation: like-heart-particle 270ms both;
+  animation-duration: var(--particle-duration, 270ms);
+  animation-timing-function: cubic-bezier(0.2, 0.79, 0.8, 0.8);
+}
+
+.like-count-digit-change {
+  animation: like-count-digit-change 180ms both;
+  animation-duration: var(--like-digit-duration, 180ms);
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (max-width: 639px) {
+  [data-agentation-toolbar].agentation-toolbar-bottom-right {
+    display: none !important;
+  }
+}
+
+/* 客态个人页顶部 Tab：hover / press / focus 不改变图标颜色与透明度 */
+.visitor-profile-top-tabs button,
+.visitor-profile-top-tabs [class*="tux-interaction-container"] {
+  cursor: default !important;
+}
+
+.visitor-profile-top-tabs [class*="tux-interaction-container"]:hover,
+.visitor-profile-top-tabs [class*="tux-interaction-container"]:active,
+.visitor-profile-top-tabs [class*="tux-interaction-container--opacity"]:hover,
+.visitor-profile-top-tabs [class*="tux-interaction-container--opacity"]:active {
+  opacity: 1 !important;
+}
+
+.visitor-profile-top-tabs [class*="tux-interaction-container__overlay"] {
+  display: none !important;
+}
+
+.visitor-profile-top-tabs button:focus,
+.visitor-profile-top-tabs button:focus-visible,
+.visitor-profile-top-tabs button:hover,
+.visitor-profile-top-tabs button:active {
+  outline: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+.visitor-profile-top-tabs button:hover span[data-tab-icon][data-active="true"],
+.visitor-profile-top-tabs button:active span[data-tab-icon][data-active="true"] {
+  color: var(--tux-v2-color-ui-text-1) !important;
+  opacity: 1 !important;
+}
+
+.visitor-profile-top-tabs button:hover span[data-tab-icon][data-active="false"],
+.visitor-profile-top-tabs button:active span[data-tab-icon][data-active="false"] {
+  color: var(--tux-v2-color-ui-shape-neutral-2) !important;
+  opacity: 1 !important;
+}
+
+.visitor-profile-top-tabs button:hover span[data-tab-icon] svg,
+.visitor-profile-top-tabs button:active span[data-tab-icon] svg {
+  opacity: 1 !important;
+}

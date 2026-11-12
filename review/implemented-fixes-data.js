@@ -1,0 +1,1975 @@
+/* Concise projection of feedback-tracking/feedback-tracker.md, October 9, 2026.
+ * Lists current implementations, not pending suggestions or superseded versions.
+ * Task IDs isolate games and variants. Local status is not database status.
+ * Update this snapshot alongside the tracker when work changes.
+ */
+window.PLAYABLE_IMPLEMENTED_FIXES = {
+  "one_life_20261020": {
+    "number": 73,
+    "items": [
+      "Four distinct choices per stage from age 4 to 82. Choices affect stats, studies, work and relationships.",
+      "More detailed short stories and outcomes; compact labels in a two-by-two grid. Centered text-only layout, progress below the actions.",
+      "Soft fades and rolling ages. Fixed controls, reduced motion, pause/resume and duplicate-tap protection.",
+      "Weighted birth odds for 172 places, a bar chart and country-name roll.",
+      "Journal, life summary and replay. Local assets; synced Direct/FYP versions."
+    ],
+    "status": "Prototype implemented; awaiting review.",
+    "evidence": [
+      "One Life 20261020",
+      "Four choices and richer stories 20261021"
+    ]
+  },
+  "height_together_20261019": {
+    "number": 72,
+    "items": [
+      "New 3D height simulator with editable names/heights and proportional geometric people.",
+      "Shared red scarf wraps around both necks, with a cloth bridge, hanging ends and matching red fringe. Umbrella canopy matches the scarf red, with darker red ribs and an unchanged pole/handle. Hug, piggyback, cradle, umbrella grip, seating/table contact and shelf reach use actual body/prop anchors with fixed limb lengths. Coffee Date has wider chair spacing and tucked elbows to prevent neighbouring arms intersecting, while preserving tabletop hand contact.",
+      "Eight scenes, drag/pinch and both eye views; no floating zoom/reset buttons. Shared opening motion keeps contacts connected, and unrelated taps no longer trigger the camera-view handler.",
+      "Local photo export, portrait layout and licensed typography. Names/heights stay on-device. Extremely mismatched heights retain real proportions rather than stretching limbs to force unreachable embrace contacts."
+    ],
+    "status": "Prototype implemented; awaiting review.",
+    "evidence": [
+      "Height Together 20261019",
+      "Height poses 20261020"
+    ]
+  },
+  "bead_loop_20261019": {
+    "number": 71,
+    "items": [
+      "New 3D loop with swipe-driven rolling, release inertia and a bead counter. The silent idle motion never adds counts.",
+      "Ten textures: jade, wood, stone, cat, pearl, amber, blue-and-white porcelain, amethyst, gold and obsidian. Different procedural patterns/finishes; switching preserves spin and counts. Cat faces remain upright and camera-facing.",
+      "All ten choices visible in a compact two-row picker with a selected-material name and accessible touch buttons. Portrait layout, dismissing swipe guide, local typography/libraries, keyboard spinning and restrained bead sounds."
+    ],
+    "status": "Prototype implemented; awaiting review.",
+    "evidence": [
+      "Bead Loop 20261019",
+      "Bead textures 20261020"
+    ]
+  },
+  "playable2_20260927020825_iyfbfj": {
+    "number": 14,
+    "items": [
+      "Drawing starts immediately, even without audio. Captured strokes continue across the canvas edge and back.",
+      "Resize preserves artwork and its value; selling is immediate and late audio cannot restart an ended stroke.",
+      "Existing patterns, upgrades, colors and layout retained; broader art-quality feedback remains open."
+    ],
+    "status": "Gameplay repairs implemented locally; awaiting review. Visual redesign/removal not decided.",
+    "evidence": [
+      "Gameplay round 2 — October 14, 2026",
+      "52649991-cb83-40ea-8a7a-5b604131d822"
+    ]
+  },
+  "playable2_20260928030211_tdjer2": {
+    "number": 34,
+    "items": [
+      "Particle springs now run at a fixed simulation rate, keeping the same motion on 30/60/120 Hz displays.",
+      "One pointer owns each drag; secondary fingers, capture loss and hidden pages no longer leave interaction stuck.",
+      "Opening now shows only an animated LOOP demo and a short drag guide; the first action takes effect immediately and hides the guide.",
+      "Enlarged particle artwork; replaced the permanent panel with a compact color/text strip, upload/save icons and optional settings. Font, shape, theme, filter and density controls remain available."
+    ],
+    "status": "October 19 opening/control-layout fixes implemented locally; awaiting review. Host gradient unchanged.",
+    "evidence": [
+      "Gameplay round 2 — October 14, 2026",
+      "b6202dc3-729f-427f-9f78-6f89e6001246",
+      "ui24-31-20261019"
+    ]
+  },
+  "playable2_20261001225611_gjmtbw": {
+    "number": 43,
+    "items": [
+      "Hot/warm clue ranges now scale to the 8×8 map, so large distant regions no longer all show the same cold clue.",
+      "Verified an animal at every target location; duplicate taps and previous-round input cannot corrupt the round.",
+      "Kept the 64-cell map, tap count, clue legend and replay. No animal-generation failure was reproduced."
+    ],
+    "status": "Clue/input repairs implemented locally; awaiting gameplay review.",
+    "evidence": [
+      "Gameplay round 2 — October 14, 2026",
+      "6da4aa14-17c9-4bf1-95f5-7bfa32da7622"
+    ]
+  },
+  "playable2_20260928025330_g1w5ss": {
+    "number": 30,
+    "items": [
+      "Reduced the run to 12 rounds with an earlier grid/difficulty ramp.",
+      "Removed redundant title/Level text; instruction hides after valid play.",
+      "Fixed portrait board sizing, text wrapping and rapid-tap skipping.",
+      "Nov 2 CTA fonts/motion: The footer action guide now breathes."
+    ],
+    "status": "Updated locally; awaiting user review.",
+    "evidence": [
+      "FB-030-03c5a3e5",
+      "FB-030-c1051cac",
+      "Playful fonts and CTA coverage 20261102"
+    ]
+  },
+  "playable2_20260928023148_kiq9wu": {
+    "number": 24,
+    "items": [
+      "Try Again and Play Again work through the framework wrapper; result taps no longer get captured as drawing gestures.",
+      "The car keeps its configured speed regardless of how densely a route is drawn; police turning is consistent across refresh rates. Repeatable escape routes are verified.",
+      "Replay restores the same starting positions and headings. Cancelled and unrelated pointers cannot corrupt a route.",
+      "Nov 2 CTA fonts/motion: The h2 action guide now has an explicit breathing target.",
+      "Nov 2 overhead assets: New transparent top-down red coupe and police sedan, plus a matching goal marker. Cars keep their proportions while turning.",
+      "Nov 2 starting heading: Player car faces upward before drawing and after replay/reset.",
+      "Nov 2 line-only preview: A route draws to the finish while all cars stay still. CTA moved above center, with breathing preserved.",
+      "Nov 3: Removed the escape progress bar from preview and gameplay, including its unused progress updates."
+    ],
+    "status": "Updated locally; awaiting user review.",
+    "evidence": [
+      "cbc5e006-c262-4f2b-88ce-a2b2886a4c4c",
+      "Batch 2 idle previews 20261102",
+      "Playful fonts and CTA coverage 20261102",
+      "Overhead 22 and line-only 23 FYP previews 20261102",
+      "Line-only chase preview 20261102"
+    ]
+  },
+  "playable2_20260928024805_31g1lw": {
+    "number": 27,
+    "items": [
+      "Balls resume bouncing when they settle on the floor or inside a ring, so play does not get stuck.",
+      "Physics uses consistent elapsed time across refresh rates. Circle drawing safely handles cancellation and unrelated pointers.",
+      "Kept one starting ball, paid additional balls and collision-only earnings. Recovery does not spawn balls or award free cash."
+    ],
+    "status": "October 14 gameplay fixes implemented locally; awaiting review. Layout and overlay work held.",
+    "evidence": [
+      "d83bc8d4-e547-4937-a9b4-e0a248a5ffc1"
+    ]
+  },
+  "playable_20260924213804_34rslj": {
+    "number": 2,
+    "items": [
+      "Centered FYP drawing area and eye-drawing guide; retained vertical feed clearance without a leftward offset.",
+      "Clear and Next appear only after drawing; reserved toolbar space prevents the canvas from jumping. No extra Start screen.",
+      "All seven steps, Clear, result and Draw Again remain available. Restored the decorative eye-drawing preview; it never changes saved drawings."
+    ],
+    "status": "October 14 entry fixes implemented locally; awaiting review.",
+    "evidence": [
+      "b1441e66-a61f-4901-93b9-80c1c52b1fc0"
+    ]
+  },
+  "playable2_20260927020828_hix8pk": {
+    "number": 4,
+    "items": [
+      "Cobalt backdrop and coral ring retained; the gold ball now has rounded 3D shading and a highlight.",
+      "Player-placed pads are flat blue circles with a soft cyan glow, no 3D shading. Their upper edge keeps the existing bounce point.",
+      "Kept the 64px ball, bounce physics, rewards, relaunch and centered layout. Preview demonstration remains deferred."
+    ],
+    "status": "October 14 visual fixes implemented locally; awaiting review. Demo request deferred.",
+    "evidence": [
+      "32779fe9-b644-4704-b71f-2ba97c6ee50c",
+      "Gameplay round 2 — October 14, 2026"
+    ]
+  },
+  "playable2_20261013020814_b973b1": {
+    "number": 69,
+    "items": [
+      "Accepts simultaneous drive and steer touches. Each finger holds its own control; releasing, cancelling or shifting button focus does not clear the other finger.",
+      "Input resets when changing levels, hiding the page or losing window focus."
+    ],
+    "status": "Two-thumb controls implemented; awaiting mobile retest.",
+    "evidence": [
+      "Precision Parking multi-touch follow-up 20261013"
+    ]
+  },
+  "playable2_20261013020814_twgfzt": {
+    "number": 68,
+    "items": [
+      "A one-direction pull launches an automatic elliptical swing on release, curling into an inward swirl as it slows.",
+      "Added spring-following pull resistance, stretch/squash feedback and a stronger inward recoil before the ellipse.",
+      "Sped up the released swing about 40%, while keeping the held-drag spring, resistance, damping and rainbow trail settings unchanged.",
+      "The long, fading rainbow path records the released motion only. Pulling again clears it; no trail appears while held.",
+      "Kept the visible first-frame orb and compact action guide. Added tap/keyboard alternatives and guarded cancellation, resizing and hidden-page behavior."
+    ],
+    "status": "Release-only elliptical rainbow motion implemented locally; awaiting review.",
+    "evidence": [
+      "Neon Swing release follow-up 20261013"
+    ]
+  },
+  "playable2_20261013020814_woay2o": {
+    "number": 70,
+    "items": [
+      "Replaced the car example with a newly generated woodland fox-and-mushroom illustration, visible immediately inside the stamp frame.",
+      "Replaced the dotted mask with a solid white postage frame, scalloped edge perforations, a light paper shadow and slight tilt. Captured and uploaded photos share the same frame.",
+      "Capture, photo upload, remove and camera hide/show remain available; frame sizing leaves room for rotation and shadow at short portrait sizes.",
+      "Fixed the jumping lower panel: a compact, reserved camera dock stays stable, without blur flicker or spring overshoot. Hidden controls are inactive and old camera callbacks cannot blank a new preview."
+    ],
+    "status": "New fox artwork and stable camera controls implemented; awaiting review.",
+    "evidence": [
+      "Pocket Stamp frame follow-up 20261013",
+      "Pocket Stamp fox/dock follow-up 20261013"
+    ]
+  },
+  "playable2_20261013020955_2hyyml": {
+    "number": 61,
+    "items": [
+      "Six camera treatments: worn silver-plate, black-and-white film, soft color film, analog video, early digital and clean modern.",
+      "Older eras add grain, dust, scratches, soft detail, dark edges and subtle film weave; color film adds edge light leaks, while analog video adds scanlines and tracking.",
+      "Live preview and saved photos share the same effects and crop. Camera controls remain clear; reduced motion stops decorative film movement.",
+      "Timeline drags move five years per eight pixels, so short swipes reach different eras. Exact year entry remains available.",
+      "Circular camera button and local DM Sans typography, with the style label and dial years retained. Guidance starts with ‘drag to change year’, then switches to ‘tap to enter camera’ after interacting with the year selector. Matching swipe/tap gestures demonstrate each step without moving controls. No large build button or assembly wait."
+    ],
+    "status": "Era effects, sensitive timeline and simplified guided opening implemented; awaiting review.",
+    "evidence": [
+      "Time Camera era effects follow-up 20261013",
+      "Time Camera timeline sensitivity follow-up 20261013"
+    ]
+  },
+  "playable2_20260927020828_5pmrhn": {
+    "number": 3,
+    "items": [
+      "Orchid Paper colors; n/4 with no Hint, puzzles old 4 → 6 → 1 → 2, and a circular success check badge.",
+      "Puzzle higher, opening guide below; valid first node hides guidance without shifting the board. Centered decorative FYP demo retained.",
+      "Impossible paths turn red with failure feedback. Drawing from a node retries the same level immediately, without Reset."
+    ],
+    "status": "Original HUD cleanup accepted; October 14 entry/failure fixes implemented locally, awaiting review.",
+    "evidence": [
+      "FB-003-3e1fcc45",
+      "FB-003-ceef90d6",
+      "One Stroke layout follow-up 20261009",
+      "Simple color themes follow-up 20261009",
+      "21e5e10f-0c95-44ea-9fab-f84e3b51f543",
+      "Gameplay round 2 — October 14, 2026",
+      "a3b52305-bbcf-4b01-a3e2-1a1177ccfd25"
+    ]
+  },
+  "playable2_20260927020828_iuyca5": {
+    "number": 5,
+    "items": [
+      "50 dumplings in 15 seconds; countdown starts with the first steamer tap.",
+      "Separated targets and expanded tap areas; fixed duplicate counting.",
+      "Each target now opens its own bamboo steamer to reveal a cartoon bun.",
+      "Opening guidance states the 50-bun goal and first-tap start; centered FYP board retains vertical clearance.",
+      "Restored the decorative steamer-reveal preview; it never collects a bun or starts time. The first real steamer tap still starts the 15-second round."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-005-8e7edd06",
+      "Individual steamer correction",
+      "Cartoon bun follow-up",
+      "Feed-first entry request 20261008",
+      "209bd1dd-bd45-4552-8a47-98a839ae8909"
+    ]
+  },
+  "playable2_20260927020828_oumj12": {
+    "number": 6,
+    "items": [
+      "Centered results on the target circle at different preview sizes.",
+      "Mint Draft colors; removed the emoji after “Missed!”.",
+      "Shows actual string-length percentage, including values above 100%.",
+      "Larger, centered circle and raised FYP play area, with clear static guidance. Short screens reserve room below the target.",
+      "Displayed string and circle share the same visual scale; drawing speed, length percentages and scoring are unchanged. Input works while audio is pending or denied."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-006-6eb08583",
+      "String Drawing percentage follow-up",
+      "Simple color themes follow-up 20261009",
+      "cbcf80cc-fcd1-4dd7-a932-bd81b08b79cf"
+    ]
+  },
+  "playable2_20260927020828_9vxaxo": {
+    "number": 7,
+    "items": [
+      "Replaced sky, platforms and ladder with matching pixel art.",
+      "Fixed right-corner rotation and left-to-right shrink/raise/slide return.",
+      "Added closer ladder rungs; faster growth, wider gaps and smaller landing islands.",
+      "Nov 2 CTA fonts/motion: The wrapped hold/release guide now has an explicit breathing target."
+    ],
+    "status": "Updated locally; awaiting user review.",
+    "evidence": [
+      "FB-007-6e10074e",
+      "Playful fonts and CTA coverage 20261102"
+    ]
+  },
+  "playable2_20260927020828_bnkh36": {
+    "number": 8,
+    "items": [
+      "Added six food families with matching realistic fresh/spoiled images.",
+      "Direct food scene without a cover; Eat/Pass starts the food timer on the first answer.",
+      "Fixed food/plate clipping, timeout scoring, duplicate answers and replay cleanup."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-008-3decf4b5",
+      "FB-008-1c4dbe4e",
+      "Feed-first entry request 20261008"
+    ]
+  },
+  "playable2_20260927020828_86gl5z": {
+    "number": 9,
+    "items": [
+      "Changed to a neutral light background with readable text and controls.",
+      "Removed color-source names; prompt now says “Drag colors here”.",
+      "Kept target recipes free of black."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-009-480ecd5a"
+    ]
+  },
+  "playable2_20260927020828_y5a1vt": {
+    "number": 10,
+    "items": [
+      "Removed duplicate instructions.",
+      "Corrected the needle direction, center pivot and scoring alignment.",
+      "Retained random direction reversals after taps.",
+      "Raised and centered the wheel, preserving circular proportions at short sizes; removed obsolete mobile sizing that stretched it.",
+      "Added a static action guide that hides after a real tap and returns on replay. Kept the target visible, without redundant TARGET text. Audio no longer delays scoring."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-010-8f8e3166",
+      "c2f80a6d-63d5-4c92-95d7-f77da5e5a3b2"
+    ]
+  },
+  "playable2_20260927020825_z23fv4": {
+    "number": 13,
+    "items": [
+      "Opens directly on ASMR interactions; removed the book-cover start screen.",
+      "Replaced bubble-wrap and spinner sounds with recordings; spinner is silent at rest.",
+      "Made sand audio quieter with gradual fade-in/out."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-013-f88170a0",
+      "FB-013-347bfdcd",
+      "Feed-first entry request 20261008"
+    ]
+  },
+  "playable2_20260927020825_hjn7q5": {
+    "number": 15,
+    "items": [
+      "Added realistic strings and a wood soundboard with responsive plucking.",
+      "Swipes record persistent lines; Replay plays all lines together, Reset clears them.",
+      "Added stronger metallic shine without shadow; replay is 20% slower."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-015-c8cb9ca1"
+    ]
+  },
+  "playable2_20260927020825_n4r34c": {
+    "number": 16,
+    "items": [
+      "Midnight Tangerine colors: deep-blue canvas, warm-orange dot and drawn path.",
+      "Matched results and Retry colors; retained readable light text and a clear target ring.",
+      "Circle geometry, input, scoring, retry and audio are unchanged."
+    ],
+    "status": "Color theme implemented locally; visual review pending.",
+    "evidence": [
+      "Simple color themes follow-up 20261009"
+    ]
+  },
+  "playable2_20260927020825_lnwh1h": {
+    "number": 17,
+    "items": [
+      "Added three obstacle layouts with a 100-ball target; shortened Level 2 blocks and Level 3 curves.",
+      "Smoothed excavation edges and aligned visible holes with collision boundaries.",
+      "Apricot Quarry colors; separated initial balls and fixed reset, progression and pointer cleanup."
+    ],
+    "status": "User accepted the gameplay; new color theme awaits visual review.",
+    "evidence": [
+      "FB-017-7dd1f6be",
+      "Sand Digging target follow-up",
+      "Simple color themes follow-up 20261009"
+    ]
+  },
+  "playable2_20260927020825_ufhwuj": {
+    "number": 18,
+    "items": [
+      "Removed the countdown and time limit; the round ends only after a missed placement.",
+      "Centered the score at the top, with fixed-width digit slots in the bundled Audiowide font.",
+      "Preloaded the font, removed synthetic bold and old shrinking HUD overrides; fixed result spacing."
+    ],
+    "status": "Implemented locally; visual review pending.",
+    "evidence": [
+      "Synthwave Stack untimed/font follow-up 20261009"
+    ]
+  },
+  "playable2_20260927020825_kxh9p4": {
+    "number": 19,
+    "items": [
+      "Kept ants inside the drawable board, away from controls.",
+      "Added recognizable six-legged ant artwork.",
+      "Fixed scaled drawing coordinates, resize bounds and Add/Clear input handling.",
+      "Nov 2 idle preview: An ink loop draws around a moving ant. Silent before entry; separate from real game progress.",
+      "Nov 2 approved UI: Money and ant-count HUD hidden in the feed preview; restored in place after entry."
+    ],
+    "status": "Updated locally; awaiting user review.",
+    "evidence": [
+      "FB-019-4731a74d",
+      "Batch 2 idle previews 20261102",
+      "Batch 2 approved UI decisions 20261102"
+    ]
+  },
+  "playable2_20260927021136_x3i163": {
+    "number": 21,
+    "items": [
+      "Starts and resets with one cube; blank-space taps add fixed, larger 120px cubes.",
+      "Half-size splitting: 120 → 60 → 30 → 15px, with the same color for every cube of the same size.",
+      "Stronger click pop/movement; removed periodic background chords, keeping tap-only sounds."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "Cube Physics manual-spawn follow-up",
+      "Cube Physics single-cube/colors/audio follow-up 20261008",
+      "Cube Physics fixed-size/color-by-size follow-up 20261008"
+    ]
+  },
+  "playable2_20260927021201_7etgko": {
+    "number": 22,
+    "items": [
+      "Replaced the opening and moving target with a generated transparent cartoon bug.",
+      "Kept 100 HP, movement, target size and gameplay unchanged.",
+      "Nov 2 CTA fonts/motion: The Like if you hate bugs action headline now breathes; other post text remains steady."
+    ],
+    "status": "Updated locally; awaiting user review.",
+    "evidence": [
+      "FB-022-6b00ac94",
+      "Cartoon bug follow-up",
+      "Playful fonts and CTA coverage 20261102"
+    ]
+  },
+  "playable2_20260928023148_i47u62": {
+    "number": 23,
+    "items": [
+      "Changed the field to warm sand and kept neutral troops gray.",
+      "Slowed neutral replenishment with cooldown, active and lifetime limits.",
+      "Simplified the HUD; removed rocks and shells again as requested.",
+      "Nov 2 idle preview: Troops march toward a moving command marker. Silent before entry; separate from real game progress.",
+      "Nov 2 approved UI: Guide raised to the Batch 1 position (26%); enemy-count HUD hidden in the feed preview and restored after entry.",
+      "Nov 2 CTA fonts/motion: DynaPuff SemiBold replaces the default UI font; the higher action guide has a clear opacity pulse.",
+      "Nov 2 preview follow-up: Only player-owned soldiers move in the preview. Unrecruited neutral soldiers and enemies remain at their original positions; gameplay is unchanged."
+    ],
+    "status": "Updated locally; awaiting user review.",
+    "evidence": [
+      "FB-023-45750e0a",
+      "Batch 2 idle previews 20261102",
+      "Batch 2 approved UI decisions 20261102",
+      "Playful fonts and CTA coverage 20261102"
+    ]
+  },
+  "playable2_20260928024159_iasubp": {
+    "number": 25,
+    "items": [
+      "Made soda cyan and obstacles orange with clearer outlines.",
+      "Prevented obstacle overlap and kept emitter/cup clearance.",
+      "Cup fills gradually with blue; Reset preserves the level, New Level changes it.",
+      "Nov 2 approved UI: Round/progress HUD hidden in the feed preview; restored in place after entry.",
+      "Nov 2 line-only preview: Only the drawn guide line animates before play; no decorative soda droplets. Actual gameplay liquid is unchanged."
+    ],
+    "status": "Updated locally; awaiting user review.",
+    "evidence": [
+      "FB-025-faebc6a4",
+      "Batch 2 idle previews 20261102",
+      "Batch 2 approved UI decisions 20261102",
+      "Overhead 22 and line-only 23 FYP previews 20261102"
+    ]
+  },
+  "playable2_20260928024549_3bsc4d": {
+    "number": 26,
+    "items": [
+      "Light mint background distinguishes the game from the dark feed. Lowered the phone and guide24px after review, retaining the phone size and cable alignment.",
+      "Rebuilt the phone display with a charging ring, lightning indicator, live battery percentage and centered charging/timeout feedback.",
+      "Raised/enlarged the connector while preserving its rotation pivot.",
+      "Unified local Poppins typography, bold tabular battery digits and centered, wrapping “CONNECTION TIMEOUT” feedback."
+    ],
+    "status": "October 19 charging-display fixes and lower-phone follow-up implemented locally; verified in portrait Direct/FYP, review acceptance pending.",
+    "evidence": [
+      "FB-026-d23724cb",
+      "No.26 font request 20261008",
+      "fe7f3730-3fcb-4d6c-85d5-565249d3f74f",
+      "ui24-31-20261019"
+    ]
+  },
+  "playable2_20260928025305_2wpf3o": {
+    "number": 29,
+    "items": [
+      "Replaced cartoons with five consistent realistic transparent waist-up portraits.",
+      "Centered the result overlay and smoothed portrait transitions.",
+      "Fixed duplicate guessing/advancing and aligned the score HUD."
+    ],
+    "status": "User accepted the current game.",
+    "evidence": [
+      "FB-029-14611f68",
+      "FB-029-68370fe1"
+    ]
+  },
+  "playable2_20260928025635_idnu2k": {
+    "number": 31,
+    "items": [
+      "Title hides after camera or photo start and returns on Back; editing controls stay available."
+    ],
+    "status": "Title cleanup implemented; Sticker/Text feature decision remains open.",
+    "evidence": [
+      "Liquify title follow-up"
+    ]
+  },
+  "playable2_20260928030116_67pobm": {
+    "number": 33,
+    "items": [
+      "Added sustained car-hit knockback, damage numbers and a red flash.",
+      "Fixed grounded jumping and verified jumping can dodge cars.",
+      "Added game-over/replay reset and clearer cash/HP controls."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-033-021a3787"
+    ]
+  },
+  "playable2_20260928031234_805376": {
+    "number": 38,
+    "items": [
+      "Replaced the low pitched background hum with quiet non-pitched ambience.",
+      "Kept brief footsteps/encounter cues and softened the win sound.",
+      "Fixed gesture unlock, duplicate ambience and hidden-page cleanup."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-038-1a41d065"
+    ]
+  },
+  "playable2_20260928031734_t68did": {
+    "number": 40,
+    "items": [
+      "Added mask bubbles only while holding.",
+      "Scene darkens gradually with oxygen use and resets on replay.",
+      "Split timer/oxygen HUD and removed the guide after starting."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-040-9c987b04"
+    ]
+  },
+  "playable2_20261001225611_hg6unh": {
+    "number": 42,
+    "items": [
+      "Separated instructions, pendulum canvas and bottom controls.",
+      "Preserved joint/pivot dragging, trail and Start Motion/Pause.",
+      "Made speed/color/glow panels dismissible and fixed stage coordinates."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-042-3ed6a6c4"
+    ]
+  },
+  "playable2_20261001225611_bz1ptc": {
+    "number": 46,
+    "items": [
+      "Added a licensed music loop corrected to the 100-BPM target.",
+      "Synchronized the ring/TAP cue to playback and shows current tapping BPM.",
+      "Fixed first-tap start, stale BPM, round duration and replay/audio cleanup."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-046-1f31c5e6"
+    ]
+  },
+  "playable2_20261001225611_0e3wo5": {
+    "number": 47,
+    "items": [
+      "Simplified text and added DynaPuff/Poppins fonts.",
+      "Waits for first steering input; improved joystick response and pointer cleanup.",
+      "Expanded the arena to full width and reduced cat size by 10%."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-047-4962fb12",
+      "FB-047-7ca9b5cf"
+    ]
+  },
+  "playable2_20261001225611_9its9h": {
+    "number": 48,
+    "items": [
+      "Simplified drawing/movement guides and split KOs/HP HUD.",
+      "Kept draw → equip → fight with five-hit enemies and unlimited KOs.",
+      "Increased continuous spin from 9.5 to 11 rad/s, about 16% faster; kept the 0.22s hit cooldown and other combat rules.",
+      "Nov 2 approved UI: Opening guide raised to the Batch 1 position (26%), preserving drawing and battle controls.",
+      "Nov 2 CTA fonts/motion: Bangers comic lettering across the UI; both drawing and battle guides breathe without moving their positions.",
+      "Nov 2 line-only preview: Draw the blade, hold it briefly, then fade and repeat. No spinning blade or character dot before play; combat stays unchanged.",
+      "Nov 2 font follow-up: DynaPuff SemiBold replaces Bangers across the CTA, HUD and results; guide breathing preserved.",
+      "Nov 3: Shortened the opening CTA to “Draw a blade and battle”, preserving DynaPuff and breathing."
+    ],
+    "status": "Updated locally; awaiting user review.",
+    "evidence": [
+      "FB-048-6dc0acb5",
+      "Gameplay round 2 — October 14, 2026",
+      "17473cc8-9291-411b-9a20-2ecf9486112a",
+      "Batch 2 idle previews 20261102",
+      "Batch 2 approved UI decisions 20261102",
+      "Playful fonts and CTA coverage 20261102",
+      "Line-only blade preview 20261102"
+    ]
+  },
+  "playable2_20261001225821_af5uee": {
+    "number": 49,
+    "items": [
+      "Removed redundant titles/STAR progress; stress sits left and an elapsed timer sits right.",
+      "Added a fine golden-sand background, hold-only granular scraping and softer result sounds.",
+      "Final time appears beside the result percentage; timer resets on retry, freezes on results and pauses while hidden."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-049-1ed3b930",
+      "FB-049-4f995802",
+      "Star timer follow-up",
+      "Star result time follow-up"
+    ]
+  },
+  "playable2_20261001225836_jx30zt": {
+    "number": 50,
+    "items": [
+      "Tap ice cream/chili to feed; temperature keeps drifting randomly with faster reversals.",
+      "Completed the stick-person body and strengthened hand-drawn fire/snow/shake effects.",
+      "Extreme temperatures show one recovery bubble action; removed its Start Over button."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-050-ff18b7ca",
+      "No.50 stronger-effects follow-up"
+    ]
+  },
+  "playable2_20261001225941_zi6jj7": {
+    "number": 55,
+    "items": [
+      "Restored eight digits and eleven tries.",
+      "Uncramped guess rows and clarified green/orange/gray explanations.",
+      "Added clear results/replay and protected rapid input and scoring from audio failure."
+    ],
+    "status": "User accepted the current game.",
+    "evidence": [
+      "FB-055-f4df10aa",
+      "FB-055-638a4a6e"
+    ]
+  },
+  "playable2_20261001230001_ag49cj": {
+    "number": 56,
+    "items": [
+      "Replaced the double moon with one shaded disk and simplified launch instructions.",
+      "Kept trajectory aiming, four burst styles and three sizes.",
+      "Added recorded whistle on ascent and explosion on the burst frame."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-056-6cacd439"
+    ]
+  },
+  "playable2_20261001230052_xrken6": {
+    "number": 57,
+    "items": [
+      "Added shorter seeded plants with lighter grass tufts and tap/drag patch growth.",
+      "Flowers replace nearby flowers without removing the grass underneath.",
+      "Added short real grass rustles when planting, with no idle loop."
+    ],
+    "status": "Partially addressed; broader fidelity and visual/audio acceptance remain open.",
+    "evidence": [
+      "FB-057-52f056c4",
+      "Grass audio follow-up"
+    ]
+  },
+  "playable2_20261001230052_xrken6b": {
+    "number": "57b",
+    "items": [
+      "Added a top-down variant with radial grass, natural flowers and refined visitors; flower tools stay independent of grass.",
+      "Added a silent looping opening: grass grows along a continuous swipe path, flowers bloom, and a bee, butterfly and ladybug move around it. First planting replaces the demo; Reset restores it.",
+      "Simplified to an anchored four-item picker plus Reset; removed Ferns.",
+      "Added quieter, softer grass rustles and short flower pops, select/reset feedback and gentle music; leaving stops all audio."
+    ],
+    "status": "Custom variant; October19 opening animation implemented locally and checked in portrait Direct/FYP. User acceptance pending.",
+    "evidence": [
+      "User-requested alternative 57b",
+      "57b Ferns removal",
+      "No.57b audio follow-up",
+      "No.57b gentle music follow-up",
+      "No.57b soft grass and flower pops follow-up",
+      "creature51-intro-20261019"
+    ]
+  },
+  "playable2_20261001230112_0ivocb": {
+    "number": 58,
+    "items": [
+      "Simplified play to the question and one large wheel; tap the wheel to spin.",
+      "Removed title, progress, hints, separate answer/Back panels and result-card clutter.",
+      "Kept random answers, Not yet born retries and restart; added readable labels and mobile fit."
+    ],
+    "status": "UI simplified locally; visual acceptance and broader reference-fidelity feedback remain open.",
+    "evidence": [
+      "FB-058-2ae4781e",
+      "Fate simple UI follow-up"
+    ]
+  },
+  "playable2_20261001230122_0sowkn": {
+    "number": 60,
+    "items": [
+      "Replaced the code-drawn case with a generated realistic handheld-console image.",
+      "Centered the handheld horizontally and vertically in Feed preview and portrait play, per review feedback. Kept its size and placed the guide between the LCD and controls.",
+      "Added a silent looping snake/food demo and one readable start guide. First valid direction starts the real round and hides the guide; idle animation never scores or plays sound.",
+      "Kept short button, pickup and game-over sounds plus press highlights; reduced-motion/hidden-page handling and host preview/play gating are supported."
+    ],
+    "status": "October 19 Feed adaptation, opening demo and centering follow-up implemented locally; user review pending.",
+    "evidence": [
+      "FB-060-640413cf",
+      "Snake console art follow-up",
+      "Snake fullscreen follow-up",
+      "Snake button feedback follow-up",
+      "snake53-feed-20261019"
+    ]
+  },
+  "playable2_20261001230147_id39lj": {
+    "number": 61,
+    "items": [
+      "Gentle aurora drags now trigger reliable, louder tones instead of rare random notes.",
+      "Added softer envelopes and vertical pitch response; kept idle silence and shortened echoes.",
+      "Fixed audio retry, release/cancel behavior and full audio-node cleanup."
+    ],
+    "status": "Audio improved locally; listening acceptance and visual feedback remain open.",
+    "evidence": [
+      "FB-061-50ca8fed",
+      "Aurora audio follow-up"
+    ]
+  },
+  "playable2_20261001230212_tajqhm": {
+    "number": 62,
+    "items": [
+      "Kept round/score, target time, timer and one main action.",
+      "Removed title, mute, BEST tile and decorative precision ruler.",
+      "Instruction hides when timing starts; audio failure no longer blocks play.",
+      "Nov 2 CTA fonts/motion: The PLAY/STOP instruction now breathes; running and result feedback stays steady."
+    ],
+    "status": "Updated locally; awaiting user review.",
+    "evidence": [
+      "FB-062-a751ff4f",
+      "Playful fonts and CTA coverage 20261102"
+    ]
+  },
+  "playable2_20261001230222_8qptsc": {
+    "number": 64,
+    "items": [
+      "Centered opening guide and four colors; retained four thin strands with two translucent layers and no Strings/mute controls.",
+      "Supports drag-release or two-point taps; fast releases and lost capture no longer drop unfinished lines. Clear/cancel stay reliable.",
+      "Replaced continuous hum with softer independent interval tones and proper silence/cleanup.",
+      "Nov 2 idle preview: Two drawn strings ripple silently. Silent before entry; separate from real game progress.",
+      "Nov 2 approved UI: Opening guide raised to the Batch 1 position (26%), preserving string drawing, colors and sound.",
+      "Nov 3: Hide the top-right Clear strings X during the feed preview; keep it available in gameplay."
+    ],
+    "status": "Updated locally; awaiting user review.",
+    "evidence": [
+      "FB-064-9bace1ed",
+      "Gameplay round 2 — October 14, 2026",
+      "4319497c-94bb-463f-981e-3b5300357f94",
+      "Batch 2 idle previews 20261102",
+      "Batch 2 approved UI decisions 20261102"
+    ]
+  },
+  "playable2_20261001230332_5af21q": {
+    "number": 65,
+    "items": [
+      "Generated four rear-view cars and alpine scenery; cars are 25% smaller with matching hitboxes, grassy ground and no poles.",
+      "Points top-left, time top-right, fixed-center speed dial; steering 20% gentler, unified Arial font. Faster driving earns more points.",
+      "Removed speed streaks, enlarged pines; added engine/road/brake audio and a louder, bass-heavy crash without rattle, with pause/replay cleanup."
+    ],
+    "status": "Implemented; visual/play/listening acceptance pending.",
+    "evidence": [
+      "FB-065-f2a901e6",
+      "Pocket Racer art/debug follow-up"
+    ]
+  },
+  "playable2_20261001230352_h4uxll": {
+    "number": 66,
+    "items": [
+      "Removed title/mute and simplified instructions; lightning endpoints now stay beyond the top/bottom edges.",
+      "Added rolling thunder, colored lightning, a strikes counter and optional rock music.",
+      "Retained requested rain and fixed fades, rapid toggles and hidden-page audio cleanup."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-066-0c245a9c",
+      "Lightning framing follow-up"
+    ]
+  },
+  "playable2_20261001230412_o52e38": {
+    "number": 67,
+    "items": [
+      "Changed to a clean navy background with seven bright layer colors.",
+      "Centered score text and removed its capsule.",
+      "Faded the perspective grid toward the horizon instead of a hard cutoff."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-067-9f929deb",
+      "FB-067-6a7ef598"
+    ]
+  },
+  "eh_feed_your_friend_20261020": {
+    "number": 75,
+    "items": [
+      "Nov 2 food-belt preview: Food scrolls horizontally past the plate at gameplay speed and spacing, looping silently until entry. No automatic feeding or photo reaction.",
+      "CTA guidance uses a clear 2.4-second opacity breathing animation; text stays in place, with hidden-page pause and reduced-motion support.",
+      "CTA raised to the common 26% above-center position and shown above the artwork during the feed preview; breathing preserved."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102",
+      "Horizontal food-belt preview 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "eh_hair_shave_20261020": {
+    "number": 76,
+    "items": [
+      "Nov 2 idle preview: The shaver sweeps across a strip of hair. Silent before entry; separate from real game progress.",
+      "CTA guidance uses a clear 2.4-second opacity breathing animation; text stays in place, with hidden-page pause and reduced-motion support.",
+      "CTA raised to the common 26% above-center position and shown above the artwork during the feed preview; breathing preserved."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "eh_makeover_20261020": {
+    "number": 78,
+    "items": [
+      "Nov 2 idle preview: A toothbrush demonstrates brushing with a before/after transition. Silent before entry; separate from real game progress.",
+      "CTA raised to 26% above center, visible above the feed preview artwork, with the same 2.4-second breathing pulse as 75 and 76."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "playable2_20261028202811_hz9v37": {
+    "number": 79,
+    "items": [
+      "Nov 2 idle preview: The camera slowly pans over the animated town. Silent before entry; separate from real game progress."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "playable2_20261028202811_rf6gbi": {
+    "number": 80,
+    "items": [
+      "Nov 2 idle preview: Three soft bodies fall and bounce using the existing blob renderer. Silent before entry; separate from real game progress.",
+      "Nov 2 CTA wording: Draw a shape. Kept breathing and existing gameplay."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102",
+      "Draw a shape CTA 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "playable2_20261028202811_dsl58j": {
+    "number": 81,
+    "items": [
+      "Nov 2 idle preview: Soft serve builds from the cone upward. Silent before entry; separate from real game progress.",
+      "Nov 2 wider cone limit: Increased the limited movement range by 15% so swirls reach nearer the edge. Touch and keyboard share the limit; the control dot, landing path and preview stay in sync."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102",
+      "Cone-rim limit 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "playable2_20261028202811_gia8r5": {
+    "number": 82,
+    "items": [
+      "Nov 2 idle preview: The paper unwinds and the roll shrinks, then loops. Silent before entry; separate from real game progress."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "playable2_20261028202811_5uuyhb": {
+    "number": 83,
+    "items": [
+      "Nov 2 idle preview: The brush reveals words while letters recover independently. Silent before entry; separate from real game progress."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "playable2_20261028202811_q0f68t": {
+    "number": 84,
+    "items": [
+      "Nov 2 idle preview: Three sample pictures appear in a short memory sequence. Silent before entry; separate from real game progress.",
+      "Nov 2 additional memory sets: Day Out and Cozy at Home add 18 Imagegen photos. Each set has its own nine-choice grid; rounds rotate between all three sets and preserve scattered answers."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102",
+      "Two image sets and portrait FYP round progression 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "playable2_20261028202811_ke0xpl": {
+    "number": 85,
+    "items": [
+      "Nov 2 idle preview: An animated contour traces around the default cat photo. Silent before entry; separate from real game progress."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "playable2_20261029183430_hxuf8g": {
+    "number": 86,
+    "items": [
+      "Nov 2 idle preview: A paddle tracks a bouncing ball. Silent before entry; separate from real game progress."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "playable2_20261029183430_v5avg1": {
+    "number": 87,
+    "items": [
+      "Nov 2 approved UI: Completion uses plain text over the clean rug and one Next item button; decorated panel, duplicate progress, extra result actions and inactive tools removed from that state.",
+      "Nov 2 cleaning stages: Dirty → spray → scrub clean under dense white foam → rinse wet → dry. Only fully dried areas count toward completion; success shows the fully clean dry artwork.",
+      "Nov 2 scrub feedback: Audible wet-brush friction follows movement and fades on pause; scrubbing makes foam and bubble particles, rinsing clears them, and drying removes the wet sheen.",
+      "Nov 2 idle preview: Silent four-stage spray, scrub, rinse and dry demonstration, isolated from real cleaning progress."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102",
+      "Batch 2 approved UI decisions 20261102",
+      "Four-stage cleaning and scrub feedback 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "playable2_20261029183430_9mlt5d_88b": {
+    "number": "88b",
+    "items": [
+      "Nov 2 idle preview: The ball orbits while valid launch arcs fade into view. Silent before entry; separate from real game progress."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "playable2_20261029183430_ctpmni": {
+    "number": 89,
+    "items": [
+      "Nov 2 idle preview: The weapon swings and the stickman reacts. Silent before entry; separate from real game progress.",
+      "Nov 2 Imagegen art: New expressive stickman, quiet paper background and all 17 matching arsenal illustrations. Replaced both preview and gameplay art; kept current gameplay and UI layout.",
+      "Nov 2 weapon orientation: Corrected each weapon's grip pivot and strike angle so the blade/head hits toward the stickman. Applied the same alignment to preview and gameplay."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102",
+      "Imagegen stickman asset set 20261102",
+      "Weapon grip/strike geometry and portrait FYP katana/bat check 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  },
+  "playable2_20261029183430_cvsxhd": {
+    "number": 90,
+    "items": [
+      "Nov 2 idle preview: Two paddles demonstrate a rally. Silent before entry; separate from real game progress."
+    ],
+    "evidence": [
+      "Batch 2 idle previews 20261102"
+    ],
+    "status": "Updated locally; awaiting user review."
+  }
+};
+
+/* October28 batch79–86 polish */
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261028202811_hz9v37": {
+    "number": 79,
+    "items": [
+      "Redrawn illustrated town: warm staggered paving, civic-square stonework, roof tiles, shop windows, striped market awning, produce crates, planted borders and a fuller fountain.",
+      "Colored cartoon residents now have solid clothing, shoes, hair, hats and readable facial expressions. Each event keeps its live poses and props.",
+      "The 3200 × 1900 world, six districts, 28 residents and nine event types remain. Panning and event-specific newspaper photographs use the refreshed art.",
+      "Simulation still pauses while reading the newspaper; article and return button fit portrait FYP.",
+      "Required App.jsx/check.js/asset_manifest.json/dist structure; matching Direct/FYP files."
+    ],
+    "status": "Updated locally; reference differences documented; awaiting review.",
+    "evidence": [
+      "Batch79–86 polish20261028"
+    ]
+  },
+  "playable2_20261028202811_rf6gbi": {
+    "number": 80,
+    "items": [
+      "Drawing release closes the outline into a filled body. Straight strokes with no enclosed area are rejected instead of being expanded into a ribbon.",
+      "Four imagegen eye styles are assigned in shuffled random order: classic, sleepy, googly and happy. All four image slots are replaceable.",
+      "Body fills and eyes use matte flat colors, with no body gradients, gloss or cast shadows. The feed demonstration uses the same flat appearance.",
+      "A cancelled drawing adds no body; clear restores the guide and palette/gravity controls remain available.",
+      "Required App.jsx/check.js/asset_manifest.json/dist structure; matching Direct/FYP files."
+    ],
+    "status": "Updated locally; reference differences documented; awaiting review.",
+    "evidence": [
+      "Batch79–86 polish20261028"
+    ]
+  },
+  "playable2_20261028202811_071b88": {
+    "number": 81,
+    "items": [
+      "Silent sample creature in the preview, a short readable guide and a cleaner centered count.",
+      "Book/reset buttons separated into safe touch targets; larger book descriptions and thumbnails.",
+      "Creature creation, collection and reset retain the player’s actual stroke.",
+      "Required App.jsx/check.js/asset_manifest.json/dist structure; matching Direct/FYP files."
+    ],
+    "status": "Updated locally; reference differences documented; awaiting review.",
+    "evidence": [
+      "Batch79–86 polish20261028"
+    ]
+  },
+  "playable2_20261028202811_dsl58j": {
+    "number": 82,
+    "items": [
+      "Circular 108px touch pad with a moving indicator, radial input limit and camera-aligned movement. Pointer capture, release outside the pad and reset keep input from sticking.",
+      "Cream follows the smoothed nozzle and rests on a shallow filling inside the cone or a previous turn. Laid cream no longer gets pulled upward by a connected spring chain.",
+      "The short extrusion stream retracts on release; thicker six-ridged cream, a tapered tip and larger food-focused FYP framing remain.",
+      "Flavor controls, measured stack height, compact results, replay and action sounds are retained.",
+      "Required App.jsx/check.js/asset_manifest.json/dist structure; matching Direct/FYP files."
+    ],
+    "status": "Updated locally; reference differences documented; awaiting review.",
+    "evidence": [
+      "Batch79–86 polish20261028"
+    ]
+  },
+  "playable2_20261028202811_gia8r5": {
+    "number": 83,
+    "items": [
+      "Rebuilt the roll as continuous perspective 2D art matching the supplied reference: large gray front face, open black core, white curved cylinder, shaded underside and a long hanging sheet.",
+      "Sparse diagonal perforations move in the sheet’s perspective plane, without the old dense dot texture or registration mark.",
+      "The grab region now follows the visible roll and sheet; drag distance advances the perforations directly and release adds a brief inertial continuation.",
+      "Preview motion does not advance the actual paper phase or pull count. Short pulls, cancellations and lost capture do not count; reset restores the guide and initial state.",
+      "Required App.jsx/check.js/asset_manifest.json/dist structure; matching Direct/FYP files."
+    ],
+    "status": "Updated locally; reference differences documented; awaiting review.",
+    "evidence": [
+      "Batch79–86 polish20261028"
+    ]
+  },
+  "playable2_20261028202811_5uuyhb": {
+    "number": 84,
+    "items": [
+      "The words are laid out before play. Brushing reveals this fixed text instead of placing new words along the stroke.",
+      "Each revealed character remains fully opaque, then disappears in one step at its own staggered deadline. Recovery is letter by letter with no alpha fade; the maximum lifetime is shortened from 6.5 seconds to 3 seconds.",
+      "Five brush widths, clear/reset and the upper breathing guide remain. The FYP demonstration uses the same prewritten letters and recovery behavior.",
+      "Required App.jsx/check.js/asset_manifest.json/dist structure; matching Direct/FYP files."
+    ],
+    "status": "Updated locally; reference differences documented; awaiting review.",
+    "evidence": [
+      "Batch79–86 polish20261028"
+    ]
+  },
+  "playable2_20261028202811_q0f68t": {
+    "number": 85,
+    "items": [
+      "New original photographic tiles in a blue-and-white selection card closer to the supplied concept.",
+      "The real sequence waits for FYP entry and stops/reset-to-watch when inactive; preview cannot consume a round.",
+      "All nine tiles are shuffled per round. Layouts where all three correct answers form one connected cluster are rejected; the order stays stable during selection, wrong attempts and replay. Success still waits for an explicit Next round.",
+      "Image assets reduced from roughly 14.8 MB to 0.66 MB while retaining independently replaceable image slots.",
+      "Required App.jsx/check.js/asset_manifest.json/dist structure; matching Direct/FYP files."
+    ],
+    "status": "Updated locally; reference differences documented; awaiting review.",
+    "evidence": [
+      "Batch79–86 polish20261028"
+    ]
+  },
+  "playable2_20261028202811_ke0xpl": {
+    "number": 86,
+    "items": [
+      "The primary button now says Make squishy. Compact labeled icon controls leave enough room for the full action text on phone screens.",
+      "A grip keeps the coordinate frame from press time, so movement does not chase a rotating model. Pointer targets ease into a radial movement limit and spring steps run at a fixed 120Hz.",
+      "The simulation cage is smoothed before the existing non-folding safety calculation. Positive stretch, surface separation and compression depth are preserved; smoothing is not applied after those safeguards.",
+      "Mesh normals update at 30Hz and a conservative grab bound replaces repeated sphere calculations; the stale undeformed bounding box no longer rejects grabs on stretched parts.",
+      "Local photo upload, rounded cutout, continuous wrapped texture, reset/retrace and exact source/runtime package synchronization are retained.",
+      "Required App.jsx/check.js/asset_manifest.json/dist structure; matching Direct/FYP files."
+    ],
+    "status": "Updated locally; reference differences documented; awaiting review.",
+    "evidence": [
+      "Batch79–86 polish20261028"
+    ]
+  }
+});
+
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_v5avg1": {
+    "number": 87,
+    "items": [
+      "New realistic top-down rug and upholstery images; Next item alternates the two surfaces.",
+      "Larger illustrated Spray, Scrub, Rinse and Dry icons, plus an active tool cursor.",
+      "Clearer guide spacing; editable source and runtime now follow the required package structure."
+    ],
+    "status": "Updated locally. Light FYP checks completed; extended gameplay/audio QA deferred for fast iteration.",
+    "evidence": [
+      "No.87 overhead assets · 29 October 2026"
+    ]
+  }
+});
+
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_9mlt5d": {
+    "number": 88,
+    "items": [
+      "The sweet range sits on the occupied orbit\u2019s side nearest the next orbit.",
+      "Tap anywhere while the dot is inside the range to transfer; the dot then circles the new orbit.",
+      "Removed invisible destination hit spots and corrected Pause/Resume flight behavior."
+    ],
+    "status": "Updated locally; one successful portrait FYP transfer checked.",
+    "evidence": [
+      "No.88 sweet range \u00b7 29 October 2026"
+    ]
+  }
+});
+
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_cvsxhd": {
+    "number": 90,
+    "items": [
+      "Local two-player Pong: drag independently in the upper Blue and lower Red halves.",
+      "Horizontal Blue/Red scores, equal controls and first to five."
+    ],
+    "status": "Updated locally; focused FYP and pointer checks passed.",
+    "evidence": [
+      "../2026-10-29-pong90-pvp/review.json"
+    ]
+  }
+});
+
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_9mlt5d_88b": {
+    "number": "88b",
+    "items": [
+      "Separate tangent-launch version: tap to release in the current direction of travel.",
+      "Catch the next orbit ring to transfer; a shot into the solid planet fails."
+    ],
+    "status": "Updated locally; successful portrait FYP transfer checked.",
+    "evidence": [
+      "No.88b tangent orbit · 29 October 2026"
+    ]
+  }
+});
+
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_9mlt5d_88b": {
+    "number": "88b",
+    "items": [
+      "Tangent launch: reach the next orbit ring to transfer; hitting the planet fails.",
+      "Gradual acceleration during active play; pause freezes the ramp and replay resets speed.",
+      "Only the centered score remains; Best and Perfect removed from gameplay/results."
+    ],
+    "status": "Updated locally; portrait FYP score and acceleration checked.",
+    "evidence": [
+      "No.88b progressive speed and score only · 29 October 2026"
+    ]
+  }
+});
+
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_hxuf8g": {
+    "number": 86,
+    "items": [
+      "Made Score and Best a clear left/right HUD with 28px values, labels and 30px margins.",
+      "Strengthened the centered breathing guide, kept the HUD stable when it dismisses, and fixed court/paddle edge clearance.",
+      "Added feed inactivity/input guards and rebuilt the original runtime into the required source/dist structure."
+    ],
+    "status": "Updated locally; focused portrait FYP UI checks completed.",
+    "evidence": [
+      "New five UI round · 29 October 2026"
+    ]
+  },
+  "playable2_20261029183430_v5avg1": {
+    "number": 87,
+    "items": [
+      "Removed RESTORE LAB and ITEM headings; centered the 28px percentage and deferred it until the first cleaning stroke.",
+      "Added a readable breathing guide capsule and kept the rug large.",
+      "Made the four-tool dock compact, kept its buttons 50px above the bottom and hid it behind the feed preview entry."
+    ],
+    "status": "Updated locally; focused portrait FYP UI checks completed.",
+    "evidence": [
+      "New five UI round · 29 October 2026"
+    ]
+  },
+  "playable2_20261029183430_9mlt5d": {
+    "number": 88,
+    "items": [
+      "Removed the redundant game heading, strengthened the 18px breathing CTA and lowered the orbital scene to avoid it.",
+      "Aligned HUD margins/type and placed Pause 30px from the right and 50px from the bottom.",
+      "Enlarged palette hit areas. Existing Score/Perfect/Best roles and timing-transfer gameplay remain."
+    ],
+    "status": "Updated locally; focused portrait FYP UI checks completed.",
+    "evidence": [
+      "New five UI round · 29 October 2026"
+    ]
+  },
+  "playable2_20261029183430_9mlt5d_88b": {
+    "number": "88b",
+    "items": [
+      "Applied the same title, guide, scene, safe-margin and palette adjustments as 88.",
+      "Preserved its centered score-only HUD, gradual speed ramp, tangent flight and planet-collision rules."
+    ],
+    "status": "Updated locally; focused portrait FYP UI checks completed.",
+    "evidence": [
+      "New five UI round · 29 October 2026"
+    ]
+  },
+  "playable2_20261029183430_ctpmni": {
+    "number": 89,
+    "items": [
+      "Replaced crowded UI lettering with bundled Poppins; retained the comic font only for impact effects.",
+      "Removed the game heading and placed level/coins in the standard top left/right HUD.",
+      "Made the guide sit above the figure, health text fit, and the scrolling shop use compact side-by-side icon/text cards with 50px bottom clearance.",
+      "Prevented saved progress/auto attacks from showing active HUD or advancing in a feed preview; the first actual attack dismisses the guide.",
+      "Normalized the current source/dist structure and removed the missing stylesheet reference."
+    ],
+    "status": "Updated locally; focused portrait FYP UI checks completed.",
+    "evidence": [
+      "New five UI round · 29 October 2026"
+    ]
+  },
+  "playable2_20261029183430_cvsxhd": {
+    "number": 90,
+    "items": [
+      "Rotated the score 90 degrees and placed it on the left at the vertical center.",
+      "Rotated the win panel and its replay action 90 degrees; retained independent two-player touch controls and first-to-five rules.",
+      "Kept the preview/start instruction normally oriented, following the latest clarification."
+    ],
+    "status": "Updated locally; focused portrait FYP UI checks completed.",
+    "evidence": [
+      "New five UI round · 29 October 2026"
+    ]
+  }
+});
+
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_9mlt5d_88b": {
+    "number": "88b",
+    "items": [
+      "Tangent launch and orbit-ring capture; hitting the planet fails.",
+      "Soft gradient marks the approximate safe launch windows on the current orbit, updating after each transfer.",
+      "Gradual acceleration during play; centered score only and safe FYP layout."
+    ],
+    "status": "Updated locally; gradient and a successful portrait FYP transfer checked.",
+    "evidence": [
+      "No.88b light gradient launch hint · 29 October 2026"
+    ]
+  }
+});
+
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_hxuf8g": {
+    "number": 86,
+    "items": [
+      "Faster initial ball and stronger speed increase on each bounce.",
+      "Best removed from play/results; centered score only.",
+      "Safe FYP layout, breathing guide and replay positions restored."
+    ],
+    "status": "Updated locally; start, score-only result and replay checked in portrait FYP.",
+    "evidence": [
+      "No.86 faster and score only · 29 October 2026"
+    ]
+  }
+});
+
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_ctpmni": {
+    "number": 89,
+    "items": [
+      "New illustrated cartoon character and training-workshop backdrop.",
+      "17 distinct weapon and automation illustrations, shown in the shop and during attacks.",
+      "Repeat-hit recoil/swing feedback; art stays clear of the guide and health bar.",
+      "All 19 images are optimized, local and replaceable; gameplay/economy retained."
+    ],
+    "status": "Updated locally; portrait FYP attacks and weapon switching checked.",
+    "evidence": [
+      "No.89 artwork refresh · 29 October 2026"
+    ]
+  }
+});
+
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_v5avg1": {
+    "number": 87,
+    "items": [
+      "Fine spray mist, realistic suds and flowing rinse water with dirty runoff.",
+      "Each area cleans only after Spray → Scrub → Rinse; wrong-order actions give a short hint.",
+      "Drying is optional; spray/rinse audio is softer and water-like."
+    ],
+    "status": "Updated locally; sequence model and portrait FYP interaction checked.",
+    "evidence": [
+      "No.87 ordered spray, scrub and rinse · 29 October 2026"
+    ]
+  }
+});
+
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_9mlt5d_88b": {
+    "number": "88b",
+    "items": [
+      "One continuous gradient strip shows the widest safe tangent launch window.",
+      "Clearer center, fading ends and correct wrapping around the orbit; updates after each transfer.",
+      "Tangent flight, gradual acceleration and centered score-only HUD retained."
+    ],
+    "status": "Updated locally; a highlighted launch caught the next orbit in portrait FYP.",
+    "evidence": [
+      "No.88b single working launch strip · 29 October 2026"
+    ]
+  }
+});
+
+// No.89 HUD panels · 29 October 2026
+window.PLAYABLE_IMPLEMENTED_FIXES["playable2_20261029183430_ctpmni"].items.push("Matching rounded panels behind level and coins, with soft borders and shadows.");
+
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_ctpmni": {
+    "number": 89,
+    "items": [
+      "New cartoon character, workshop background and 17 weapon/auto illustrations.",
+      "Level text centered above the character and coins centered at the top, both without panels.",
+      "Repeat-hit feedback, safe FYP layout and current source/dist structure."
+    ],
+    "status": "Updated locally; latest overhead level and centered coins checked in portrait FYP.",
+    "evidence": [
+      "No.89 overhead level and centered coins · 29 October 2026"
+    ]
+  }
+});
+
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_9mlt5d_88b": {
+    "number": "88b",
+    "items": [
+      "Two gradient strips mark valid launch windows for both sides of the next orbit.",
+      "Strips update after each transfer and fade toward the unsafe boundaries.",
+      "Tangent flight, gradual acceleration and centered score-only layout retained."
+    ],
+    "status": "Updated locally; both ranges checked and restored approach tested in portrait FYP.",
+    "evidence": [
+      "No.88b two valid launch strips · 29 October 2026"
+    ]
+  }
+});
+
+/* User-approved restrained reference visuals, 29 October 2026. */
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20260928023148_i47u62": {
+    "number": 21,
+    "items": [
+      "Neutral paper field, flat charcoal player troops, gray recruits and muted red enemies; clean sans-serif guide and unboxed enemy count.",
+      "Slowed neutral replenishment with cooldown, active and lifetime limits.",
+      "Simplified the HUD; removed rocks and shells again as requested."
+    ],
+    "status": "Updated locally; focused portrait FYP visual and interaction checks completed.",
+    "evidence": [
+      "FB-023-45750e0a",
+      "Minimal reference style · 29 October 2026"
+    ]
+  },
+  "playable2_20261001225611_9its9h": {
+    "number": 44,
+    "items": [
+      "Light paper arena, simple flat circular fighters and solid drawn blades; metal texture, cyan glow and neon HUD removed.",
+      "Simplified drawing/movement guides and split KOs/HP HUD.",
+      "Kept draw → equip → fight with five-hit enemies and unlimited KOs.",
+      "Increased continuous spin from 9.5 to 11 rad/s, about 16% faster; kept the 0.22s hit cooldown and other combat rules."
+    ],
+    "status": "Updated locally; focused portrait FYP visual and interaction checks completed.",
+    "evidence": [
+      "FB-048-6dc0acb5",
+      "Gameplay round 2 — October 14, 2026",
+      "17473cc8-9291-411b-9a20-2ecf9486112a",
+      "Minimal reference style · 29 October 2026"
+    ]
+  },
+  "playable2_20261028202811_hz9v37": {
+    "number": 79,
+    "items": [
+      "Fine black stick figures and sparse ivory ground replace the colored illustrated town; live event poses and props remain.",
+      "The 3200 × 1900 world, six districts, 28 residents and nine event types remain. Panning and event-specific newspaper photographs use the refreshed art.",
+      "Simulation still pauses while reading the newspaper; article and return button fit portrait FYP.",
+      "Required App.jsx/check.js/asset_manifest.json/dist structure; matching review/FYP files."
+    ],
+    "status": "Updated locally; focused portrait FYP visual and interaction checks completed.",
+    "evidence": [
+      "Batch79–86 polish20261028",
+      "Minimal reference style · 29 October 2026"
+    ]
+  },
+  "playable2_20261029183430_hxuf8g": {
+    "number": 86,
+    "items": [
+      "Neutral off-white court with solid black ball/paddle and reduced shadows, matching the restrained reference.",
+      "Faster initial ball and stronger speed increase on each bounce.",
+      "Best removed from play/results; centered score only.",
+      "Safe FYP layout, breathing guide and replay positions restored."
+    ],
+    "status": "Updated locally; focused portrait FYP visual and interaction checks completed.",
+    "evidence": [
+      "No.86 faster and score only · 29 October 2026",
+      "Minimal reference style · 29 October 2026"
+    ]
+  },
+  "playable2_20261029183430_9mlt5d": {
+    "number": 88,
+    "items": [
+      "Flat pale planets, one dotted orbit per planet and a quiet sage timing arc; glossy highlights and extra decorative rings removed.",
+      "Removed the redundant game heading, strengthened the 18px breathing CTA and lowered the orbital scene to avoid it.",
+      "Aligned HUD margins/type and placed Pause 30px from the right and 50px from the bottom.",
+      "Enlarged palette hit areas. Existing Score/Perfect/Best roles and timing-transfer gameplay remain."
+    ],
+    "status": "Updated locally; focused portrait FYP visual and interaction checks completed.",
+    "evidence": [
+      "New five UI round · 29 October 2026",
+      "Minimal reference style · 29 October 2026"
+    ]
+  },
+  "playable2_20261029183430_ctpmni": {
+    "number": 89,
+    "items": [
+      "Simple black line figure with dot eyes, neutral room and restrained shop surfaces replace the illustrated mascot/workshop.",
+      "Level text centered above the character and coins centered at the top, both without panels.",
+      "Repeat-hit feedback, safe FYP layout and current source/dist structure."
+    ],
+    "status": "Updated locally; focused portrait FYP visual and interaction checks completed.",
+    "evidence": [
+      "No.89 overhead level and centered coins · 29 October 2026",
+      "Minimal reference style · 29 October 2026"
+    ]
+  }
+});
+
+/* Lossless asset compression, 30 October 2026; local only. */
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20260927020825_ufhwuj": {
+    "number": 17,
+    "items": [
+      "Removed the countdown and time limit; the round ends only after a missed placement.",
+      "Centered the score at the top, with fixed-width digit slots in the bundled Audiowide font.",
+      "Preloaded the font, removed synthetic bold and old shrinking HUD overrides; fixed result spacing.",
+      "Lossless image encoding saves 0.98 MB per language. Decoded pixels, transparency, dimensions and color profiles are unchanged."
+    ],
+    "status": "Implemented locally; visual review pending.",
+    "evidence": [
+      "Synthwave Stack untimed/font follow-up 20261009",
+      "Batch 1 lossless assets · 30 October 2026"
+    ]
+  },
+  "playable2_20261001225821_af5uee": {
+    "number": 45,
+    "items": [
+      "Removed redundant titles/STAR progress; stress sits left and an elapsed timer sits right.",
+      "Added a fine golden-sand background, hold-only granular scraping and softer result sounds.",
+      "Final time appears beside the result percentage; timer resets on retry, freezes on results and pauses while hidden.",
+      "Lossless image encoding saves 0.21 MB per language. Decoded pixels, transparency, dimensions and color profiles are unchanged."
+    ],
+    "status": "Implemented locally; review acceptance pending.",
+    "evidence": [
+      "FB-049-1ed3b930",
+      "FB-049-4f995802",
+      "Star timer follow-up",
+      "Star result time follow-up",
+      "Batch 1 lossless assets · 30 October 2026"
+    ]
+  },
+  "playable2_20261001225842_2d0kul": {
+    "items": [
+      "Lossless image encoding saves 0.79 MB per language. Decoded pixels, transparency, dimensions and color profiles are unchanged."
+    ],
+    "evidence": [
+      "Batch 1 lossless assets · 30 October 2026"
+    ],
+    "number": 47
+  },
+  "01_petme_9gw00a_game": {
+    "items": [
+      "Lossless image encoding saves 1.24 MB per language. Decoded pixels, transparency, dimensions and color profiles are unchanged."
+    ],
+    "evidence": [
+      "Batch 1 lossless assets · 30 October 2026"
+    ],
+    "number": 63
+  },
+  "playable_20260807211217_q9i9d6": {
+    "items": [
+      "Lossless image encoding saves 0.42 MB per language. Decoded pixels, transparency, dimensions and color profiles are unchanged."
+    ],
+    "evidence": [
+      "Batch 1 lossless assets · 30 October 2026"
+    ],
+    "number": 67
+  },
+  "06a_coloring_game_final": {
+    "items": [
+      "Lossless image encoding saves 1.00 MB per language. Decoded pixels, transparency, dimensions and color profiles are unchanged."
+    ],
+    "evidence": [
+      "Batch 1 lossless assets · 30 October 2026"
+    ],
+    "number": 68
+  },
+  "02e_pickalook_p8xys3_game": {
+    "items": [
+      "Lossless image encoding saves 0.48 MB per language. Decoded pixels, transparency, dimensions and color profiles are unchanged."
+    ],
+    "evidence": [
+      "Batch 1 lossless assets · 30 October 2026"
+    ],
+    "number": 69
+  }
+});
+
+/* User-requested printed puzzle artwork, 30 October 2026. */
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20260927020825_kxh9p4": {
+    "number": 18,
+    "items": [
+      "Printed-paper artwork: violet surround, ivory drawing sheet, lime/pink inked controls, a new black ink ant and a locally bundled typewriter font.",
+      "Kept ants inside the drawable board, away from controls.",
+      "Added recognizable six-legged ant artwork.",
+      "Fixed scaled drawing coordinates, resize bounds and Add/Clear input handling."
+    ],
+    "status": "Updated locally; focused portrait FYP checks completed.",
+    "evidence": [
+      "FB-019-4731a74d",
+      "Paper and ink art · 30 October 2026"
+    ]
+  },
+  "playable2_20260928024159_iasubp": {
+    "number": 23,
+    "items": [
+      "Printed-paper artwork: cobalt surround, ivory playfield, flat colored obstacles and soda, new outlined cup and dispenser, and a locally bundled typewriter font. Cup moved slightly up to clear the controls.",
+      "Made soda cyan and obstacles orange with clearer outlines.",
+      "Prevented obstacle overlap and kept emitter/cup clearance.",
+      "Cup fills gradually with blue; Reset preserves the level, New Level changes it."
+    ],
+    "status": "Updated locally; focused portrait FYP checks completed.",
+    "evidence": [
+      "FB-025-faebc6a4",
+      "Paper and ink art · 30 October 2026"
+    ]
+  }
+});
+
+/* Cup alignment, route blockers and stronger paper texture, 30 October 2026. */
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20260927020825_kxh9p4": {
+    "number": 18,
+    "items": [
+      "Stronger paper grain and visible fibers across the violet background, drawing sheet and controls.",
+      "Printed-paper artwork: violet surround, ivory drawing sheet, lime/pink inked controls, a new black ink ant and a locally bundled typewriter font.",
+      "Kept ants inside the drawable board, away from controls.",
+      "Added recognizable six-legged ant artwork.",
+      "Fixed scaled drawing coordinates, resize bounds and Add/Clear input handling."
+    ],
+    "status": "Updated locally; focused portrait FYP checks completed.",
+    "evidence": [
+      "FB-019-4731a74d",
+      "Paper and ink art · 30 October 2026",
+      "Cup alignment and paper texture · 30 October 2026"
+    ]
+  },
+  "playable2_20260928024159_iasubp": {
+    "number": 23,
+    "items": [
+      "Water fill follows the new cup’s inner edges and curved base; cup collisions follow the same outline. Level generation places one ball in the gravity stream and another on the direct route to the cup. Stronger paper grain and fibers.",
+      "Printed-paper artwork: cobalt surround, ivory playfield, flat colored obstacles and soda, new outlined cup and dispenser, and a locally bundled typewriter font. Cup moved slightly up to clear the controls.",
+      "Made soda cyan and obstacles orange with clearer outlines.",
+      "Prevented obstacle overlap and kept emitter/cup clearance.",
+      "Cup fills gradually with blue; Reset preserves the level, New Level changes it."
+    ],
+    "status": "Updated locally; focused portrait FYP checks completed.",
+    "evidence": [
+      "FB-025-faebc6a4",
+      "Paper and ink art · 30 October 2026",
+      "Cup alignment and paper texture · 30 October 2026"
+    ]
+  }
+});
+
+/* Softer soda paper, 30 October 2026. */
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20260928024159_iasubp": {
+    "number": 23,
+    "items": [
+      "Softened the soda paper grain/fibers and overlay to roughly half strength for a lighter finish.",
+      "Water fill follows the new cup’s inner edges and curved base; cup collisions follow the same outline. Level generation places one ball in the gravity stream and another on the direct route to the cup. Stronger paper grain and fibers.",
+      "Printed-paper artwork: cobalt surround, ivory playfield, flat colored obstacles and soda, new outlined cup and dispenser, and a locally bundled typewriter font. Cup moved slightly up to clear the controls.",
+      "Made soda cyan and obstacles orange with clearer outlines.",
+      "Prevented obstacle overlap and kept emitter/cup clearance.",
+      "Cup fills gradually with blue; Reset preserves the level, New Level changes it."
+    ],
+    "status": "Updated locally; focused portrait FYP checks completed.",
+    "evidence": [
+      "FB-025-faebc6a4",
+      "Paper and ink art · 30 October 2026",
+      "Cup alignment and paper texture · 30 October 2026"
+    ]
+  }
+});
+
+/* Paper-style Squishy Shapes, 30 October 2026. */
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261028202811_rf6gbi": {
+    "number": 80,
+    "items": [
+      "Paper-and-ink visual style: warm orange textured paper, lime/teal/pink/blue flat shapes, fine black outlines, print-style lettering and inked circular controls. Current shape physics, four eye styles, moving pupils and contact-sound behavior retained.",
+      "Drawing release closes the outline into a filled body. Straight strokes with no enclosed area are rejected instead of being expanded into a ribbon.",
+      "Four imagegen eye styles are assigned in shuffled random order: classic, sleepy, googly and happy. All four image slots are replaceable.",
+      "Body fills and eyes use matte flat colors, with no body gradients, gloss or cast shadows. The feed demonstration uses the same flat appearance.",
+      "A cancelled drawing adds no body; clear restores the guide and palette/gravity controls remain available.",
+      "Required App.jsx/check.js/asset_manifest.json/dist structure; matching Direct/FYP files."
+    ],
+    "status": "Updated locally; portrait FYP preview and controls checked.",
+    "evidence": [
+      "Batch79–86 polish20261028",
+      "Paper and ink art · 30 October 2026"
+    ]
+  }
+});
+
+/* Paper-style squishies with faint background dots, 30 October 2026. */
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261028202811_rf6gbi": {
+    "number": 80,
+    "items": [
+      "Very faint printed dots added behind the paper-style squishies.",
+      "Paper-and-ink visual style: warm orange textured paper, lime/teal/pink/blue flat shapes, fine black outlines, print-style lettering and inked circular controls. Current shape physics, four eye styles, moving pupils and contact-sound behavior retained.",
+      "Drawing release closes the outline into a filled body. Straight strokes with no enclosed area are rejected instead of being expanded into a ribbon.",
+      "Four imagegen eye styles are assigned in shuffled random order: classic, sleepy, googly and happy. All four image slots are replaceable.",
+      "Body fills and eyes use matte flat colors, with no body gradients, gloss or cast shadows. The feed demonstration uses the same flat appearance.",
+      "A cancelled drawing adds no body; clear restores the guide and palette/gravity controls remain available.",
+      "Required App.jsx/check.js/asset_manifest.json/dist structure; matching Direct/FYP files."
+    ],
+    "status": "Updated; paper-style artwork, dots and current interaction behavior retained.",
+    "evidence": [
+      "Batch79–86 polish20261028",
+      "Paper and ink art · 30 October 2026"
+    ]
+  }
+});
+
+/* More legible background dots, 30 October 2026. */
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261028202811_rf6gbi": {
+    "number": 80,
+    "items": [
+      "Paper dots made slightly larger and clearer so they remain faint but visible over the grain.",
+      "Paper-and-ink visual style: warm orange textured paper, lime/teal/pink/blue flat shapes, fine black outlines, print-style lettering and inked circular controls. Current shape physics, four eye styles, moving pupils and contact-sound behavior retained.",
+      "Drawing release closes the outline into a filled body. Straight strokes with no enclosed area are rejected instead of being expanded into a ribbon.",
+      "Four imagegen eye styles are assigned in shuffled random order: classic, sleepy, googly and happy. All four image slots are replaceable.",
+      "Body fills and eyes use matte flat colors, with no body gradients, gloss or cast shadows. The feed demonstration uses the same flat appearance.",
+      "A cancelled drawing adds no body; clear restores the guide and palette/gravity controls remain available.",
+      "Required App.jsx/check.js/asset_manifest.json/dist structure; matching Direct/FYP files."
+    ],
+    "status": "Updated; paper-style artwork, dots and current interaction behavior retained.",
+    "evidence": [
+      "Batch79–86 polish20261028",
+      "Paper and ink art · 30 October 2026"
+    ]
+  }
+});
+
+/* Solid blob stacking and selectable three-color sets, 30 October 2026. */
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261028202811_rf6gbi": {
+    "number": 80,
+    "items": [
+      "Softer, flexible blobs with elastic rebound. Improved stack support, stable resting contacts and fast-flick collision steps prevent overlap and jitter.",
+      "Filled blob collisions prevent interpenetration and support stacks while preserving soft outlines.",
+      "A visible three-swatch selector cycles Print, Coast, Garden and Pastel sets. Each new blob picks randomly from its selected three colors. Existing blobs keep their colors.",
+      "Warm paper-and-ink artwork with faint printed dots; four eye styles, moving pupils and closed-shape drawing retained.",
+      "Current source and build follow the required App.jsx/check.js/asset_manifest.json/dist structure."
+    ],
+    "status": "Updated locally; portrait FYP release/landing checked. Focused calm/strong gravity, fast-flick and drag-through-stack cases passed.",
+    "evidence": [
+      "Blob stacking and three-color sets \u00b7 30 October 2026"
+    ]
+  }
+});
+
+/* Easier orbit capture and green launch arc, 30 October 2026. */
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_9mlt5d_88b": {
+    "number": "88b",
+    "items": [
+      "Any flight crossing the target orbit succeeds, including center-bound shots; the planet is no longer a hazard.",
+      "Green highlights mark all valid launch angles on the occupied ring; the full target green highlight is removed.",
+      "CTA: Tap to launch, aim at next orbit.",
+      "Tangent launch direction, score-only HUD and gradual speed ramp retained."
+    ],
+    "status": "Updated locally; geometry, required structure and portrait FYP UI checks passed.",
+    "evidence": [
+      "Easier 88b capture and valid launch arc \u00b7 30 October 2026"
+    ]
+  }
+});
+
+/* Launch-based speed progression, 30 October 2026. */
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20261029183430_9mlt5d_88b": {
+    "number": "88b",
+    "items": [
+      "Speed increases by 15% on each valid launch (compounded); the clock-based ramp and previous 2.2x cap are removed. Retry resets speed.",
+      "Reaching the target orbit succeeds, including paths toward the planet center.",
+      "A green arc on the occupied orbit marks valid launch positions; the target ring stays neutral.",
+      "CTA: Tap to launch, aim at next orbit. Score-only HUD retained."
+    ],
+    "status": "Updated; 15% speed progression is based on launches.",
+    "evidence": [
+      "Easier 88b and launch-based speed \u00b7 30 October 2026"
+    ]
+  }
+});
+
+/* Higher opening guides for 18 and 23, 30 October 2026. */
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES, {
+  "playable2_20260927020825_kxh9p4": {
+    "number": 18,
+    "items": [
+      "Opening guide moved to the usual upper-center position (26% of the game height).",
+      "Stronger paper grain and visible fibers across the violet background, drawing sheet and controls.",
+      "Printed-paper artwork: violet surround, ivory drawing sheet, lime/pink inked controls, a new black ink ant and a locally bundled typewriter font.",
+      "Kept ants inside the drawable board, away from controls.",
+      "Added recognizable six-legged ant artwork.",
+      "Fixed scaled drawing coordinates, resize bounds and Add/Clear input handling."
+    ],
+    "status": "Updated; higher guide position with existing gameplay and artwork retained.",
+    "evidence": [
+      "FB-019-4731a74d",
+      "Paper and ink art · 30 October 2026",
+      "Cup alignment and paper texture · 30 October 2026"
+    ]
+  },
+  "playable2_20260928024159_iasubp": {
+    "number": 23,
+    "items": [
+      "Opening guide moved to the usual upper-center position (26% of the game height).",
+      "Softened the soda paper grain/fibers and overlay to roughly half strength for a lighter finish.",
+      "Water fill follows the new cup’s inner edges and curved base; cup collisions follow the same outline. Level generation places one ball in the gravity stream and another on the direct route to the cup. Stronger paper grain and fibers.",
+      "Printed-paper artwork: cobalt surround, ivory playfield, flat colored obstacles and soda, new outlined cup and dispenser, and a locally bundled typewriter font. Cup moved slightly up to clear the controls.",
+      "Made soda cyan and obstacles orange with clearer outlines.",
+      "Prevented obstacle overlap and kept emitter/cup clearance.",
+      "Cup fills gradually with blue; Reset preserves the level, New Level changes it."
+    ],
+    "status": "Updated; higher guide position with existing gameplay and artwork retained.",
+    "evidence": [
+      "FB-025-faebc6a4",
+      "Paper and ink art · 30 October 2026",
+      "Cup alignment and paper texture · 30 October 2026"
+    ]
+  }
+});
+
+/* Position-stable CTA breathing across the current collection, 30 October 2026. */
+(()=>{const map=window.PLAYABLE_IMPLEMENTED_FIXES;if(!map)return;for(const [number,id]of [[1,"playable2_20260924214501_peqvrc"],[2,"playable_20260924213804_34rslj"],[3,"playable2_20260927020828_5pmrhn"],[4,"playable2_20260927020828_hix8pk"],[5,"playable2_20260927020828_iuyca5"],[6,"playable2_20260927020828_oumj12"],[7,"playable2_20260927020828_9vxaxo"],[8,"playable2_20260927020828_bnkh36"],[9,"playable2_20260927020828_86gl5z"],[10,"playable2_20260927020828_y5a1vt"],[11,"playable2_20260927021659_jfkvov"],[12,"playable2_20260927020825_z23fv4"],[13,"playable2_20260927020825_iyfbfj"],[14,"playable2_20260927020825_hjn7q5"],[15,"playable2_20260927020825_n4r34c"],[16,"playable2_20260927020825_lnwh1h"],[17,"playable2_20260927020825_ufhwuj"],[18,"playable2_20260927020825_kxh9p4"],[19,"playable2_20260927021136_x3i163"],[20,"playable2_20260927021201_7etgko"],[21,"playable2_20260928023148_i47u62"],[22,"playable2_20260928023148_kiq9wu"],[23,"playable2_20260928024159_iasubp"],[24,"playable2_20260928024549_3bsc4d"],[25,"playable2_20260928024805_31g1lw"],[26,"playable2_20260928024950_5wf6st"],[27,"playable2_20260928025305_2wpf3o"],[28,"playable2_20260928025330_g1w5ss"],[29,"playable2_20260928025635_idnu2k"],[30,"playable2_20260928030116_67pobm"],[31,"playable2_20260928030211_tdjer2"],[32,"playable2_20260928030642_uthymy"],[33,"playable2_20260928030932_n6urd6"],[34,"playable2_20260928031234_805376"],[35,"playable2_20260928031559_rckaf4"],[36,"playable2_20260928031734_t68did"],[37,"playable2_20261001225611_9hp79k"],[38,"playable2_20261001225611_hg6unh"],[39,"playable2_20261001225611_gjmtbw"],[40,"playable2_20261001225611_zgfls0"],[41,"playable2_20261001225611_23t98b"],[42,"playable2_20261001225611_bz1ptc"],[43,"playable2_20261001225611_0e3wo5"],[44,"playable2_20261001225611_9its9h"],[45,"playable2_20261001225821_af5uee"],[46,"playable2_20261001225836_jx30zt"],[47,"playable2_20261001225842_2d0kul"],[48,"playable2_20261001225926_ibkv62"],[49,"playable2_20261001225941_zi6jj7"],[50,"playable2_20261001230001_ag49cj"],[51,"playable2_20261001230052_xrken6b"],[52,"playable2_20261001230112_0ivocb"],[53,"playable2_20261001230122_0sowkn"],[54,"playable2_20261001230212_tajqhm"],[55,"playable2_20261001230222_8qptsc"],[56,"playable2_20261001230332_5af21q"],[57,"playable2_20261001230352_h4uxll"],[58,"playable2_20261001230412_o52e38"],[59,"playable2_20261013020814_twgfzt"],[60,"playable2_20261013020814_b973b1"],[61,"playable2_20261013020955_2hyyml"],[62,"playable2_20261013021144_kzqdfu"],[63,"01_petme_9gw00a_game"],[64,"playable_20260727203355_w1cgvm"],[65,"05c_timemachine_male_black_wall"],[66,"mianbao"],[67,"playable_20260807211217_q9i9d6"],[68,"06a_coloring_game_final"],[69,"02e_pickalook_p8xys3_game"],[70,"playable_20261015220925_0pn002"],[71,"bead_loop_20261019"],[72,"height_together_20261019"],[73,"one_life_20261020"],[74,"eh_catch_the_beat_20261020"],[75,"eh_feed_your_friend_20261020"],[76,"eh_hair_shave_20261020"],[77,"eh_catch_the_hair_20261020"],[78,"eh_makeover_20261020"],[79,"playable2_20261028202811_hz9v37"],[80,"playable2_20261028202811_rf6gbi"],[81,"playable2_20261028202811_dsl58j"],[82,"playable2_20261028202811_gia8r5"],[83,"playable2_20261028202811_5uuyhb"],[84,"playable2_20261028202811_q0f68t"],[85,"playable2_20261028202811_ke0xpl"],[86,"playable2_20261029183430_hxuf8g"],[87,"playable2_20261029183430_v5avg1"],[88,"playable2_20261029183430_9mlt5d"],["88b","playable2_20261029183430_9mlt5d_88b"],[89,"playable2_20261029183430_ctpmni"],[90,"playable2_20261029183430_cvsxhd"]]){const previous=map[id]||{};map[id]={...previous,number,items:[...(previous.items||[]).filter(s=>!s.startsWith("Opening CTA breathing")),"Opening CTA breathing covers the existing guidance and translated variants, with reduced-motion and hidden-frame handling."],status:"Updated."};}})();
+Object.assign(window.PLAYABLE_IMPLEMENTED_FIXES,{
+  "playable2_20260928024159_iasubp": {
+    "number": 23,
+    "items": [
+      "Opening CTA has no background panel and breathes gently.",
+      "Spawned obstacle balls keep a clear gap around the CTA; dispenser/cup routing and matching water fill retained."
+    ],
+    "status": "Updated."
+  },
+  "playable2_20261029183430_9mlt5d_88b": {
+    "number": "88b",
+    "items": [
+      "Green valid-launch arc fades in smoothly when it appears and after a catch.",
+      "Reaching the target orbit succeeds, including center-bound paths. Neutral target ring and updated CTA retained.",
+      "Each valid launch adds 15% speed, compounded; retry resets speed."
+    ],
+    "status": "Updated."
+  }
+});
+
+/* Requested local game updates, 2 November 2026. */
+(()=>{const map=window.PLAYABLE_IMPLEMENTED_FIXES;if(!map)return;const updates={"playable2_20260928030211_tdjer2":{"number":31,"item":"Color themes now share the horizontally scrollable swatch row. Settings fit below the canvas and reflow the artwork instead of covering it."},"playable2_20260927020828_y5a1vt":{"number":10,"item":"Red and blue target labels use their matching colors; removed the white-text override."},"playable2_20260927020825_lnwh1h":{"number":16,"item":"Catcher keeps the same position between cover and play. Wave-cleared results use a solid cream background and single-color text."}};for(const [id,u]of Object.entries(updates)){const prior=map[id]||{};map[id]={...prior,number:u.number,items:[...(prior.items||[]).filter(item=>item!==u.item),u.item],status:"Implemented and synchronized to GitHub."};}})();
+
+/* Local Sand Digging spacing and full-frame result, 2 November 2026. */
+(()=>{const m=window.PLAYABLE_IMPLEMENTED_FIXES;if(!m)return;const id="playable2_20260927020825_lnwh1h",p=m[id]||{};m[id]={...p,number:16,items:[...(p.items||[]),"Levels 1\u20132 have a higher ball pocket and obstacles, with unchanged obstacle thickness. Cleared results now cover the entire game with one cream background."],status:"Latest Sand Digging adjustments implemented locally; not pushed."};})();
+
+/* Local Hair Shave / Makeover image-loading fix, 2 November 2026. */
+(()=>{const m=window.PLAYABLE_IMPLEMENTED_FIXES;if(!m)return;for(const [id,number]of [["eh_hair_shave_20261020",76],["eh_makeover_20261020",78]]){const p=m[id]||{};m[id]={...p,number,items:[...(p.items||[]),"Repaired image loading: required portraits/tools load first, animation frames load on demand with a bounded cache, and required-image errors can retry."],status:"Image-loading fix implemented locally; not pushed."};}})();
+
+
+/* Local Framed Canvas town restoration, 2 November 2026. */
+(()=>{const m=window.PLAYABLE_IMPLEMENTED_FIXES;if(!m)return;const id="playable2_20261028202811_hz9v37",p=m[id]||{};m[id]={...p,number:79,items:[...(p.items||[]),"Restored the earlier town layout and scale in Canvas, with buildings, trees, benches, market and fountain redrawn in the current thin-line monochrome style."],status:"Canvas town restored locally; not pushed."};})();
+
+/* Local Framed fountain splash correction, 2 November 2026. */
+(()=>{const m=window.PLAYABLE_IMPLEMENTED_FIXES;if(!m)return;const id="playable2_20261028202811_hz9v37",p=m[id]||{};m[id]={...p,number:79,items:[...(p.items||[]),"Splash water now originates at the fountain nozzle and wets a reacting passerby. The other neighbor stays uninvolved."],status:"Town and fountain splash updated locally; not pushed."};})();
+
+/* Pending local game fixes published, 2 November 2026. */
+(()=>{const m=window.PLAYABLE_IMPLEMENTED_FIXES;if(!m)return;const updates={"playable2_20260927020825_lnwh1h":{"number":16,"items":["True full-screen cream Wave cleared result","Higher ball pocket and obstacles in levels 1-2; unchanged object dimensions"]},"playable2_20261001225611_9its9h":{"number":44,"items":["Attack rotation increased from 11 to 13.2 radians per second: 20% faster"]},"eh_hair_shave_20261020":{"number":76,"items":["Fix fragile eager image-decode startup; bounded lazy animation loading and retry"]},"eh_makeover_20261020":{"number":78,"items":["Fix fragile eager image-decode startup; bounded lazy animation loading and retry"]},"playable2_20261028202811_hz9v37":{"number":79,"items":["Restore the earlier town layout and scale with monochrome Canvas scenery","Anchor splash water to the fountain nozzle and direct it toward one passerby","Passerby shields their face; nearby person stays uninvolved","Splash newspaper requires both the fountain source and wet passerby in the photo"]}};for(const [id,u]of Object.entries(updates)){const p=m[id]||{};m[id]={...p,number:u.number,items:[...(p.items||[]).filter(x=>!u.items.includes(x)),...u.items],status:"Implemented and synchronized to GitHub."};}})();
+
+/* Local Sand Digging level swap, 2 November 2026. */
+(()=>{const m=window.PLAYABLE_IMPLEMENTED_FIXES;if(!m)return;const id="playable2_20260927020825_lnwh1h",p=m[id]||{};m[id]={...p,number:16,items:[...(p.items||[]),"Swapped the first and third stage layouts; level 2 stays the same. English and Italian updated."],status:"Level order updated locally; not pushed."};})();
+
+/* FEEDBACK_ROUND_20261103 */
+(()=>{const updates=[
+  {
+    "taskId": "playable2_20260927020825_kxh9p4",
+    "number": 18,
+    "changes": [
+      "首屏隐藏游戏按钮，保留玩法预览和平台 Tap to play。"
+    ],
+    "revision": "68ac3443f307"
+  },
+  {
+    "taskId": "playable2_20260928023148_i47u62",
+    "number": 21,
+    "changes": [
+      "改为浅绿场地、青绿玩家、珊瑚红敌人；结尾按钮沿用游戏配色。",
+      "保留仅玩家部队移动、未招募单位静止的预览。"
+    ],
+    "revision": "11d003e15a38"
+  },
+  {
+    "taskId": "playable2_20260928023148_kiq9wu",
+    "number": 22,
+    "changes": [
+      "首屏玩家车上移，保留浅蓝道路与黑色路边轮廓；道路两侧背景改为米色（#eee7d8）。两辆警车在首屏及重来后朝下，玩家车仍朝上。后续误套的柔和彩色车辆方案已撤回。",
+      "将 Goal 换成清晰的终点旗图标，标注为 ESCAPE。",
+      "玩家画线和预览均使用无箭头的实线，保留描线动画，线色与宽度一致。",
+      "实际追逐时播放警笛，结束、离开和隐藏页面时停止。"
+    ],
+    "revision": "ccc7e5983f74"
+  },
+  {
+    "taskId": "playable2_20260928024159_iasubp",
+    "number": 23,
+    "changes": [
+      "首屏隐藏游戏按钮；移除游玩中的 New Level，只保留重来图标。",
+      "杯子去掉表情，补上椭圆杯口和杯底轮廓，保持接水区域对应。 外侧背景改成与 Play again 按钮一致的青绿色（#59c6b1）。",
+      "结尾按钮与游玩按钮统一成纸张描边风格。"
+    ],
+    "revision": "2854b538a89e"
+  },
+  {
+    "taskId": "playable2_20261001225611_9its9h",
+    "number": 44,
+    "changes": [
+      "画板调整至竖向中间，拉开与引导的距离。",
+      "预览及画刀阶段仅展示刀刃，隐藏角色；进入战斗后显示角色。",
+      "重新参考 18、23、80：紫丁香纸纹场地、暖奶油画板、青绿玩家和柔黄敌人；预览与画刀均用深色墨线，结尾用同色纸面、青柠主按钮和粉色次按钮；结尾计分仍只显示 KOs: N，保留攻击速度。"
+    ],
+    "revision": "d4d1ce3d885b"
+  },
+  {
+    "taskId": "playable2_20261001230222_8qptsc",
+    "number": 55,
+    "changes": [
+      "首屏颜色选项稍微下调，仍避开平台入口。",
+      "关闭形状改为重来图标，保留清空琴弦功能。"
+    ],
+    "revision": "2e4ad2c02589"
+  },
+  {
+    "taskId": "eh_hair_shave_20261020",
+    "number": 76,
+    "changes": [
+      "剃须刀在预览及游戏中放大至原来约 1.9 倍，保留切割位置和点击操作。",
+      "结尾参考 78 直接保留完成后的照片，去掉爱心相框和暗色遮罩；移除文字旁的星星 emoji，在照片中直接画手绘感轮廓星星。",
+      "Fresh look 改用本地 DynaPuff 字体，保留重来按钮。"
+    ],
+    "revision": "65ca53b4a59d"
+  },
+  {
+    "taskId": "playable2_20261028202811_hz9v37",
+    "number": 79,
+    "changes": [
+      "使用本地 Special Elite 打字机字体。",
+      "结果版面改为报纸公告样式，增加印刷对比、双线边框和黑白照片；用 Imagegen 灰白磨损报纸纹理，加上轻微淡黄暖色；保留纸纤维、污迹、边缘斑驳及轻折痕，文字和边框统一黑灰，未增加文字。"
+    ],
+    "revision": "c9c2c3032fe4"
+  },
+  {
+    "taskId": "playable2_20261028202811_dsl58j",
+    "number": 81,
+    "changes": [
+      "去掉底部绿色分区，使用统一奶油色背景。",
+      "主体互动区下移，控制盘放右下角，长度放右上角。",
+      "保留当前落料和移动范围逻辑。",
+      "游玩画布延伸至屏幕顶部，出料管随相机取景自动延长，消除顶部断口。"
+    ],
+    "revision": "951ee6237f5b"
+  },
+  {
+    "taskId": "playable2_20261028202811_gia8r5",
+    "number": 82,
+    "changes": [
+      "从第二卷起轮换钞票风、刮刮卡、票券和笑脸印刷。",
+      "印刷沿纸卷曲面和垂直纸张连续映射，与齿孔共用位置和运动相位，修正纸币等图案的倾斜错位。旧卷掉落与新卷进入时正确交替。纸卷侧面及背面阴影随当前纸张底色一起变换。"
+    ],
+    "revision": "e8b4e7f3d6b4"
+  },
+  {
+    "taskId": "playable2_20261028202811_q0f68t",
+    "number": 84,
+    "changes": [
+      "首屏主体上移，照片完整显示。",
+      "用 Imagegen 默认朋友头像演示发来视频、看完选图、正确后解锁本地回复。",
+      "接入 SDK tt.getFriendsInfo：进入玩法后每会话读取一次好友昵称、头像，下一轮轮换好友；网页保留演示头像，SDK 失败或空列表使用系统默认头像；资料仅存内存，退出清除。",
+      "保留本地快捷回复和消息气泡，不发送真实消息。",
+      "选图页改为自适应分区：头像、说明、九宫格、按钮和错误提示各占独立空间，九宫格按剩余空间缩放；选图时隐藏重复的底部提示。说明改为 Select images that I sent。",
+      "保留三组照片和分散的正确答案。"
+    ],
+    "revision": "edcc4ea7bcfb"
+  },
+  {
+    "taskId": "playable2_20261028202811_ke0xpl",
+    "number": 85,
+    "changes": [
+      "扩大首屏照片和游玩中照片的展示区域，放大生成后的捏捏乐。",
+      "首屏描线沿默认猫照片的耳朵、身体、爪子和尾巴轮廓演示。",
+      "降低空气阻力和弹簧阻尼、加强回弹，保留防折叠保护。",
+      "拖拽响应加快，延长自由拉伸范围和主体移动边界；3D 操作区扩展至屏幕边缘，按钮仍可点击。"
+    ],
+    "revision": "c15298cad636"
+  },
+  {
+    "taskId": "playable2_20261029183430_hxuf8g",
+    "number": 86,
+    "changes": [
+      "Ricochet 首屏托盘上移，避开平台入口。",
+      "移除旧采样音效，改用较轻的原创合成击打与结束音。"
+    ],
+    "revision": "453535a1f5af"
+  },
+  {
+    "taskId": "playable2_20261029183430_v5avg1",
+    "number": 87,
+    "changes": [
+      "提亮背景、工具栏和文字配色。",
+      "用 Imagegen 实物质感照片替换四种工具插画。 工具栏图标进一步放大为最高 88 × 94px，使用底部空白并保持地毯区域高度；操作中的工具为 96px，握持位置对应作用点。",
+      "保留喷洒、刷洗、冲洗、吸干的四步顺序和反馈。",
+      "百分比按喷洒、刷洗、冲洗、吸干各占 25% 累计，并计入每步的局部进度；完成判定仍要求最终吸干覆盖率，完成后才显示 100%。"
+    ],
+    "revision": "f24d59ba8590"
+  },
+  {
+    "taskId": "playable2_20261029183430_9mlt5d_88b",
+    "number": 88,
+    "changes": [
+      "88b 参考黄色纸张与黑色手绘描边：亮黄纸纹背景叠加更清楚的细网点（19% 不透明度、半径 1.05px）、当前与下一颗星球均为白色，圆心与各自轨道对齐；深色实线轨道和更清楚的绿色可发射区；计分改为翻牌记分板样式，使用本地 DynaPuff，结尾与重来按钮统一同一配色。",
+      "移除结束页解锁配色选择器。",
+      "移除旧采样音效，使用原创短合成音；保留每次发射加速 15%。"
+    ],
+    "revision": "3a8588230364"
+  },
+  {
+    "taskId": "playable2_20261029183430_ctpmni",
+    "number": 89,
+    "changes": [
+      "使用上一版中性白灰背景、深色文字、暖白商品卡和淡金选中态，搭配新版角色、房间纹理和武器素材。",
+      "保留已修好的武器握柄、打击方向和现有交互。",
+      "场景武器仅在击打动画期间出现，击打后隐藏；首屏演示同样在两次攻击之间隐藏武器，商店图标保留。"
+    ],
+    "revision": "466609b02254"
+  },
+  {
+    "taskId": "playable2_20261029183430_cvsxhd",
+    "number": 90,
+    "changes": [
+      "单人对电脑：机器人控制上方球拍，带反应延迟、有限移动速度和偶发判断失误，会漏接；玩家控制下方球拍。",
+      "比分和结束页恢复正向显示。",
+      "首屏下方球拍上移，避开平台入口，仍为先到 5 分。 球速随有效游玩时长及回击次数逐步增加，最高为初速的 2.1 倍，重来后恢复初速。"
+    ],
+    "revision": "4644ff29f3ab"
+  }
+];for(const update of updates){const record=window.PLAYABLE_IMPLEMENTED_FIXES[update.taskId]||(window.PLAYABLE_IMPLEMENTED_FIXES[update.taskId]={items:[],evidence:[]});record.number=update.number;record.items=[...update.changes.map(text=>"Nov 3 feedback: "+text),...(record.items||[])];record.status="Updated locally; awaiting user review and publication.";record.evidence=["2026-11-03-feedback-round · "+update.revision,...(record.evidence||[])];}})();

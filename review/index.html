@@ -1,0 +1,1318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Playable Review Library</title>
+<link rel="stylesheet" href="./feedback.css?v=1">
+<link rel="stylesheet" href="./batch-view.css?v=20261013-2">
+<link rel="stylesheet" href="./developer-notes.css?v=tracker-fixes-20261009-21">
+<style>
+  :root { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: #18181b; background: #f7f7f8; }
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  button, input { font: inherit; }
+  button, a { -webkit-tap-highlight-color: transparent; }
+  button:focus-visible, a:focus-visible, input:focus-visible { outline: 3px solid #6d5efc; outline-offset: 3px; }
+  .shell { max-width: 1530px; margin: 0 auto; padding: 30px clamp(16px, 3vw, 44px) 42px; }
+  .eyebrow { color: #67677a; font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+  .header { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 25px; }
+  h1 { margin: 7px 0 6px; font-size: clamp(29px, 3vw, 45px); line-height: 1.08; letter-spacing: -.045em; }
+  .lede { margin: 0; color: #666779; line-height: 1.5; }
+  .count { flex: none; background: #24232b; color: white; border-radius: 999px; padding: 10px 15px; font-size: 13px; font-weight: 750; }
+  .layout { display: grid; grid-template-columns: minmax(360px, 1fr) minmax(360px, 510px); gap: 22px; align-items: start; }
+  .panel { background: white; border: 1px solid #e5e5ea; border-radius: 20px; box-shadow: 0 11px 35px #24232b0a; }
+  .library { min-height: 650px; overflow: hidden; }
+  .toolbar { position: sticky; top: 0; z-index: 2; background: white; padding: 18px; border-bottom: 1px solid #ededf0; }
+  .search { width: 100%; min-height: 46px; padding: 0 15px; border: 1px solid #d9d9e1; border-radius: 11px; color: #18181b; background: #fbfbfc; font-size: 15px; }
+  .results { padding: 4px 18px 17px; max-height: calc(100vh - 240px); min-height: 460px; overflow-y: auto; }
+  .row { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; gap: 11px; align-items: center; width: 100%; min-height: 67px; margin-bottom: 7px; padding: 10px 12px; border: 1px solid #e9e9ee; border-radius: 12px; background: white; text-align: left; cursor: pointer; transition: border-color .18s, background .18s, transform .18s; }
+  .row:hover { transform: translateY(-1px); border-color: #bfc0d0; background: #fafaff; }
+  .row.active { border-color: #6d5efc; background: #f5f3ff; }
+  .number { display: grid; place-items: center; width: 37px; height: 37px; border-radius: 10px; background: #eeeeF2; color: #505164; font-size: 12px; font-weight: 800; }
+  .row.active .number { background: #ded9ff; color: #4734d1; }
+  .name { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 750; }
+  .meta { display: block; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #858596; font-size: 11px; }
+  .comment-count { display: block; width: fit-content; margin-top: 6px; padding: 3px 7px; border-radius: 6px; background: #f0f0f4; color: #575769; font-size: 12px; font-weight: 650; line-height: 1.3; }
+  .comment-count.has-comments { background: #e9e5ff; color: #4938b5; }
+  .arrow { color: #8d8da1; font-size: 18px; }
+  .empty { padding: 40px 10px; color: #77788a; text-align: center; }
+  .preview { position: sticky; top: 20px; padding: 20px; }
+  .preview-head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+  .preview h2 { margin: 4px 0 4px; font-size: 22px; letter-spacing: -.035em; }
+  .preview-sub { margin: 0; color: #767789; font-size: 12px; line-height: 1.4; word-break: break-word; }
+  .reload { flex: none; min-height: 44px; padding: 0 12px; border: 1px solid #dcdce5; border-radius: 9px; background: white; color: #363642; font-weight: 750; cursor: pointer; }
+  .stage { display: grid; place-items: center; min-height: 410px; margin: 17px 0; padding: 14px; border-radius: 16px; background: #24232b; }
+  .preview-fit { position: relative; width: 390px; height: 844px; }
+  .phone { position: absolute; top: 0; left: 0; width: 390px; height: 844px; overflow: hidden; border: 0; border-radius: 23px; background: #fff; outline: 1px solid #202a23; transform-origin: top left; }
+  iframe { display: block; width: 390px; height: 844px; border: 0; background: white; }
+  .actions { display: flex; flex-wrap: wrap; gap: 9px; }
+  .action { display: inline-grid; place-items: center; flex: 1 1 125px; min-height: 44px; padding: 8px 10px; border-radius: 10px; text-align: center; text-decoration: none; font-size: 13px; font-weight: 800; }
+  .action[hidden] { display: none; }
+  .primary { background: #24232b; color: white; }
+  .secondary { background: #efeff3; color: #292935; }
+  .note { margin: 12px 0 0; color: #858596; font-size: 11px; line-height: 1.45; }
+  @media (max-width: 930px) { .layout { grid-template-columns: 1fr; } .preview { position: static; } .results { max-height: 480px; min-height: 260px; } }
+  @media (max-width: 570px) { .shell { padding: 22px 13px 30px; } .header { align-items: flex-start; } .count { font-size: 11px; padding: 8px 10px; } .panel { border-radius: 15px; } .preview { padding: 14px; } .stage { margin: 13px 0; padding: 10px; min-height: 370px; } }
+  @media (prefers-reduced-motion: reduce) { .row { transition: none; } .row:hover { transform: none; } }
+</style>
+<link rel="stylesheet" href="./review-ui.css?v=still-covers-20261109">
+<link rel="stylesheet" href="./batch-filter.css?v=stable-batches-20261021-1">
+<script src="./italian-games.js?v=string06-d18edd50fff6"></script>
+<script src="./review-language.js?v=italian-fixed-20261104"></script>
+<script src="./browser-play.js?v=fyp-1" data-local-browser-base="http://127.0.0.1:54770/2026-10-05-all-files-review/"></script>
+<script src="./game-downloads.js?v=covers-20261110-b6b2660f0f"></script>
+<script src="./game-download-ui.js?v=standard-templates-20261027-1"></script>
+<link rel="stylesheet" href="./batch-download.css?v=20261030-1">
+</head>
+<body>
+<div class="shell">
+<header class="header"><h1 class="visually-hidden">Playable review</h1><div class="review-brand"><div class="eyebrow">Playable lab</div></div><div class="review-header-actions"><label class="review-batch-filter" for="batch-filter"><span>Batch</span><select id="batch-filter" aria-label="Batch"><option value="all">All</option><option value="batch1">Batch 1</option><option value="batch2">Batch 2</option><option value="batch3">Batch 3</option></select></label><button id="batch-download" data-download-base="../2026-10-05-portfolio-gallery-publish/playablebatch1/downloads/" class="batch-download" type="button" disabled title="Select Batch 1, Batch 2, or Batch 3 to download all its games"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4"/></svg><span data-batch-download-label>Download batch</span></button><label class="visually-hidden" for="game-picker">Choose game</label><select id="game-picker" class="quick-game-picker" aria-label="Choose game"></select><div class="count" id="count" role="status" aria-live="polite"></div><button id="review-toggle" class="review-toggle" type="button" aria-haspopup="dialog" aria-controls="review-drawer">Review</button></div></header>
+  <main class="layout">
+    <section class="panel library" aria-label="Game list"><div class="toolbar"><input id="search" class="search" type="search" placeholder="Search by number, game, or task ID" aria-label="Search by number, game, or task ID"></div><div id="results" class="results"></div></section>
+<aside class="panel preview" aria-label="Game preview">
+  <div class="preview-head"><h2 id="preview-title" aria-live="polite">Select a game</h2><a id="two-game-fyp" class="player-control" target="_blank" rel="noopener" title="Creature Sandbox + Draw Face" aria-label="Open Creature Sandbox and Draw Face in a separate FYP">51 + 2 · FYP ↗</a></div>
+  <div class="player-shell">
+    <div class="player-controls" data-inline-controls role="group" aria-label="Player controls">
+      <nav class="player-navigation" aria-label="Game navigation">
+        <button id="previous-game" class="player-control" type="button" data-step="previous" aria-label="Previous game" title="Previous game"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m14 6-6 6 6 6"/></svg><span class="player-control-label">Previous</span></button>
+        <button id="reload" class="player-control" type="button" data-action="restart" aria-label="Restart preview" title="Restart preview"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1.9 7.2M4 4v6h6"/></svg><span class="player-control-label">Restart</span></button>
+        <button id="next-game" class="player-control" type="button" data-step="next" aria-label="Next game" title="Next game"><span class="player-control-label">Next</span><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m10 6 6 6-6 6"/></svg></button>
+      </nav>
+      <div class="player-mode-and-language"><span class="player-mode-label">FYP</span><button id="cover-mode-toggle" class="player-control cover-mode-toggle" type="button" aria-pressed="false" title="Show still covers in the FYP">Still covers</button><label class="player-language"><span class="visually-hidden">Game language</span><select data-game-language aria-label="Game language"><option value="en" lang="en">English</option><option value="it" lang="it">Italiano</option></select></label><span class="language-note" data-language-note hidden role="status"></span></div>
+      <button id="tiktok-view" data-feed-runtime="/app/home" class="player-expand" type="button" aria-label="Expand player" title="Full screen"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4"/></svg></button>
+    </div>
+    <span id="player-status" class="visually-hidden" role="status"></span>
+    <div class="stage" id="stage"><div class="preview-fit" id="preview-fit" hidden aria-hidden="true"><div class="phone" id="phone"><iframe id="frame" src="about:blank" title="Inactive package preview" sandbox="allow-scripts allow-same-origin allow-pointer-lock"></iframe></div></div></div>
+  </div>
+</aside>
+<aside class="panel review-details" aria-labelledby="review-details-heading"><header class="review-details-head"><h2 id="review-details-heading">Review</h2></header><div id="review-content" class="review-content" data-review-content><p class="preview-sub" id="preview-sub"></p><div class="actions"><a id="open" class="action secondary" target="_blank" rel="noopener">Open in new tab</a><a id="open-browser" class="action secondary" target="_blank" rel="noopener">Open in new tab (browser)</a><a id="reference" class="action secondary" target="_blank" rel="noopener noreferrer">Original reference</a><a id="download" class="action secondary" hidden>Download ZIP</a></div></div></aside>
+  </main>
+</div>
+<dialog id="review-drawer" class="review-drawer" aria-labelledby="review-drawer-heading"><header class="review-details-head"><h2 id="review-drawer-heading">Review</h2><button class="review-drawer-close" type="button">Close</button></header><div class="review-drawer-body"></div></dialog>
+<script src="./batch-downloads.js?v=covers-20261110-b6b2660f0f"></script>
+<script src="./batch-download-ui.js?v=batch3-20261109-1"></script>
+<script src="./feedback-config.js?v=1"></script>
+<script src="./developer-notes.js?v=meeting-fyp-20261021-2"></script>
+  <script src="./implemented-fixes-data.js?v=playful-cta-20261102"></script>
+  <script src="./meeting-fixes-data.js?v=meeting-fyp-20261021-5"></script>
+  <script src="./guide-centering-data.js?v=eh78-cta-20261102"></script>
+  <script src="./batch2-layout-data.js?v=20261026-1"></script>
+  <script src="./batch4-previews-data.js?v=20261026-5"></script>
+<script src="./ui-imports-fixes-data.js?v=pickalook-67-scratch-72-20261015-2"></script>
+<script src="./ui-audit-fixes-data.js?v=confirmed-20261013-1"></script>
+<script src="./italian-fixes-data.js?v=italian-20261021-2"></script>
+<script src="./guide-breathing-data.js?v=guide-breathing-20261021-1"></script>
+<script src="./implemented-fixes.js?v=one-screen-20261013-1"></script>
+<script src="./feedback.js?v=one-screen-20261013-1"></script>
+<script src="./batch-1012-games.js?v=steering92-manual-crop74-20261110-2"></script>
+<script src="./review-catalog.js?v=remove-orbit88-20261110"></script>
+<script src="./batch-filter.js?v=batch3-20261109-1"></script>
+<script>
+const games = [
+  {
+    "base": "playable2_20260924214501_peqvrc_game",
+    "name": "Dual Tap Duel",
+    "number": 1,
+    "sheetRow": 2,
+    "spreadsheetName": "2-Player Projectile Game",
+    "taskId": "playable2_20260924214501_peqvrc",
+    "spreadsheetTaskId": "playable2_20260924214501_peqvrc",
+    "src": "./playable2_20260924214501_peqvrc_game/game.html?cta=breathing-20261030&revision=c5eaa1cb7b23",
+    "zip": "./../../修复包_all_files/playable2_20260924214501_peqvrc_game.zip",
+    "source": "修复包_all_files",
+    "bytes": 444126,
+    "files": 7,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/5016f35d-ba28-4bec-9426-4074055df930"
+  },
+  {
+    "base": "draw_face",
+    "name": "Draw Face",
+    "number": 2,
+    "sheetRow": 3,
+    "spreadsheetName": "Draw a Face",
+    "taskId": "playable_20260924213804_34rslj",
+    "spreadsheetTaskId": "playable_20260924213804_34rslj",
+    "src": "./draw_face/draw_face/game.html?cta=breathing-20261030&revision=cta30",
+    "zip": "./../../修复包_all_files/draw_face.zip",
+    "source": "修复包_all_files",
+    "bytes": 131481,
+    "files": 7,
+    "config": true,
+    "bundle": false,
+    "referenceUrl": "https://share.loopit.me/game/9c217b27-64f6-4300-9e86-016ee2076f83"
+  },
+  {
+    "base": "playable2_20260927020828_5pmrhn",
+    "name": "One Stroke",
+    "number": 3,
+    "sheetRow": 4,
+    "spreadsheetName": "I'm Stuck in the Second Level",
+    "taskId": "playable2_20260927020828_5pmrhn",
+    "spreadsheetTaskId": "playable2_20260927020828_5pmrhn",
+    "src": "./playable2_20260927020828_5pmrhn/playable2_20260927020828_5pmrhn/game.html?cta=breathing-20261030&revision=69c8ae7c4c5d",
+    "zip": "./../../修复包_all_files/playable2_20260927020828_5pmrhn.zip",
+    "source": "修复包_all_files",
+    "bytes": 637428,
+    "files": 6,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/18a3d597-da37-42bb-8800-0a7a15fcc481"
+  },
+  {
+    "base": "playable2_20260927020828_hix8pk",
+    "name": "Cash Bounce",
+    "number": 4,
+    "sheetRow": 5,
+    "spreadsheetName": "Bounce Pad Clicker",
+    "taskId": "playable2_20260927020828_hix8pk",
+    "spreadsheetTaskId": "playable2_20260927020828_hix8pk",
+    "src": "./playable2_20260927020828_hix8pk/playable2_20260927020828_hix8pk/game.html?cta=breathing-20261030&revision=51cf6f84b219",
+    "zip": "./../../修复包_all_files/playable2_20260927020828_hix8pk.zip",
+    "source": "修复包_all_files",
+    "bytes": 545820,
+    "files": 7,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/087f2586-bdd9-4609-bc50-50828889e3c9"
+  },
+  {
+    "base": "playable2_20260927020828_iuyca5",
+    "name": "Dumpling Hunter",
+    "number": 5,
+    "sheetRow": 6,
+    "spreadsheetName": "Find the Dumplings",
+    "taskId": "playable2_20260927020828_iuyca5",
+    "spreadsheetTaskId": "playable2_20260927020828_iuyca5",
+    "src": "./playable2_20260927020828_iuyca5/playable2_20260927020828_iuyca5/game.html?cta=breathing-20261030&revision=6cc48a2d49a9",
+    "zip": "./../../修复包_all_files/playable2_20260927020828_iuyca5.zip",
+    "source": "修复包_all_files",
+    "bytes": 741449,
+    "files": 11,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/86e286ff-05c1-4670-97b8-854c0cf5e786"
+  },
+  {
+    "base": "playable2_20260927020828_oumj12",
+    "name": "String Drawing",
+    "number": 6,
+    "sheetRow": 7,
+    "spreadsheetName": "MEASURE",
+    "taskId": "playable2_20260927020828_oumj12",
+    "spreadsheetTaskId": "playable2_20260927020828_oumj12",
+    "src": "./playable2_20260927020828_oumj12/playable2_20260927020828_oumj12/game.html?cta=breathing-20261030&revision=21b3eeb93ef3",
+    "zip": "./../../修复包_all_files/playable2_20260927020828_oumj12.zip",
+    "source": "修复包_all_files",
+    "bytes": 632429,
+    "files": 6,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/6c3cf1db-1c76-4ed4-819c-10d019a23463"
+  },
+  {
+    "base": "playable2_20260927020828_9vxaxo",
+    "name": "Sky Ladder Stretch",
+    "number": 7,
+    "sheetRow": 8,
+    "spreadsheetName": "Measure",
+    "taskId": "playable2_20260927020828_9vxaxo",
+    "spreadsheetTaskId": "playable2_20260927020828_9vxaxo",
+    "src": "./playable2_20260927020828_9vxaxo/playable2_20260927020828_9vxaxo/game.html?cta=breathing-20261030&revision=5f21aa984c4e&ui=playful-cta-20261102",
+    "zip": "./../../修复包_all_files/playable2_20260927020828_9vxaxo.zip",
+    "source": "修复包_all_files",
+    "bytes": 666969,
+    "files": 18,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/0336eac9-c6ce-449f-b6a4-17f9f5326ecb"
+  },
+  {
+    "base": "playable2_20260927020828_bnkh36",
+    "name": "Fridge Inspector",
+    "number": 8,
+    "sheetRow": 9,
+    "spreadsheetName": "Eat or Pass",
+    "taskId": "playable2_20260927020828_bnkh36",
+    "spreadsheetTaskId": "playable2_20260927020828_bnkh36",
+    "src": "./playable2_20260927020828_bnkh36/playable2_20260927020828_bnkh36/game.html?cta=breathing-20261030&revision=cd93ed584716",
+    "zip": "./../../修复包_all_files/playable2_20260927020828_bnkh36.zip",
+    "source": "修复包_all_files",
+    "bytes": 2779854,
+    "files": 46,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/01a0c5f6-074c-7dad-b3d5-7c009ce9bed7"
+  },
+  {
+    "base": "playable2_20260927020828_86gl5z",
+    "name": "Color Match",
+    "number": 9,
+    "sheetRow": 10,
+    "spreadsheetName": "Palette",
+    "taskId": "playable2_20260927020828_86gl5z",
+    "spreadsheetTaskId": "playable2_20260927020828_86gl5z",
+    "src": "./playable2_20260927020828_86gl5z/playable2_20260927020828_86gl5z/game.html?cta=breathing-20261030&revision=03ec93f4c594",
+    "zip": "./../../修复包_all_files/playable2_20260927020828_86gl5z.zip",
+    "source": "修复包_all_files",
+    "bytes": 743815,
+    "files": 10,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/aed3a439-fa4f-49ac-adc0-8138d57753e8"
+  },
+  {
+    "base": "playable2_20260927020828_y5a1vt",
+    "name": "Color Wheel",
+    "number": 10,
+    "sheetRow": 11,
+    "spreadsheetName": "Chroma",
+    "taskId": "playable2_20260927020828_y5a1vt",
+    "spreadsheetTaskId": "playable2_20260927020828_y5a1vt",
+    "src": "./playable2_20260927020828_y5a1vt/playable2_20260927020828_y5a1vt/game.html?cta=breathing-20261030&revision=1c49b625f3be",
+    "zip": "./../../修复包_all_files/playable2_20260927020828_y5a1vt.zip",
+    "source": "修复包_all_files",
+    "bytes": 563846,
+    "files": 7,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/3045ca5c-4243-4a46-bd73-ac8800a22866"
+  },
+  {
+    "base": "playable2_20260927021659_jfkvov",
+    "name": "Are You Dumb?",
+    "number": 12,
+    "sheetRow": 13,
+    "spreadsheetName": "Are You Dumb???",
+    "taskId": "playable2_20260927021659_jfkvov",
+    "spreadsheetTaskId": "playable2_20260927021659_jfkvov",
+    "src": "./playable2_20260927021659_jfkvov/playable2_20260927021659_jfkvov/game.html?cta=breathing-20261030&revision=43e17f88a9f9",
+    "zip": "./../../修复包_all_files/playable2_20260927021659_jfkvov.zip",
+    "source": "修复包_all_files",
+    "bytes": 641478,
+    "files": 6,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/06cd7203-5985-4971-80a8-87d0c890a773"
+  },
+  {
+    "base": "playable2_20260927020825_z23fv4",
+    "name": "Pink ASMR Book",
+    "number": 13,
+    "sheetRow": 14,
+    "spreadsheetName": "ASMR Book",
+    "taskId": "playable2_20260927020825_z23fv4",
+    "spreadsheetTaskId": "playable2_20260927020825_z23fv4",
+    "src": "./playable2_20260927020825_z23fv4/playable2_20260927020825_z23fv4/game.html?cta=breathing-20261030&revision=2fbedecb880f",
+    "zip": "./../../修复包_all_files/playable2_20260927020825_z23fv4.zip",
+    "source": "修复包_all_files",
+    "bytes": 2024740,
+    "files": 11,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/d8b6c5db-bafd-42fc-9216-3925a7b9adad"
+  },
+  {
+    "base": "playable2_20260927020825_iyfbfj",
+    "name": "Sell Art",
+    "number": 14,
+    "sheetRow": 15,
+    "spreadsheetName": "Kaleidoscope Tycoon",
+    "taskId": "playable2_20260927020825_iyfbfj",
+    "spreadsheetTaskId": "playable2_20260927020825_iyfbfj",
+    "src": "./playable2_20260927020825_iyfbfj/playable2_20260927020825_iyfbfj/game.html?cta=breathing-20261030&revision=3ddf2f17f1fe",
+    "zip": "./../../修复包_all_files/playable2_20260927020825_iyfbfj.zip",
+    "source": "修复包_all_files",
+    "bytes": 635413,
+    "files": 7,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/b8462d8e-6949-47c9-968c-4458c54b00ad"
+  },
+  {
+    "base": "playable2_20260927020825_hjn7q5",
+    "name": "Melody Canvas",
+    "number": 15,
+    "sheetRow": 16,
+    "spreadsheetName": "Pleasant Notes",
+    "taskId": "playable2_20260927020825_hjn7q5",
+    "spreadsheetTaskId": "playable2_20260927020825_hjn7q5",
+    "src": "./playable2_20260927020825_hjn7q5/playable2_20260927020825_hjn7q5/game.html?cta=breathing-20261030&revision=4888086cb860",
+    "zip": "./../../修复包_all_files/playable2_20260927020825_hjn7q5.zip",
+    "source": "修复包_all_files",
+    "bytes": 947748,
+    "files": 8,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/8cbdcec5-771a-467e-bdd2-3357cab73c89"
+  },
+  {
+    "base": "playable2_20260927020825_n4r34c",
+    "name": "Orbital Circle",
+    "number": 16,
+    "sheetRow": 17,
+    "spreadsheetName": "Orbital Circle",
+    "taskId": "playable2_20260927020825_n4r34c",
+    "spreadsheetTaskId": "playable2_20260927020825_n4r34c",
+    "src": "./playable2_20260927020825_n4r34c/playable2_20260927020825_n4r34c/game.html?cta=breathing-20261030&revision=261a1982f8b6",
+    "zip": "./../../修复包_all_files/playable2_20260927020825_n4r34c.zip",
+    "source": "修复包_all_files",
+    "bytes": 637830,
+    "files": 6,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/2ecf335a-aedb-4431-90b6-be201bd70d10"
+  },
+  {
+    "base": "playable2_20260927020825_lnwh1h",
+    "name": "Sand Digging",
+    "number": 17,
+    "sheetRow": 18,
+    "spreadsheetName": "Sand Dig",
+    "taskId": "playable2_20260927020825_lnwh1h",
+    "spreadsheetTaskId": "playable2_20260927020825_lnwh1h",
+    "src": "./playable2_20260927020825_lnwh1h/playable2_20260927020825_lnwh1h/game.html?cta=breathing-20261030&revision=ec7119ff6bcf",
+    "zip": "./../../修复包_all_files/playable2_20260927020825_lnwh1h.zip",
+    "source": "修复包_all_files",
+    "bytes": 773709,
+    "files": 6,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/feac9374-1ad3-41fb-9143-2ce0a8d03161"
+  },
+  {
+    "base": "playable2_20260927020825_ufhwuj",
+    "name": "Synthwave Stack",
+    "number": 18,
+    "sheetRow": 19,
+    "spreadsheetName": "Synthwave Grid Drop",
+    "taskId": "playable2_20260927020825_ufhwuj",
+    "spreadsheetTaskId": "playable2_20260927020825_ufhwuj",
+    "src": "./playable2_20260927020825_ufhwuj/playable2_20260927020825_ufhwuj/game.html?cta=breathing-20261030&revision=1f978121e80f",
+    "zip": "./../../修复包_all_files/playable2_20260927020825_ufhwuj.zip",
+    "source": "修复包_all_files",
+    "bytes": 3897101,
+    "files": 25,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/af92492e-1380-460f-b9b9-c5da08d1261e"
+  },
+  {
+    "base": "playable2_20260927020825_kxh9p4",
+    "name": "Ant Trapper",
+    "number": 19,
+    "sheetRow": 20,
+    "spreadsheetName": "Trap the Ants!",
+    "taskId": "playable2_20260927020825_kxh9p4",
+    "spreadsheetTaskId": "playable2_20260927020825_kxh9p4",
+    "src": "./playable2_20260927020825_kxh9p4/dist/game.html?cta=breathing-20261030&revision=68ac3443f307&idle=batch2-20261102&ui=feedback-20261103",
+    "zip": "./../../修复包_all_files/playable2_20260927020825_kxh9p4.zip",
+    "source": "修复包_all_files",
+    "bytes": 1208743,
+    "files": 11,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/2da318d6-192c-4ad4-89a4-f02f797980fb"
+  },
+  {
+    "base": "playable2_20260927021136_x3i163",
+    "name": "Cube Physics",
+    "number": 21,
+    "sheetRow": 22,
+    "spreadsheetName": "cube split",
+    "taskId": "playable2_20260927021136_x3i163",
+    "spreadsheetTaskId": "playable2_20260927021136_x3i163",
+    "src": "./playable2_20260927021136_x3i163/playable2_20260927021136_x3i163/game.html?cta=breathing-20261030&revision=c8f7413c722e",
+    "zip": "./../../修复包_all_files/playable2_20260927021136_x3i163.zip",
+    "source": "修复包_all_files",
+    "bytes": 594973,
+    "files": 7,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/26bdc1da-13ee-4c71-8ff0-9cbd88f22db7"
+  },
+  {
+    "base": "playable2_20260927021201_7etgko",
+    "name": "Like If You Hate Bugs",
+    "number": 22,
+    "sheetRow": 23,
+    "spreadsheetName": "I Hate 67!",
+    "taskId": "playable2_20260927021201_7etgko",
+    "spreadsheetTaskId": "playable2_20260927021201_7etgko",
+    "src": "./playable2_20260927021201_7etgko/playable2_20260927021201_7etgko/game.html?cta=breathing-20261030&revision=87cb7687a004&ui=playful-cta-20261102",
+    "zip": "./../../修复包_all_files/playable2_20260927021201_7etgko.zip",
+    "source": "修复包_all_files",
+    "bytes": 1293349,
+    "files": 12,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/336de80c-28a6-4733-b84f-67814a38be41"
+  },
+  {
+    "base": "playable2_20260928023148_i47u62",
+    "name": "Army Commander",
+    "number": 23,
+    "sheetRow": 24,
+    "spreadsheetName": "Army Battle",
+    "taskId": "playable2_20260928023148_i47u62",
+    "spreadsheetTaskId": "playable2_20260928023148_i47u62",
+    "src": "./playable2_20260928023148_i47u62/dist/game.html?cta=breathing-20261030&revision=a54c18e7d128&idle=player-only21-20261102&ui=feedback-20261103",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928023148_i47u62.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 2428144,
+    "files": 11,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/569c1adb-a5e2-4105-8a89-84e794920c39"
+  },
+  {
+    "base": "playable2_20260928023148_kiq9wu",
+    "name": "Police Chase Escape",
+    "number": 24,
+    "sheetRow": 25,
+    "spreadsheetName": "Police Chase",
+    "taskId": "playable2_20260928023148_kiq9wu",
+    "spreadsheetTaskId": "playable2_20260928023148_kiq9wu",
+    "src": "/resource/playable-batch/playable2_20260928023148_kiq9wu/game.html?cta=breathing-20261030&revision=b92bd97304a1&idle=line-only22-20261102&ui=feedback-20261103&art=topdown22-20261102&car=upward22-20261102",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928023148_kiq9wu.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 774472,
+    "files": 14,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/179226c5-9284-4eea-bf9f-5c58d3df8cf1"
+  },
+  {
+    "base": "playable2_20260928024159_iasubp",
+    "name": "Soda Drop Physics Puzzle",
+    "number": 25,
+    "sheetRow": 26,
+    "spreadsheetName": "Soda Physics",
+    "taskId": "playable2_20260928024159_iasubp",
+    "spreadsheetTaskId": "playable2_20260928024159_iasubp",
+    "src": "./playable2_20260928024159_iasubp/dist/game.html?cta=breathing-20261030&revision=dabbccc8e377&idle=line-only23-20261102&ui=feedback-20261103",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928024159_iasubp.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 1216300,
+    "files": 10,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/70532c1d-57b3-4781-9e19-7b1cff6f75a6"
+  },
+  {
+    "base": "playable2_20260928024549_3bsc4d",
+    "name": "Phone Charging",
+    "number": 26,
+    "sheetRow": 27,
+    "spreadsheetName": "Charge",
+    "taskId": "playable2_20260928024549_3bsc4d",
+    "spreadsheetTaskId": "playable2_20260928024549_3bsc4d",
+    "src": "/resource/playable-batch/playable2_20260928024549_3bsc4d/game.html?cta=breathing-20261030&revision=dc5980fc670e",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928024549_3bsc4d.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 555842,
+    "files": 10,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/32f4a4fd-8d47-49f3-970a-a8bad314b4e0"
+  },
+  {
+    "base": "playable2_20260928024805_31g1lw",
+    "name": "Zen Bounce Sandbox",
+    "number": 27,
+    "sheetRow": 28,
+    "spreadsheetName": "Zen Bounce",
+    "taskId": "playable2_20260928024805_31g1lw",
+    "spreadsheetTaskId": "playable2_20260928024805_31g1lw",
+    "src": "/resource/playable-batch/playable2_20260928024805_31g1lw/game.html?cta=breathing-20261030&revision=c29aa7930c81",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928024805_31g1lw.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 600323,
+    "files": 6,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/b03a3480-5a09-472d-af27-eb95fc8f8fc1"
+  },
+  {
+    "base": "playable2_20260928024950_5wf6st",
+    "name": "Double Tap Reaction",
+    "number": 28,
+    "sheetRow": 29,
+    "spreadsheetName": "Can You Get 0.01?",
+    "taskId": "playable2_20260928024950_5wf6st",
+    "spreadsheetTaskId": "playable2_20260928024950_5wf6st",
+    "src": "/resource/playable-batch/playable2_20260928024950_5wf6st/game.html?cta=breathing-20261030&revision=ee90403f8c3a",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928024950_5wf6st.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 775198,
+    "files": 6,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/5296058f-f2fd-4b0a-8c2f-81e9fd352585"
+  },
+  {
+    "base": "playable2_20260928025305_2wpf3o",
+    "name": "Infinite Age Guesser",
+    "number": 29,
+    "sheetRow": 30,
+    "spreadsheetName": "Guess Age",
+    "taskId": "playable2_20260928025305_2wpf3o",
+    "spreadsheetTaskId": "playable2_20260928025305_2wpf3o",
+    "src": "/resource/playable-batch/playable2_20260928025305_2wpf3o/game.html?cta=breathing-20261030&revision=dea97c4571b5",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928025305_2wpf3o.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 842666,
+    "files": 10,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/84fc799e-db06-4404-b7cb-6d47676f8d8d"
+  },
+  {
+    "base": "playable2_20260928025330_g1w5ss",
+    "name": "Find the Mistake",
+    "number": 30,
+    "sheetRow": 31,
+    "spreadsheetName": "Find the Mistake",
+    "taskId": "playable2_20260928025330_g1w5ss",
+    "spreadsheetTaskId": "playable2_20260928025330_g1w5ss",
+    "src": "/resource/playable-batch/playable2_20260928025330_g1w5ss/game.html?cta=breathing-20261030&revision=e0954b8565e4&ui=playful-cta-20261102",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928025330_g1w5ss.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 672455,
+    "files": 6,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/ccee1c87-49eb-48bc-8727-3ac2cbbf460e"
+  },
+  {
+    "base": "playable2_20260928025635_idnu2k",
+    "name": "Real-Time Liquify",
+    "number": 31,
+    "sheetRow": 32,
+    "spreadsheetName": "Fix My Side Profile",
+    "taskId": "playable2_20260928025635_idnu2k",
+    "spreadsheetTaskId": "playable2_20260928025635_idnu2k",
+    "src": "/resource/playable-batch/playable2_20260928025635_idnu2k/game.html?cta=breathing-20261030&revision=01b0a0ebcfe7",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928025635_idnu2k.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 539980,
+    "files": 10,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/41ad4a68-9a00-404a-ab03-dd06c08fe4cf"
+  },
+  {
+    "base": "playable2_20260928030116_67pobm",
+    "name": "Street Hobo",
+    "number": 33,
+    "sheetRow": 34,
+    "spreadsheetName": "I Am Street Guy",
+    "taskId": "playable2_20260928030116_67pobm",
+    "spreadsheetTaskId": "playable2_20260928030116_67pobm",
+    "src": "/resource/playable-batch/playable2_20260928030116_67pobm/game.html?cta=breathing-20261030&revision=4d2454546df7",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928030116_67pobm.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 1394920,
+    "files": 19,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/8abd54a8-4e91-4e91-9b3b-4f5f58a6667f"
+  },
+  {
+    "base": "playable2_20260928030211_tdjer2",
+    "name": "Particle Art Creator",
+    "number": 34,
+    "sheetRow": 35,
+    "spreadsheetName": "Particle Art",
+    "taskId": "playable2_20260928030211_tdjer2",
+    "spreadsheetTaskId": "playable2_20260928030211_tdjer2",
+    "src": "/resource/playable-batch/playable2_20260928030211_tdjer2/game.html?cta=breathing-20261030&revision=6466e39310a0",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928030211_tdjer2.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 319685,
+    "files": 5,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/a1a561b1-8583-47e3-a69b-1e7a7757371b"
+  },
+  {
+    "base": "playable2_20260928030642_uthymy",
+    "name": "Fruit Peeler Challenge",
+    "number": 36,
+    "sheetRow": 37,
+    "spreadsheetName": "Fruit Peeler",
+    "taskId": "playable2_20260928030642_uthymy",
+    "spreadsheetTaskId": "playable2_20260928030642_uthymy",
+    "src": "/resource/playable-batch/playable2_20260928030642_uthymy/game.html?cta=breathing-20261030&revision=e49f53a0f1c7",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928030642_uthymy.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 4231159,
+    "files": 24,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/8fb4570e-e3dc-4e66-9eae-ee5c4be27024"
+  },
+  {
+    "base": "playable2_20260928030932_n6urd6",
+    "name": "Fishing Net Slice",
+    "number": 37,
+    "sheetRow": 38,
+    "spreadsheetName": "Fishing Net Slice",
+    "taskId": "playable2_20260928030932_n6urd6",
+    "spreadsheetTaskId": "playable2_20260928030932_n6urd6",
+    "src": "/resource/playable-batch/playable2_20260928030932_n6urd6/game.html?cta=breathing-20261030&revision=5910a69c7de6",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928030932_n6urd6.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 599350,
+    "files": 7,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.loopit.me/game/uw4M"
+  },
+  {
+    "base": "playable2_20260928031234_805376",
+    "name": "The Maze of Horror",
+    "number": 38,
+    "sheetRow": 39,
+    "spreadsheetName": "The Maze of Horror",
+    "taskId": "playable2_20260928031234_805376",
+    "spreadsheetTaskId": "playable2_20260928031234_805376",
+    "src": "/resource/playable-batch/playable2_20260928031234_805376/game.html?cta=breathing-20261030&revision=b977ff486ffc",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928031234_805376.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 532847,
+    "files": 10,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.aippy.ai/p/uOwN"
+  },
+  {
+    "base": "playable2_20260928031559_rckaf4",
+    "name": "Piano Tiles Rhythm Game",
+    "number": 39,
+    "sheetRow": 40,
+    "spreadsheetName": "Piano",
+    "taskId": "playable2_20260928031559_rckaf4",
+    "spreadsheetTaskId": "playable2_20260928031559_rckaf4",
+    "src": "/resource/playable-batch/playable2_20260928031559_rckaf4/game.html?cta=breathing-20261030&revision=0a13ab05fc79",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928031559_rckaf4.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 623428,
+    "files": 7,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.aippy.ai/p/uOvx"
+  },
+  {
+    "base": "playable2_20260928031734_t68did",
+    "name": "Underwater Breath Hold",
+    "number": 40,
+    "sheetRow": 41,
+    "spreadsheetName": "Underwater Breath Hold",
+    "taskId": "playable2_20260928031734_t68did",
+    "spreadsheetTaskId": "playable2_20260928031734_t68did",
+    "src": "/resource/playable-batch/playable2_20260928031734_t68did/game.html?cta=breathing-20261030&revision=e51bfa4ff5c3",
+    "zip": "./../2026-09-28-batch23-40-initial/playable2_20260928031734_t68did.zip",
+    "source": "2026-09-28-batch23-40-initial",
+    "bytes": 617602,
+    "files": 6,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.aippy.ai/p/uOwr"
+  },
+  {
+    "base": "playable2_20261001225611_9hp79k",
+    "name": "Ball Line Bouncer",
+    "number": 41,
+    "sheetRow": 42,
+    "spreadsheetName": "Ball Line Bouncer!",
+    "taskId": "playable2_20261001225611_9hp79k",
+    "spreadsheetTaskId": "playable2_20261001225611_9hp79k",
+    "src": "./playable2_20261001225611_9hp79k/game.html?cta=breathing-20261030&revision=26e849420bc6",
+    "zip": "./../../修复包_all_files/playable2_20261001225611_9hp79k.zip",
+    "source": "修复包_all_files",
+    "bytes": 717302,
+    "files": 7,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.aippy.ai/p/uOyz"
+  },
+  {
+    "base": "playable2_20261001225611_hg6unh",
+    "name": "Rolling Physics",
+    "number": 42,
+    "sheetRow": 43,
+    "spreadsheetName": "ROLLING",
+    "taskId": "playable2_20261001225611_hg6unh",
+    "spreadsheetTaskId": "playable2_20261001225611_hg6unh",
+    "src": "./playable2_20261001225611_hg6unh/game.html?cta=breathing-20261030&revision=7947fbd3eb12",
+    "zip": "./../../修复包_all_files/playable2_20261001225611_hg6unh.zip",
+    "source": "修复包_all_files",
+    "bytes": 813930,
+    "files": 8,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.aippy.ai/p/uOub"
+  },
+  {
+    "base": "playable2_20261001225611_gjmtbw",
+    "name": "Find the Animal",
+    "number": 43,
+    "sheetRow": 44,
+    "spreadsheetName": "FIND",
+    "taskId": "playable2_20261001225611_gjmtbw",
+    "spreadsheetTaskId": "playable2_20261001225611_gjmtbw",
+    "src": "./playable2_20261001225611_gjmtbw/game.html?cta=breathing-20261030&revision=6df606d8b036",
+    "zip": "./../../修复包_all_files/playable2_20261001225611_gjmtbw.zip",
+    "source": "修复包_all_files",
+    "bytes": 867504,
+    "files": 7,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.aippy.ai/p/uw4N"
+  },
+  {
+    "base": "playable2_20261001225611_zgfls0",
+    "name": "Pixel Sandbox",
+    "number": 44,
+    "sheetRow": 45,
+    "spreadsheetName": "Pixel Element Sandbox",
+    "taskId": "playable2_20261001225611_zgfls0",
+    "spreadsheetTaskId": "playable2_20261001225611_zgfls0",
+    "src": "./playable2_20261001225611_zgfls0/game.html?cta=breathing-20261030&revision=8ef9d013ea5c",
+    "zip": "./../../修复包_all_files/playable2_20261001225611_zgfls0.zip",
+    "source": "修复包_all_files",
+    "bytes": 341317,
+    "files": 6,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.aippy.ai/p/uOta"
+  },
+  {
+    "base": "playable2_20261001225611_23t98b",
+    "name": "Text Your Ex",
+    "number": 45,
+    "sheetRow": 46,
+    "spreadsheetName": "Text Your Ex more endings now",
+    "taskId": "playable2_20261001225611_23t98b",
+    "spreadsheetTaskId": "playable2_20261001225611_23t98b",
+    "src": "./playable2_20261001225611_23t98b/game.html?cta=breathing-20261030&revision=871ad56558f8",
+    "zip": "./../../修复包_all_files/playable2_20261001225611_23t98b.zip",
+    "source": "修复包_all_files",
+    "bytes": 803703,
+    "files": 8,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.aippy.ai/p/uJQj"
+  },
+  {
+    "base": "playable2_20261001225611_bz1ptc",
+    "name": "Stayin' Alive CPR",
+    "number": 46,
+    "sheetRow": 47,
+    "spreadsheetName": "Stayin Alive CPR",
+    "taskId": "playable2_20261001225611_bz1ptc",
+    "spreadsheetTaskId": "playable2_20261001225611_bz1ptc",
+    "src": "./playable2_20261001225611_bz1ptc/game.html?cta=breathing-20261030&revision=5f6a3510bfd8",
+    "zip": "./../../修复包_all_files/playable2_20261001225611_bz1ptc.zip",
+    "source": "修复包_all_files",
+    "bytes": 1301991,
+    "files": 9,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.aippy.ai/p/uOxg"
+  },
+  {
+    "base": "playable2_20261001225611_0e3wo5",
+    "name": "Cats Snake",
+    "number": 47,
+    "sheetRow": 48,
+    "spreadsheetName": "Meme Snake Game",
+    "taskId": "playable2_20261001225611_0e3wo5",
+    "spreadsheetTaskId": "playable2_20261001225611_0e3wo5",
+    "src": "./playable2_20261001225611_0e3wo5/game.html?cta=breathing-20261030&revision=225a14fdc422",
+    "zip": "./../../修复包_all_files/playable2_20261001225611_0e3wo5.zip",
+    "source": "修复包_all_files",
+    "bytes": 1080045,
+    "files": 20,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.aippy.ai/p/uOyK"
+  },
+  {
+    "base": "playable2_20261001225611_9its9h",
+    "name": "Draw Your Blade",
+    "number": 48,
+    "sheetRow": 49,
+    "spreadsheetName": "Draw your blade",
+    "taskId": "playable2_20261001225611_9its9h",
+    "spreadsheetTaskId": "playable2_20261001225611_9its9h",
+    "src": "./playable2_20261001225611_9its9h/dist/game.html?cta=breathing-20261030&revision=7099068fe13a&idle=blade-draw-only44-20261102&ui=feedback-20261103",
+    "zip": "./../../修复包_all_files/playable2_20261001225611_9its9h.zip",
+    "source": "修复包_all_files",
+    "bytes": 1613626,
+    "files": 15,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.aippy.ai/p/uOw0"
+  },
+  {
+    "base": "playable2_20261001225821_af5uee",
+    "name": "Draw a Star",
+    "number": 49,
+    "sheetRow": 50,
+    "spreadsheetName": "draw star",
+    "taskId": "playable2_20261001225821_af5uee",
+    "spreadsheetTaskId": "playable2_20261001225821_af5uee",
+    "src": "./playable2_20261001225821_af5uee/game.html?cta=breathing-20261030&revision=c1219adc03bf",
+    "zip": "./../../修复包_all_files/playable2_20261001225821_af5uee.zip",
+    "source": "修复包_all_files",
+    "bytes": 5747016,
+    "files": 29,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.aippy.ai/p/uOy7"
+  },
+  {
+    "base": "playable2_20261001225836_jx30zt",
+    "name": "Keep Him Steady",
+    "number": 50,
+    "sheetRow": 51,
+    "spreadsheetName": "Please help me. I can't stand it",
+    "taskId": "playable2_20261001225836_jx30zt",
+    "spreadsheetTaskId": "playable2_20261001225836_jx30zt",
+    "src": "./playable2_20261001225836_jx30zt/game.html?cta=breathing-20261030&revision=980f97f8e2bd",
+    "zip": "./../../修复包_all_files/playable2_20261001225836_jx30zt.zip",
+    "source": "修复包_all_files",
+    "bytes": 659481,
+    "files": 8,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://share.aippy.ai/p/uOCK"
+  },
+  {
+    "base": "playable2_20261001225842_2d0kul",
+    "name": "Drag Toy",
+    "number": 51,
+    "sheetRow": 52,
+    "spreadsheetName": "Double tap in this black bar to like!",
+    "taskId": "playable2_20261001225842_2d0kul",
+    "spreadsheetTaskId": "playable2_20261001225842_2d0kul",
+    "src": "./playable2_20261001225842_2d0kul/game.html?cta=breathing-20261030&revision=ca9e19144e73",
+    "zip": "./../../修复包_all_files/playable2_20261001225842_2d0kul.zip",
+    "source": "修复包_all_files",
+    "bytes": 4583029,
+    "files": 22,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/FvXYaw01V"
+  },
+  {
+    "base": "playable2_20261001225856_15hv2j",
+    "name": "2048 Ball Merge",
+    "number": 52,
+    "sheetRow": 53,
+    "spreadsheetName": "Get 2048 (you can tilt)",
+    "taskId": "playable2_20261001225856_15hv2j",
+    "spreadsheetTaskId": "playable2_20261001225856_15hv2j",
+    "src": "./playable2_20261001225856_15hv2j/game.html",
+    "zip": "./../../修复包_all_files/playable2_20261001225856_15hv2j.zip",
+    "source": "修复包_all_files",
+    "bytes": 685103,
+    "files": 8,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/Eo6S3do_6"
+  },
+  {
+    "base": "playable2_20261001225926_ibkv62",
+    "name": "Mandala",
+    "number": 53,
+    "sheetRow": 54,
+    "spreadsheetName": "Create your mandala",
+    "taskId": "playable2_20261001225926_ibkv62",
+    "spreadsheetTaskId": "playable2_20261001225926_ibkv62",
+    "src": "./playable2_20261001225926_ibkv62/game.html?cta=breathing-20261030&revision=a8873711e1ea",
+    "zip": "./../../修复包_all_files/playable2_20261001225926_ibkv62.zip",
+    "source": "修复包_all_files",
+    "bytes": 176229,
+    "files": 5,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/PSuIr4Jyr"
+  },
+  {
+    "base": "playable2_20261001225937_72e2ez",
+    "name": "Sky Cycle",
+    "number": 54,
+    "sheetRow": 55,
+    "spreadsheetName": "See the sun move across the sky",
+    "taskId": "playable2_20261001225937_72e2ez",
+    "spreadsheetTaskId": "playable2_20261001225937_72e2ez",
+    "src": "./playable2_20261001225937_72e2ez/game.html",
+    "zip": "./../../修复包_all_files/playable2_20261001225937_72e2ez.zip",
+    "source": "修复包_all_files",
+    "bytes": 3854471,
+    "files": 79,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/Jb5UPtrIq"
+  },
+  {
+    "base": "playable2_20261001225941_zi6jj7",
+    "name": "Crack the Code",
+    "number": 55,
+    "sheetRow": 56,
+    "spreadsheetName": "Crack the Code",
+    "taskId": "playable2_20261001225941_zi6jj7",
+    "spreadsheetTaskId": "playable2_20261001225941_zi6jj7",
+    "src": "./playable2_20261001225941_zi6jj7/game.html?cta=breathing-20261030&revision=4b9cbd093544",
+    "zip": "./../../修复包_all_files/playable2_20261001225941_zi6jj7.zip",
+    "source": "修复包_all_files",
+    "bytes": 711211,
+    "files": 7,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/DqpCiyNBC"
+  },
+  {
+    "base": "playable2_20261001230001_ag49cj",
+    "name": "Starlit Hill",
+    "number": 56,
+    "sheetRow": 57,
+    "spreadsheetName": "Fireworks Night",
+    "taskId": "playable2_20261001230001_ag49cj",
+    "spreadsheetTaskId": "playable2_20261001230001_ag49cj",
+    "src": "./playable2_20261001230001_ag49cj/game.html?cta=breathing-20261030&revision=acb9c0aab8ba",
+    "zip": "./../../修复包_all_files/playable2_20261001230001_ag49cj.zip",
+    "source": "修复包_all_files",
+    "bytes": 831485,
+    "files": 10,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/Hjt2C5bw3"
+  },
+  {
+    "base": "playable2_20261001230052_xrken6_57b",
+    "name": "Creature Sandbox — top-down",
+    "number": "57b",
+    "sheetRow": 58,
+    "spreadsheetName": "Creature Sandbox",
+    "taskId": "playable2_20261001230052_xrken6b",
+    "spreadsheetTaskId": "playable2_20261001230052_xrken6",
+    "src": "./playable2_20261001230052_xrken6_57b/game.html?cta=breathing-20261030&revision=e943a5b7d9b9",
+    "zip": null,
+    "source": "local-57b-top-down-variant",
+    "bytes": 786412,
+    "files": 17,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/MgBrTz9MK",
+    "originalNumber": 57,
+    "variantOf": "playable2_20261001230052_xrken6"
+  },
+  {
+    "base": "playable2_20261001230112_0ivocb",
+    "name": "How Strong Are You?",
+    "number": 58,
+    "sheetRow": 59,
+    "spreadsheetName": "How strong are you?",
+    "taskId": "playable2_20261001230112_0ivocb",
+    "spreadsheetTaskId": "playable2_20261001230112_0iv0cb",
+    "src": "./playable2_20261001230112_0ivocb/game.html?cta=breathing-20261030&revision=9e7b4c8a079a",
+    "zip": "./../../修复包_all_files/playable2_20261001230112_0ivocb.zip",
+    "source": "修复包_all_files",
+    "bytes": 424357,
+    "files": 11,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/FTvMEqmfM"
+  },
+  {
+    "base": "playable2_20261001230122_0sowkn",
+    "name": "Snake",
+    "number": 60,
+    "sheetRow": 61,
+    "spreadsheetName": "ancient prehistoric text",
+    "taskId": "playable2_20261001230122_0sowkn",
+    "spreadsheetTaskId": "playable2_20261001230122_0s0wkn",
+    "src": "./playable2_20261001230122_0sowkn/game.html?cta=breathing-20261030&revision=93f8efbe47fa",
+    "zip": "./../../修复包_all_files/playable2_20261001230122_0sowkn.zip",
+    "source": "修复包_all_files",
+    "bytes": 618903,
+    "files": 34,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/GGC5lOo0D"
+  },
+  {
+    "base": "playable2_20261001230147_id39lj",
+    "name": "Northern Lights",
+    "number": 61,
+    "sheetRow": 62,
+    "spreadsheetName": "Northern Lights",
+    "taskId": "playable2_20261001230147_id39lj",
+    "spreadsheetTaskId": "playable2_20261001230147_id391j",
+    "src": "./playable2_20261001230147_id39lj/game.html",
+    "zip": "./../../修复包_all_files/playable2_20261001230147_id39lj.zip",
+    "source": "修复包_all_files",
+    "bytes": 1098569,
+    "files": 9,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/E9Y9rd5iy"
+  },
+  {
+    "base": "playable2_20261001230212_tajqhm",
+    "name": "Hit the Time",
+    "number": 62,
+    "sheetRow": 63,
+    "spreadsheetName": "Dark Interactive Scene",
+    "taskId": "playable2_20261001230212_tajqhm",
+    "spreadsheetTaskId": "playable2_20261001230212_tajqhm",
+    "src": "./playable2_20261001230212_tajqhm/game.html?cta=breathing-20261030&revision=0310aa29ac97&ui=playful-cta-20261102",
+    "zip": "./../../修复包_all_files/playable2_20261001230212_tajqhm.zip",
+    "source": "修复包_all_files",
+    "bytes": 391481,
+    "files": 8,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/GLlHK1x7d"
+  },
+  {
+    "base": "playable2_20261001230222_8qptsc",
+    "name": "New Instrument",
+    "number": 64,
+    "sheetRow": 65,
+    "spreadsheetName": "new instrument",
+    "taskId": "playable2_20261001230222_8qptsc",
+    "spreadsheetTaskId": "playable2_20261001230222_8qptsc",
+    "src": "./playable2_20261001230222_8qptsc/game.html?cta=breathing-20261030&revision=2e4ad2c02589&idle=batch2-20261102&ui=feedback-20261103",
+    "zip": "./../../修复包_all_files/playable2_20261001230222_8qptsc.zip",
+    "source": "修复包_all_files",
+    "bytes": 147118,
+    "files": 6,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/FrdTkGmte"
+  },
+  {
+    "base": "playable2_20261001230332_5af21q",
+    "name": "Pocket Racer",
+    "number": 65,
+    "sheetRow": 66,
+    "spreadsheetName": "Try to beat the traffic",
+    "taskId": "playable2_20261001230332_5af21q",
+    "spreadsheetTaskId": "playable2_20261001230332_5af21q",
+    "src": "./playable2_20261001230332_5af21q/game.html?cta=breathing-20261030&revision=6c9bf70644a5",
+    "zip": "./../../修复包_all_files/playable2_20261001230332_5af21q.zip",
+    "source": "修复包_all_files",
+    "bytes": 964562,
+    "files": 19,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/IJV2VJVvV"
+  },
+  {
+    "base": "playable2_20261001230352_h4uxll",
+    "name": "Twilight Grayscale",
+    "number": 66,
+    "sheetRow": 67,
+    "spreadsheetName": "Twilight Grayscale",
+    "taskId": "playable2_20261001230352_h4uxll",
+    "spreadsheetTaskId": "playable2_20261001230352_h4uxll",
+    "src": "./playable2_20261001230352_h4uxll/game.html?cta=breathing-20261030&revision=f146f607e721",
+    "zip": "./../../修复包_all_files/playable2_20261001230352_h4uxll.zip",
+    "source": "修复包_all_files",
+    "bytes": 1727901,
+    "files": 33,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/HWHnesi97"
+  },
+  {
+    "base": "playable2_20261001230412_o52e38",
+    "name": "Stack",
+    "number": 67,
+    "sheetRow": 68,
+    "spreadsheetName": "Stack! How high can you go?",
+    "taskId": "playable2_20261001230412_o52e38",
+    "spreadsheetTaskId": "playable2_20261001230412_052e38",
+    "src": "./playable2_20261001230412_o52e38/game.html?cta=breathing-20261030&revision=57ee351dcb3c",
+    "zip": "./../../修复包_all_files/playable2_20261001230412_o52e38.zip",
+    "source": "修复包_all_files",
+    "bytes": 548979,
+    "files": 8,
+    "config": true,
+    "bundle": true,
+    "referenceUrl": "https://madewithpocket.com/p/DsCmdSvLw"
+  }
+];
+games.push(...(window.PlayableImportedGames || []));
+games.splice(0, games.length, ...window.PlayableReviewCatalog.normalize(games));
+const $ = (id) => document.getElementById(id);
+const search = $('search'), results = $('results'), frame = $('frame');
+const batchModel = window.PlayableBatchFilter, batchControl = $('batch-filter');
+let selectedBatch = 'all', filterSignature = '';
+try { selectedBatch = batchModel.normalizeBatch(localStorage.getItem(batchModel.storageKey)); } catch (_) {}
+batchControl.value = selectedBatch;
+function filterState() { return {batch: selectedBatch, query: search.value}; }
+function visibleGames() { return batchModel.filterGames(games, filterState()); }
+function poolGames() { return batchModel.filterGames(games, {batch: selectedBatch}); }
+function setBatch(value) {
+  selectedBatch = batchModel.normalizeBatch(value); batchControl.value = selectedBatch;
+  try { localStorage.setItem(batchModel.storageKey, selectedBatch); } catch (_) {}
+}
+const confirmedUiGames = new Set([1,2,3,4,6,7,9,10,12,13,14,16,17,19,21,22,23,24,25,27,28,30,33,34,36,37,38,39,43,44,45,46,47,49,50,51,52,53,54,57,61,62,65,67,69,70,72,73]);
+function englishPreviewSource(game) {
+  // Game-specific revisions use the stable source number, not the visible list position.
+  const sourceNumber = game.sourceNumber ?? game.number;
+  // Refresh this entry document as well as its bundle after adding the meadow demo.
+  if (game.taskId === 'playable2_20261001230052_xrken6b') {
+    const source = new URL(game.src, location.href);
+    source.searchParams.set('entryDemo', 'meadow-20261019-1');
+    return source.href;
+  }
+  if (!confirmedUiGames.has(sourceNumber) && sourceNumber !== 68) return game.src;
+  const source = new URL(game.src, location.href);
+  if (confirmedUiGames.has(sourceNumber)) source.searchParams.set('uiReview', 'confirmed-20261013-1');
+  if (sourceNumber === 72) source.searchParams.set('eraEffects', 'optics-20261013-1');
+  if (sourceNumber === 72) source.searchParams.set('yearTimeline', 'five-year-20261013-3');
+  if (sourceNumber === 69) source.searchParams.set('controls', 'multi-touch-20261013-3');
+  if (sourceNumber === 70) source.searchParams.set('stampArt', 'fox-stable-dock-20261013-2');
+  if (sourceNumber === 68) {
+    source.searchParams.delete('trail');
+    source.searchParams.set('swingMotion', 'neon62-faster-20261019-1');
+  }
+  return source.href;
+}
+function previewSource(game) { const source = englishPreviewSource(game); return window.PlayableReviewLocale?.source(game,source) || source; }
+function fypSource(game) {
+  const url = new URL($('tiktok-view').dataset.feedRuntime, location.href);
+  url.searchParams.set('review', 'batch');
+  url.searchParams.set('feed', 'playable-batch-' + game.taskId);
+  url.searchParams.set('reviewPool', poolGames().map(item => item.taskId).join(','));
+  url.searchParams.set('lang', window.PlayableReviewLocale?.language || 'en');
+  return url.href;
+}
+const phoneViewport = Object.freeze({ width: 390, height: 844 });
+function fitPhone(fit, screen, availableWidth, availableHeight) {
+  if (!fit || !screen) return;
+  const scale = Math.max(.01, Math.min(1, availableWidth / phoneViewport.width, availableHeight / phoneViewport.height));
+  fit.style.width = (phoneViewport.width * scale) + 'px';
+  fit.style.height = (phoneViewport.height * scale) + 'px';
+  screen.style.transform = 'scale(' + scale + ')';
+}
+function fitPreview() {
+  const stage = $('stage'), style = getComputedStyle(stage);
+  const availableWidth = Math.max(1, stage.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight));
+  const availableHeight = Math.max(1, stage.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom));
+  fitPhone($('preview-fit'), $('phone'), availableWidth, availableHeight);
+  fitPhone($('fyp-fit'), $('fyp-phone'), availableWidth, availableHeight);
+}
+new ResizeObserver(fitPreview).observe($('stage'));
+window.addEventListener('resize', fitPreview);
+fitPreview();
+let current = null;
+function select(game, options = {}) {
+  if (!game) return;
+  if (options.allowPoolChange) {
+    const revealed = batchModel.reveal(game, filterState());
+    setBatch(revealed.batch); search.value = revealed.query;
+  }
+  if (!poolGames().some(item => item.taskId === game.taskId)) return;
+  current = game;
+  history.replaceState(null, '', '#' + game.taskId);
+  $('preview-title').textContent = (game.number ? game.number + '. ' : '') + game.name;
+  $('preview-title').title = $('preview-title').textContent;
+  const individualFyp = game.taskId === 'playable2_20261001230052_xrken6b' ? 'fyp-creature-sandbox.html' : game.taskId === 'playable_20260924213804_34rslj' ? 'fyp-draw-face.html' : game.taskId === 'playable2_20261013020955_2hyyml' ? 'fyp-time-camera.html' : null;
+  const showcaseRuntime = new URL($('tiktok-view').dataset.feedRuntime, location.href), fypLink = $('two-game-fyp');
+  fypLink.href = new URL('/' + (individualFyp || 'fyp-51-2.html'), showcaseRuntime).href;
+  fypLink.textContent = individualFyp ? 'Standalone FYP ↗' : '51 + 2 · FYP ↗';
+  fypLink.setAttribute('aria-label', individualFyp ? 'Open ' + game.name + ' in its own FYP page' : 'Open Creature Sandbox and Draw Face in a separate FYP');
+  fypLink.title = individualFyp ? game.name + ' · FYP' : 'Creature Sandbox + Draw Face';
+  $('preview-sub').textContent = game.taskId + ' · ' + (game.sheetRow ? 'Spreadsheet row ' + game.sheetRow : game.sourceLabel);
+  if (options.preview !== false) window.PlayableFypMode?.select(game);
+  $('reference').hidden = !game.referenceUrl;
+  $('reference').href = game.referenceUrl || '';
+  $('reference').setAttribute('aria-label', 'Open original reference for ' + game.number + '. ' + game.name);
+  window.PlayableGameDownloadsUI?.reflect(game);
+  window.PlayableDeveloperNotes?.selectGame(game);
+  window.PlayableImplementedFixes?.selectGame(game);
+  window.PlayableFeedback?.selectGame(game);
+  window.PlayableFypMode?.reflect(game);
+  window.PlayableReviewLayout?.reflect(game);
+  window.PlayableReviewLocale?.reflect(game);
+  render();
+  results.querySelector('.row.active')?.setAttribute('aria-current', 'true');
+  if (options.reveal) {
+    const active = results.querySelector('.row.active');
+    if (active) {
+      const rowBox = active.getBoundingClientRect(), listBox = results.getBoundingClientRect();
+      if (rowBox.top < listBox.top) results.scrollTop += rowBox.top - listBox.top;
+      else if (rowBox.bottom > listBox.bottom) results.scrollTop += rowBox.bottom - listBox.bottom;
+    }
+  }
+}
+const commentBadges = new Map();
+function updateCommentBadge(taskId) {
+  const entry = commentBadges.get(taskId);
+  if (!entry) return;
+  const {badge, row, game} = entry;
+  const count = window.PlayableFeedback?.getCommentCount(taskId);
+  badge.textContent = typeof count === 'number' ? count + (count === 1 ? ' comment' : ' comments') : count === 'error' ? 'Comments unavailable' : 'Comments…';
+  badge.title = count === 'error' ? 'Could not load comment count. Refresh feedback to retry.' : 'Total shared comments for this game';
+  badge.classList.toggle('has-comments', typeof count === 'number' && count > 0);
+  row.setAttribute('aria-label', 'Preview ' + game.number + '. ' + game.name + ', ' + badge.textContent);
+}
+function reflectOpenLinks(game) {
+  const feedUrl = fypSource(game);
+  $('open').href = feedUrl;
+  $('open-browser').href = window.PlayableBrowser.urlFor(game, feedUrl, selectedBatch !== 'all');
+}
+function render() {
+  if (current) reflectOpenLinks(current);
+  const visible = visibleGames(), batchSize = batchModel.filterGames(games, {batch: selectedBatch}).length;
+  $('count').textContent = (search.value.trim() ? visible.length + ' of ' + batchSize : visible.length) + ' games';
+  const counts = {all: games.length, batch1: batchModel.filterGames(games, {batch: 'batch1'}).length, batch2: batchModel.filterGames(games, {batch: 'batch2'}).length, batch3: batchModel.filterGames(games, {batch: 'batch3'}).length};
+  for (const option of batchControl.options) option.textContent = ({all: 'All', batch1: 'Batch 1', batch2: 'Batch 2', batch3: 'Batch 3'})[option.value] + ' (' + counts[option.value] + ')';
+  results.replaceChildren();
+  commentBadges.clear();
+  const signature = selectedBatch + '\n' + search.value + '\n' + visible.map(game => game.taskId).join('\n');
+  if (signature !== filterSignature) {
+    filterSignature = signature;
+    window.dispatchEvent(new CustomEvent('playable-review-filter-change', {detail: {batch: selectedBatch, query: search.value, taskIds: visible.map(game => game.taskId)}}));
+  }
+  if (!visible.length) { const empty = document.createElement('p'); empty.className = 'empty'; empty.textContent = 'No matching games. Change Batch or clear search.'; results.append(empty); return; }
+  for (const game of visible) {
+    const row = document.createElement('button'); row.type = 'button'; row.className = 'row'; row.classList.toggle('active', current?.base === game.base); row.setAttribute('aria-label', 'Preview ' + game.number + '. ' + game.name); if (current?.taskId === game.taskId) row.setAttribute('aria-current', 'true');
+    const number = document.createElement('span'); number.className = 'number'; number.textContent = game.number;
+    const body = document.createElement('span'); const name = document.createElement('span'); name.className = 'name'; name.textContent = game.name; const meta = document.createElement('span'); meta.className = 'meta'; meta.textContent = game.taskId; body.append(name, meta);
+    const badge = document.createElement('span'); badge.className = 'comment-count'; body.append(badge); commentBadges.set(game.taskId, {badge, row, game}); updateCommentBadge(game.taskId);
+    const arrow = document.createElement('span'); arrow.className = 'arrow'; arrow.setAttribute('aria-hidden', 'true'); arrow.textContent = '›';
+    row.append(number, body, arrow); row.addEventListener('click', () => select(game)); results.append(row);
+  }
+}
+window.PlayableFeedback?.initializeCounts(games, updateCommentBadge);
+search.addEventListener('input', render);
+batchControl.addEventListener('change', () => {
+  setBatch(batchControl.value);
+  const pool = poolGames();
+  if (pool.length && !pool.some(game => game.taskId === current?.taskId)) select(pool[0]);
+  else render();
+});
+const linkedGame = games.find(game => game.taskId === location.hash.slice(1) || game.base === location.hash.slice(1));
+render(); select(linkedGame || poolGames()[0] || games[0], {reveal: !!linkedGame, allowPoolChange: !!linkedGame});
+window.PlayableReviewLibrary = { games, previewSource, fypSource, viewport: phoneViewport, fitPhone, fitPreview, getCurrent: () => current, getVisibleGames: visibleGames, getPoolGames: poolGames, getFilter: filterState, select, suspend: () => { frame.src = 'about:blank'; }, resume: () => window.PlayableFypMode?.restart() };
+window.addEventListener('playable-review-language-change', () => { if (current) reflectOpenLinks(current); });
+window.addEventListener('hashchange', () => {
+  const game = games.find(item => item.taskId === location.hash.slice(1) || item.base === location.hash.slice(1));
+  if (game && game.taskId !== current?.taskId) select(game, {reveal: true, allowPoolChange: true});
+});
+</script>
+<script src="./feed-mode.js?v=still-covers-fyp-20261109"></script>
+<script src="./review-layout.js?v=batch-pools-20261021-2"></script>
+</body>
+</html>

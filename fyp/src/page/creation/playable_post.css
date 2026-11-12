@@ -1,0 +1,39 @@
+/* Post confirmation — Figma 16267:245797. Overlays the result preview. */
+.playable-post {
+  position: absolute; inset: 0; z-index: 8; overflow: hidden; display: flex; flex-direction: column; align-items: center;
+  box-sizing: border-box; background: var(--tux-v2-color-ui-page-flat-1, #000); color: var(--tux-v2-color-ui-text-1, #f6f6f6);
+}
+.playable-post > :not(.playable-post-glow) { position: relative; }
+.playable-post-nav { align-self: stretch; flex-shrink: 0; }
+/* Background art: 390×728 from the top of the frame. */
+.playable-post-glow { position: absolute; left: 0; top: 0; width: 100%; height: 728px; pointer-events: none; }
+/* Cover: 167×256 at y=98 (7px under the nav), r16.8, 0.233px white-40 hairline. */
+.playable-post-cover {
+  flex-shrink: 0; width: 167px; height: 256px; margin-top: 7px; border-radius: 16.8px; overflow: hidden;
+  box-sizing: border-box; border: 0.233px solid rgba(255, 255, 255, 0.4);
+}
+.playable-post-cover img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.playable-post-form { align-self: stretch; display: flex; flex-direction: column; gap: 16px; padding: 20px 16px 0; }
+.playable-post-caption {
+  box-sizing: border-box; width: 100%; height: 52px; padding: 0 16px; border-radius: 25px; outline: 0;
+  background: rgba(51, 51, 51, 0.6); border: 0.5px solid var(--tux-v2-color-ui-shape-neutral-4, rgba(255, 255, 255, 0.13));
+  font: inherit; font-size: 16px; line-height: 1.3; color: var(--tux-v2-color-ui-text-1, #f6f6f6); caret-color: #728eff;
+}
+.playable-post-caption::placeholder { color: rgba(255, 255, 255, 0.2); }
+.playable-post-actions { display: flex; gap: 8px; }
+.playable-post-actions button {
+  flex: 1; height: 52px; padding: 0 20px; border-radius: 999px; display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 600; line-height: 1.3;
+}
+.playable-post-send { gap: 6px; background: var(--tux-v2-color-ui-shape-neutral-4, rgba(255, 255, 255, 0.13)); color: var(--tux-v2-color-ui-text-1, #f6f6f6); }
+.playable-post-publish {
+  gap: 4px; background: var(--tux-v2-color-ui-shape-neutral, #fafafa); color: #000;
+  border: 1px solid rgba(0, 177, 226, 0.09) !important;
+}
+/* 22px avatar stack: 16.5px front photo bottom-left over a 15.7px friend top-right. */
+.playable-post-avatars { position: relative; width: 22px; height: 22px; flex-shrink: 0; }
+.playable-post-avatar-behind { position: absolute; right: 0; top: 0; width: 15.75px; height: 15.75px; }
+.playable-post-avatar {
+  position: absolute; left: 0; bottom: 0; width: 17px; height: 17px; box-sizing: border-box; border-radius: 999px; object-fit: cover;
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+}

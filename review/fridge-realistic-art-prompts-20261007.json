@@ -1,0 +1,97 @@
+{
+  "date": "2026-10-07",
+  "tool": "built-in image_gen",
+  "assets": [
+    {
+      "key": "apple-fresh",
+      "slot": "FOOD_FRESH_1",
+      "prompt": "Use case: product-mockup. Asset type: individual food sprite for a mobile freshness-inspection game. Photorealistic high-end supermarket product photography, physically natural textures, NOT illustration, NOT cartoon, NOT 3D rendering. One food item centered, fully visible within a square composition with 12 percent clear margin, three-quarter view from slightly above, camera at roughly 35 degrees. Soft diffused daylight from upper left, neutral white balance, tack-sharp subject detail. Genuinely transparent background, clean alpha edges, no cast shadow detached from the food, no plate, tabletop, packaging, text, sticker, border, logo, or decorative props. Subject fills about 75 percent of the frame. Food looks unmistakably fresh. Subject: One fresh red apple with realistic red/yellow mottled skin, a short brown stem, no leaf. Smooth natural skin without mold, whole round apple, modest imperfections.",
+      "path": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-feec2b93-8187-4c97-84a7-b19ac88be93e.png",
+      "name": "food-apple-fresh-photo-v4"
+    },
+    {
+      "key": "bread-fresh",
+      "slot": "FOOD_FRESH_2",
+      "prompt": "Use case: product-mockup. Asset type: individual food sprite for a mobile freshness-inspection game. Photorealistic high-end supermarket product photography, physically natural textures, NOT illustration, NOT cartoon, NOT 3D rendering. One food item centered, fully visible within a square composition with 12 percent clear margin, three-quarter view from slightly above, camera at roughly 35 degrees. Soft diffused daylight from upper left, neutral white balance, tack-sharp subject detail. Genuinely transparent background, clean alpha edges, no cast shadow detached from the food, no plate, tabletop, packaging, text, sticker, border, logo, or decorative props. Subject fills about 75 percent of the frame. Food looks unmistakably fresh. Subject: One thick slice of fresh white sandwich bread, upright broad cut face visible, soft porous cream crumb and thin golden-brown crust, no mold, no sliced loaf or other pieces.",
+      "path": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-ecbf28d5-4d35-495a-b0a0-0c2c28f65f6c.png",
+      "name": "food-bread-fresh-photo-v4"
+    },
+    {
+      "key": "cheese-fresh",
+      "slot": "FOOD_FRESH_3",
+      "prompt": "Use case: product-mockup. Asset type: individual food sprite for a mobile freshness-inspection game. Photorealistic high-end supermarket product photography, physically natural textures, NOT illustration, NOT cartoon, NOT 3D rendering. One food item centered, fully visible within a square composition with 12 percent clear margin, three-quarter view from slightly above, camera at roughly 35 degrees. Soft diffused daylight from upper left, neutral white balance, tack-sharp subject detail. Genuinely transparent background, clean alpha edges, no cast shadow detached from the food, no plate, tabletop, packaging, text, sticker, border, logo, or decorative props. Subject fills about 75 percent of the frame. Food looks unmistakably fresh. Subject: One wedge of fresh semi-hard yellow cheese, attractive natural buttery-yellow rindless surface with a few round small holes, broad cut face visible, no mold.",
+      "path": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-e159fa7f-1e89-4fd9-9d5f-2681cda50ee2.png",
+      "name": "food-cheese-fresh-photo-v4"
+    },
+    {
+      "key": "strawberries-fresh",
+      "slot": "FOOD_FRESH_4",
+      "prompt": "Use case: product-mockup. Asset type: individual food sprite for a mobile freshness-inspection game. Photorealistic high-end supermarket product photography, physically natural textures, NOT illustration, NOT cartoon, NOT 3D rendering. One food item centered, fully visible within a square composition with 12 percent clear margin, three-quarter view from slightly above, camera at roughly 35 degrees. Soft diffused daylight from upper left, neutral white balance, tack-sharp subject detail. Genuinely transparent background, clean alpha edges, no cast shadow detached from the food, no plate, tabletop, packaging, text, sticker, border, logo, or decorative props. Subject fills about 75 percent of the frame. Food looks unmistakably fresh. Subject: A small natural cluster of three fresh ripe red strawberries with small green leafy calyxes, realistic tiny yellow seeds, no container, rich red unblemished flesh.",
+      "path": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-34963807-9113-4a5e-ad76-08adf67d7ea7.png",
+      "name": "food-strawberries-fresh-photo-v4"
+    },
+    {
+      "key": "broccoli-fresh",
+      "slot": "FOOD_FRESH_5",
+      "prompt": "Use case: product-mockup. Asset type: individual food sprite for a mobile freshness-inspection game. Photorealistic high-end supermarket product photography, physically natural textures, NOT illustration, NOT cartoon, NOT 3D rendering. One food item centered, fully visible within a square composition with 12 percent clear margin, three-quarter view from slightly above, camera at roughly 35 degrees. Soft diffused daylight from upper left, neutral white balance, tack-sharp subject detail. Genuinely transparent background, clean alpha edges, no cast shadow detached from the food, no plate, tabletop, packaging, text, sticker, border, logo, or decorative props. Subject fills about 75 percent of the frame. Food looks unmistakably fresh. Subject: One short compact fresh broccoli crown with a small light-green stalk, realistic dense dark-green florets, not tall, no other vegetables, no yellowing.",
+      "path": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-a322218a-b55a-46da-a0f0-4f3287548879.png",
+      "name": "food-broccoli-fresh-photo-v4"
+    },
+    {
+      "key": "tomato-fresh",
+      "slot": "FOOD_FRESH_6",
+      "prompt": "Use case: product-mockup. Asset type: individual food sprite for a mobile freshness-inspection game. Photorealistic high-end supermarket product photography, physically natural textures, NOT illustration, NOT cartoon, NOT 3D rendering. One food item centered, fully visible within a square composition with 12 percent clear margin, three-quarter view from slightly above, camera at roughly 35 degrees. Soft diffused daylight from upper left, neutral white balance, tack-sharp subject detail. Genuinely transparent background, clean alpha edges, no cast shadow detached from the food, no plate, tabletop, packaging, text, sticker, border, logo, or decorative props. Subject fills about 75 percent of the frame. Food looks unmistakably fresh. Subject: One whole ripe red tomato with a small green calyx, round natural smooth red skin, no slices, no mold or rot.",
+      "path": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-766676e8-7583-40eb-aa88-4a517b00a67c.png",
+      "name": "food-tomato-fresh-photo-v4"
+    },
+    {
+      "key": "fridge-hero",
+      "slot": "BG_MAIN",
+      "prompt": "Photorealistic premium product photograph of one modern brushed stainless steel refrigerator, three-quarter front view, single door open slightly to the right to reveal softly lit clean white shelves with a few small fresh vegetables and glass containers. Consistent realistic daylight from upper left, neutral white balance, refined ordinary kitchen appliance with no logos, labels, stickers, text or cartoon face. Entire fridge visible with 12 percent margin in square composition. Isolated genuine transparent background, no kitchen, floor, wall, scenery, frame, UI or detached cast shadow. Food and fridge physically realistic, not illustration and not 3D rendering.",
+      "path": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-4b87b953-bdec-4ff5-afe6-fe94fde0d885.png",
+      "name": "fridge-hero-photo-v4"
+    },
+    {
+      "key": "apple-spoil",
+      "slot": "FOOD_SPOIL_1",
+      "prompt": "Edit the reference food photograph into the matching spoiled version for a food inspection game. Preserve the reference food's size, position, silhouette, camera angle, composition and soft upper-left daylight. Keep the genuinely transparent background and clean alpha edge, no plate, text, props, shadow or illustration. Only change its food freshness and surface condition to realistic obvious rot. Keep the same whole apple silhouette and short stem. Add obvious deep brown sunken rotten patches across the front and realistic fuzzy gray-green mold colonies covering about one third of the visible skin. It must read as spoiled at a small mobile-game size, not simply a different apple variety.",
+      "path": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-6dc7c236-86e5-4f16-8309-360c16a651b8.png",
+      "name": "food-apple-spoil-photo-v4"
+    },
+    {
+      "key": "bread-spoil",
+      "slot": "FOOD_SPOIL_2",
+      "prompt": "Edit the reference food photograph into the matching spoiled version for a food inspection game. Preserve the reference food's size, position, silhouette, camera angle, composition and soft upper-left daylight. Keep the genuinely transparent background and clean alpha edge, no plate, text, props, shadow or illustration. Only change its food freshness and surface condition to realistic obvious rot. Keep the exact same thick bread slice and broad crumb face. Add several unmistakable large fuzzy blue-green and gray-white mold colonies across the crumb, especially center/front, with a slightly stale gray-brown crumb. Do not remove pieces or change the bread shape.",
+      "path": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-61fbaf66-0d2b-4dee-b064-2bbf4a2996d9.png",
+      "name": "food-bread-spoil-photo-v4"
+    },
+    {
+      "key": "cheese-spoil",
+      "slot": "FOOD_SPOIL_3",
+      "prompt": "Edit the reference food photograph into the matching spoiled version for a food inspection game. Preserve the reference food's size, position, silhouette, camera angle, composition and soft upper-left daylight. Keep the genuinely transparent background and clean alpha edge, no plate, text, props, shadow or illustration. Only change its food freshness and surface condition to realistic obvious rot. Keep the same yellow cheese wedge geometry, holes, perspective and orientation. Add conspicuous irregular fuzzy green-gray mold colonies across the cut face and top, covering about one third of its visible area, with some dried brown edges. This is spoiled ordinary yellow cheese, not a desirable blue-cheese variety.",
+      "path": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-138981f2-b0c7-4c82-a4d4-455ccf7be3bb.png",
+      "name": "food-cheese-spoil-photo-v4"
+    },
+    {
+      "key": "strawberries-spoil",
+      "slot": "FOOD_SPOIL_4",
+      "prompt": "Edit the reference food photograph into the matching spoiled version for a food inspection game. Preserve the reference food's size, position, silhouette, camera angle, composition and soft upper-left daylight. Keep the genuinely transparent background and clean alpha edge, no plate, text, props, shadow or illustration. Only change its food freshness and surface condition to realistic obvious rot. Keep exactly the same three strawberries, positions and leafy silhouettes. Make the visible berries clearly rotten with large fuzzy gray-white mold patches, dark sunken brown soft flesh and wilted dark leaves. Spoilage must be visually obvious at a small mobile-game size.",
+      "path": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-a1a4d447-c268-48b3-865d-29d10cf86fcf.png",
+      "name": "food-strawberries-spoil-photo-v4"
+    },
+    {
+      "key": "broccoli-spoil",
+      "slot": "FOOD_SPOIL_5",
+      "prompt": "Edit the reference food photograph into the matching spoiled version for a food inspection game. Preserve the reference food's size, position, silhouette, camera angle, composition and soft upper-left daylight. Keep the genuinely transparent background and clean alpha edge, no plate, text, props, shadow or illustration. Only change its food freshness and surface condition to realistic obvious rot. Keep the same compact broccoli crown and short stalk geometry. Make it visibly spoiled: large dull yellow-brown and charcoal dark rotting floret patches, gray fuzzy mold among the florets, browned dried stalk edges. Not a fresh purple broccoli variety.",
+      "path": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-5bf906e2-5261-4fb1-b116-ed34f8a63f36.png",
+      "name": "food-broccoli-spoil-photo-v4"
+    },
+    {
+      "key": "tomato-spoil",
+      "slot": "FOOD_SPOIL_6",
+      "prompt": "Edit the reference food photograph into the matching spoiled version for a food inspection game. Preserve the reference food's size, position, silhouette, camera angle, composition and soft upper-left daylight. Keep the genuinely transparent background and clean alpha edge, no plate, text, props, shadow or illustration. Only change its food freshness and surface condition to realistic obvious rot. Keep the same round tomato and calyx position and exact framing. Add unmistakable large dark-brown sunken rotten patches and fuzzy white-gray mold across its front, wrinkled discolored skin and wilted calyx. Keep the whole tomato form, not a cut tomato.",
+      "path": "/Users/bytedance/.codex/generated_images/01a11468-fcb3-7d90-a844-f2d7713292d2/exec-1e8da51e-fb45-4155-9842-b677aa53597e.png",
+      "name": "food-tomato-spoil-photo-v4"
+    }
+  ]
+}

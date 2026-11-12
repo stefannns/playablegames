@@ -1,0 +1,56 @@
+{
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "name": "food-apple-fresh-v3",
+      "slot": "FOOD_FRESH_1",
+      "path": "/Users/bytedance/.codex/generated_images/01a0dee9-92d5-71c1-8477-0ccfbf64de1d/exec-d32bf32b-52b8-4b60-a3cf-4caa951b1db0.png",
+      "prompt": "Use case: stylized-concept. Asset type: transparent food sprite for the mobile game Fridge Inspector. Subject: ONE fresh red apple with a short brown stem and one green leaf, upright, centered and fully visible. Style: polished playful game illustration, rounded tactile forms, soft hand-painted 3D-like shading, subtle dark teal contours, warm highlights and appetizing recognizable texture. Not flat vector clip art and not a photograph. Composition: square canvas, apple occupies about 75% of width and height, generous clear padding on all sides; fixed frontal three-quarter view. Palette: coral red, leafy green, dark teal contours, cream highlights, matching a mint-and-cream mobile UI. Truly transparent background, no scene, no floor, no cast shadow outside the apple. No text, no labels, no badges, no faces, no characters, no watermark. Clean detailed silhouette readable when displayed at 160 px. This is the fresh variant; absolutely no rot, mold or damage.",
+      "saved_asset": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_bnkh36/playable2_20260927020828_bnkh36/assets/food-apple-fresh-v3.webp"
+    },
+    {
+      "name": "food-bread-fresh-v3",
+      "slot": "FOOD_FRESH_2",
+      "prompt": "Use case: stylized-concept. Image 1 is a STYLE reference only (apple); generate a DIFFERENT subject. Asset type: transparent fresh food sprite for Fridge Inspector. ONE thick slice of fresh sandwich bread, upright frontal slight three-quarter view, fluffy cream-colored crumb with fine pores and softly golden toasted crust. Polished playful game illustration with the same soft hand-painted tactile 3D shading and warm highlights as the apple reference. No plate and no packaging. Square canvas, whole slice centered, 75% canvas width/height, 10% clear padding all sides. Readable appetizing bread silhouette at 160 px. Truly transparent backdrop, no floor shadow. No apple, no faces, no labels, no text, no watermark; no mold or damage.",
+      "path": "/Users/bytedance/.codex/generated_images/01a0dee9-92d5-71c1-8477-0ccfbf64de1d/exec-74b1e0b3-6983-452b-96b8-4db6cc0f68d1.png",
+      "saved_asset": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_bnkh36/playable2_20260927020828_bnkh36/assets/food-bread-fresh-v3.webp"
+    },
+    {
+      "name": "food-apple-spoil-v3",
+      "slot": "FOOD_SPOIL_1",
+      "prompt": "Use case: precise-object-edit. Image 1 is the edit target, the fresh apple sprite. Produce its SPOILED variant for Fridge Inspector. Keep the identical apple silhouette, size, location, viewpoint, stem and leaf arrangement, lighting and illustrated rendering style. Change ONLY food condition: dull the red skin toward bruised brown, add two prominent fuzzy green-white mold patches and a few dark soft rotten spots; wilt the existing leaf. Clearly inedible at 160 px, not grotesque. No extra objects, no insects, no face, no text, no watermark. Preserve genuinely transparent background and all clear margins. Do not rotate, crop or change the pose.",
+      "path": "/Users/bytedance/.codex/generated_images/01a0dee9-92d5-71c1-8477-0ccfbf64de1d/exec-48c011e0-4d4e-4b49-9e60-5f2c3901e868.png",
+      "saved_asset": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_bnkh36/playable2_20260927020828_bnkh36/assets/food-apple-spoil-v3.webp"
+    },
+    {
+      "name": "food-cheese-fresh-v3",
+      "slot": "FOOD_FRESH_3",
+      "prompt": "Use case: stylized-concept. Image 1 is a STYLE reference only (apple); generate a DIFFERENT subject. Asset type: transparent fresh food sprite for Fridge Inspector. ONE chunky triangular wedge of golden yellow Swiss cheese, three-quarter view, broad triangular top and thick front face with a few round cheese holes; appetizing smooth natural cheese texture. Same polished playful hand-painted tactile 3D shading and warm highlights as the apple reference. Square canvas, whole wedge centered, 75% canvas width/height, 10% clear padding all sides. Clear recognizable silhouette at 160 px. Truly transparent backdrop, no floor shadow. No plate, no packaging, no apple, no faces, no labels, no text, no watermark; no mold or damage.",
+      "path": "/Users/bytedance/.codex/generated_images/01a0dee9-92d5-71c1-8477-0ccfbf64de1d/exec-a8f42fab-d192-40c3-923d-dc6a54db6b9f.png",
+      "saved_asset": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_bnkh36/playable2_20260927020828_bnkh36/assets/food-cheese-fresh-v3.webp"
+    },
+    {
+      "name": "fridge-hero-v3",
+      "slot": "BG_MAIN",
+      "prompt": "Use case: stylized-concept. Image 1 is a STYLE reference for soft warm polished game-illustration shading, not an object to reproduce. Create ONE charming mint-green two-door refrigerator as an isolated opening-screen hero sprite for Fridge Inspector. Closed doors, rounded retro corners, cream metal handles, subtle seam between small top freezer and large bottom fridge, short feet, clean enamel highlights. Near-frontal three-quarter view revealing only a little right side, whole appliance visible and centered on a square canvas with generous 10% clear margins. Polished tactile hand-painted 3D-like game illustration, same visual finish as the food reference, warm soft studio highlights, mint and cream palette. No food around it, no kitchen or floor, no face, no sticker lettering, no logo, no watermark. Truly transparent background, no outside cast shadow. Clear and appealing when displayed at 200 px.",
+      "path": "/Users/bytedance/.codex/generated_images/01a0dee9-92d5-71c1-8477-0ccfbf64de1d/exec-b01a4050-0695-4203-ba06-b407b7dec168.png",
+      "saved_asset": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_bnkh36/playable2_20260927020828_bnkh36/assets/fridge-hero-v3.webp"
+    },
+    {
+      "name": "food-cheese-spoil-v3",
+      "slot": "FOOD_SPOIL_3",
+      "source": "/Users/bytedance/.codex/generated_images/01a0dee9-92d5-71c1-8477-0ccfbf64de1d/exec-a8f42fab-d192-40c3-923d-dc6a54db6b9f.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is the edit target, the fresh golden cheese wedge. Make its SPOILED variant for Fridge Inspector. Preserve the identical triangular wedge silhouette, hole layout, size, position, three-quarter camera angle, padding, lighting, illustrated shading and transparency. Change ONLY its freshness: dull the golden yellow toward stale ochre and add three obvious irregular fuzzy green/blue mold patches with white rims across the top and front face, and a couple small brown rotten areas. Clearly inedible at 160 px, not grotesque. Not a naturally blue cheese: visibly rotten version of the same Swiss cheese. No insects, faces, extra objects, labels, text, watermark or floor shadows. Keep the genuine transparent background. Do not rotate or crop.",
+      "path": "/Users/bytedance/.codex/generated_images/01a0dee9-92d5-71c1-8477-0ccfbf64de1d/exec-2f64c866-c1fa-4f86-91c1-7590f8e663f3.png",
+      "saved_asset": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_bnkh36/playable2_20260927020828_bnkh36/assets/food-cheese-spoil-v3.webp"
+    },
+    {
+      "name": "food-bread-spoil-v3",
+      "slot": "FOOD_SPOIL_2",
+      "source": "/Users/bytedance/.codex/generated_images/01a0dee9-92d5-71c1-8477-0ccfbf64de1d/exec-74b1e0b3-6983-452b-96b8-4db6cc0f68d1.png",
+      "prompt": "Use case: precise-object-edit. Image 1 is the edit target, the fresh bread slice. Make its SPOILED variant for Fridge Inspector. Preserve the exact slice silhouette, crust shape and thickness, position, scale, three-quarter camera angle, padding, lighting, illustrated shading and transparency. Change ONLY its freshness: add three very visible irregular fuzzy green/blue mold patches with white fringes across the cream crumb, with slightly gray stale crumb and dulled crust. The bread must obviously be inedible at 160 px and match the fresh asset, not become a different loaf. No insects, faces, extra objects, labels, text, watermark or floor shadows. Keep the genuine transparent background. Do not rotate or crop.",
+      "path": "/Users/bytedance/.codex/generated_images/01a0dee9-92d5-71c1-8477-0ccfbf64de1d/exec-f842a975-3f5a-4a92-be72-0ed5cf5a9cef.png",
+      "saved_asset": "/Users/bytedance/Desktop/Playable批量生产/working/2026-10-05-all-files-review/playable2_20260927020828_bnkh36/playable2_20260927020828_bnkh36/assets/food-bread-spoil-v3.webp"
+    }
+  ]
+}

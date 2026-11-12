@@ -1,0 +1,22 @@
+.search-source-avatar-stack [class*="tux-avatar-stack--item-container"] {
+  flex: none;
+  width: fit-content;
+}
+
+.search-source-avatar-stack
+  [class*="tux-avatar-stack--item-container"]:last-child
+  > [class*="tux-avatar-stack-item__number"] {
+  width: auto !important;
+  min-width: 16px;
+  height: 16px;
+  padding-inline: 4px;
+  box-sizing: border-box;
+  background-color: var(--tux-v2-color-ui-shape-neutral-4);
+  letter-spacing: -1.35px;
+}
+
+.search-source-avatar-stack
+  [class*="tux-avatar-stack--item-container"]:last-child
+  > [class*="tux-avatar-stack-item__number"]::after {
+  display: none;
+}
